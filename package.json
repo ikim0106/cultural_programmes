@@ -1,0 +1,22 @@
+{
+  "name": "cultural_programmes",
+  "version": "1.0.0",
+  "description": "placeholder",
+  "main": "sandbox.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ikim0106/cultural_programmes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ikim0106/cultural_programmes/issues"
+  },
+  "homepage": "https://github.com/ikim0106/cultural_programmes#readme",
+  "dependencies": {
+    "xml-js": "^1.6.11"
+  }
+}
