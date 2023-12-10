@@ -49,7 +49,13 @@ const venueWithEvents = () => {
     let tempVenue = venueJSON[venueKey]
     tempVenue["events"] = {}
     for(var eventKey in eventsJSON) {
-      if(venueKey === eventsJSON[eventKey]["venueid"]["_cdata"]) {
+      if(venueKey === eventsJSON[eventKey]["venueid"]["_cdata"] && eventsJSON[eventKey]["pricee"]["_cdata"]) {
+        if((eventsJSON[eventKey]["pricee"]["_cdata"] || "").toLowerCase().includes("free") ||
+        (eventsJSON[eventKey]["pricee"]["_cdata"] || "").split('$').length==2 &&
+        !(eventsJSON[eventKey]["pricee"]["_cdata"] || "").split('$')[1].includes(' ') &&
+        !(eventsJSON[eventKey]["pricee"]["_cdata"] || "").split('$')[1].includes(';') &&
+        !(eventsJSON[eventKey]["pricee"]["_cdata"] || "").split('$')[1].includes(','))
+        // console.log((eventsJSON[eventKey]["pricee"]["_cdata"] || "").toLowerCase())
         tempVenue["events"][`${eventKey}`] = eventsJSON[eventKey]
       }
       tempVenues[`${venueKey}`] = tempVenue
@@ -87,7 +93,36 @@ const venueWithEvents = () => {
   fs.writeFileSync('tenVenuesAndEvents.json', JSON.stringify(tenVenues, null, 2))
 }
 
+const cleanTenVenues = () => {
+  const tenVenues = fs.readFileSync('tenVenuesAndEvents.json', 'utf-8')
+  const tenVenuesJSON = JSON.parse(tenVenues)
+  for(var venueKey in tenVenuesJSON) {
+    delete tenVenuesJSON[venueKey].venuec
+    for(var venueDetailKey in tenVenuesJSON[venueKey]) {
+      // console.log(tenVenuesJSON[venueKey][venueDetailKey])
+      if(venueDetailKey!='events') {
+        tenVenuesJSON[venueKey][`${venueDetailKey.toString()}`] = tenVenuesJSON[venueKey][venueDetailKey]._cdata
+      }
+      else {
+        for(var eventID in tenVenuesJSON[venueKey]['events']) {
+          for(var eventDetailKey in tenVenuesJSON[venueKey]['events'][eventID]) {
+            if(eventDetailKey.endsWith('C') || eventDetailKey.endsWith('c'))
+              delete tenVenuesJSON[venueKey]['events'][eventID][eventDetailKey]
+            else
+            tenVenuesJSON[venueKey]['events'][eventID][eventDetailKey] = tenVenuesJSON[venueKey]['events'][eventID][eventDetailKey]._cdata || ""
+            // console.log(eventDetailKey)
+          }
+          // console.log(tenVenuesJSON[venueKey]['events'])
+        }
+      }
+
+    }
+  }
+  console.log(tenVenuesJSON)
+  fs.writeFileSync('tenVenuesAndEventsClean.json', JSON.stringify(tenVenuesJSON, null, 2))
+}
+
 // xmltojson()
 // xmltojson2()
-venueWithEvents()
-
+// venueWithEvents()
+cleanTenVenues()
