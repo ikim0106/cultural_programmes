@@ -59,7 +59,11 @@ const venueWithEvents = () => {
   for(var venueKey in tempVenues) {
     let numberOfEvents = Object.keys(tempVenues[venueKey].events).length
     // console.log(numberOfEvents)
-    if(numberOfEvents>2) {
+    
+    // console.log(Object.keys(tempVenues[venueKey].latitude).length)
+    if(numberOfEvents>2 
+        && Object.keys(tempVenues[venueKey].latitude).length!=0
+        && Object.keys(tempVenues[venueKey].longitude).length!=0) {
       eligibleVenues[venueKey] = tempVenues[venueKey]
     }
   }
@@ -85,5 +89,5 @@ const venueWithEvents = () => {
 
 // xmltojson()
 // xmltojson2()
-// venueWithEvents()
+venueWithEvents()
 
