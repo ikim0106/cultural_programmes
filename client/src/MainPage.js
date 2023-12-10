@@ -6,7 +6,7 @@ function MainPage() {
 
     useEffect(() => {
         const getAllVenue = async () => {
-            let response = await fetch('http://localhost:3000/getAllVenue', {
+            let response = await fetch('http://localhost:8080/getAllVenue', {
                 method: "Get",
             })
             let data = await response.json();

@@ -1,7 +1,7 @@
-GET http://localhost:3000/getAllVenue
+GET http://localhost:8080/getAllVenue
 
 ###
-POST http://localhost:3000/register
+POST http://localhost:8080/register
 Content-Type: application/json
 
 {
@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/login
+POST http://localhost:8080/login
 Content-Type: application/json
 
 {
@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/resetPassword
+POST http://localhost:8080/resetPassword
 Content-Type: application/json
 
 {
@@ -30,7 +30,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/delUser/user4
+DELETE http://localhost:8080/delUser/user4
 
 
 
@@ -42,7 +42,7 @@ DELETE http://localhost:3000/delUser/user4
 
 
 ###
-POST http://localhost:3000/addComment HTTP/1.1
+POST http://localhost:8080/addComment HTTP/1.1
 Content-Type: application/json
 
 {
@@ -52,5 +52,5 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/delComment/6575c40e978455b790de64b5 HTTP/1.1
+DELETE http://localhost:8080/delComment/6575c40e978455b790de64b5 HTTP/1.1
 
