@@ -1,0 +1,56 @@
+GET http://localhost:8080/getAllVenue
+
+###
+POST http://localhost:8080/register
+Content-Type: application/json
+
+{
+    "username": "user4",
+    "password": "123",
+    "role": "admin"
+}
+
+###
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+    "username": "user4",
+    "password": "123"
+}
+
+###
+POST http://localhost:8080/resetPassword
+Content-Type: application/json
+
+{
+    "username": "user4",
+    "password": "123",
+    "newpassword":"1234"
+}
+
+###
+DELETE http://localhost:8080/delUser/user4
+
+
+
+
+
+
+
+
+
+
+###
+POST http://localhost:8080/addComment HTTP/1.1
+Content-Type: application/json
+
+{
+    "userId": "user1",
+    "venueId": "36310035",
+    "comment": "testing 1"
+}
+
+###
+DELETE http://localhost:8080/delComment/6575c40e978455b790de64b5 HTTP/1.1
+
