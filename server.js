@@ -3,7 +3,7 @@ const cors = require('cors');
 const fs = require('fs')
 const morgan = require('morgan')
 const app = express();
-const port = 3000
+const port = 8080
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
@@ -102,15 +102,15 @@ db.once('open', async function () {
 
   const User = mongoose.model("User", UserSchema)
 
-  let user1 = new User({
-    userId: 'user1',
-    password: '123',
-    role: 'user'
-  })
-  await user1.save()
-    .catch(err => {
-      console.log(err)
-    })
+  // let user1 = new User({
+  //   userId: 'user1',
+  //   password: '123',
+  //   role: 'user'
+  // })
+  // await user1.save()
+  //   .catch(err => {
+  //     console.log(err)
+  //   })
 
   app.get('/getAllVenue', (req, res) => {
     Venue.find()
