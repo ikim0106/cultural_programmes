@@ -48,8 +48,7 @@ db.once('open', async function () {
     latitude: { type: String },
     longitude: { type: String },
     events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }]
-  }
-    , { timestamps: true })
+  }, { timestamps: true })
   const Venue = mongoose.model("Venue", VenueSchema)
 
   // const populateDB = async () => {
@@ -107,18 +106,105 @@ db.once('open', async function () {
     password: '123',
     role: 'user'
   })
+
   await user1.save()
     .catch(err => {
       console.log(err)
     })
 
+  app.post('/register', (req, res) => {
+    console.log({ "input": req.body })
+    let newUser = new User({
+      userId: req.body.username,
+      password: req.body.password,
+      role: req.body.role === "admin" ? "admin" : "user"
+    })
+    User.findOne({ userId: req.body.username })
+      .then((user) => {
+        if (user)
+          res.status(409).send({ success: 0, message: `username already exists` })
+        else
+          newUser.save()
+            .then(() => {
+              res.status(201).send({ success: 1, message: `register successfully` })
+            })
+            .catch(err => {
+              res.status(500).send({ success: 0, message: err })
+            })
+      })
+      .catch(err => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
+  app.post('/login', (req, res) => {
+    console.log({ "input": req.body })
+    User.findOne({ userId: req.body.username })
+      .then((user) => {
+        if (!user)
+          res.status(404).send({ success: 0, message: `Invalid user` })
+        else
+          if (user.password !== req.body.password)
+            res.status(401).send({ success: 0, message: `Wrong password` })
+          else
+            res.status(200).send({
+              success: 1, message: `login successfully`,
+              user: { userId: user.userId, role: user.role }
+            })
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
+  app.post('/resetPassword', (req, res) => {
+    console.log({ "input": req.body })
+    User.findOne({ userId: req.body.username })
+      .then((user) => {
+        if (!user)
+          res.status(404).send({ success: 0, message: `Invalid user` })
+        else
+          if (user.password !== req.body.password)
+            res.status(401).send({ success: 0, message: `Wrong old password` })
+          else {
+            user.password = req.body.newpassword;
+            user.save()
+              .then(() => {
+                res.status(200).send({ success: 1, message: `reset password successfully` })
+              })
+              .catch((err) => {
+                res.status(500).send({ success: 0, message: err })
+              })
+          }
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
+  app.delete('/delUser/:userId', (req, res) => {
+    console.log({ input: req.params })
+    User.findOneAndDelete({ userId: req.params.userId })
+      .then((user) => {
+        if (!user)
+          res.status(404).send({ success: 0, message: `userId not found` })
+        else
+          res.status(200).send({ success: 1, message: `user deleted successfully` })
+        // res.status(204).send() // 204 no content
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
   app.get('/getAllVenue', (req, res) => {
     Venue.find()
+      .populate('events')
       .then((items) => {
         res.status(200).send({ success: 1, message: `get venues successfully`, venues: items })
       })
       .catch((err) => {
-        res.status(200).send({ success: 0, message: err, venues: items })
+        res.status(500).send({ success: 0, message: err })
       })
   })
 
