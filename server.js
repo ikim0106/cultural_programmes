@@ -1,11 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan')
 const app = express();
 const port = 3000
 app.use(cors());
 app.use(express.json());
+app.use(morgan('dev'));
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/proj');
+mongoose.connect('mongodb+srv://mongo:mongo@cluster0.a9q2k5d.mongodb.net/prj');
 
 const db = mongoose.connection;
 // Upon connection failure
@@ -15,14 +17,40 @@ db.once('open', async function () {
   console.log("Connection is open...");
 
   const VenueSchema = mongoose.Schema({
-    venueId: {type: String, unique: [true, "venueId should be unique"]},
-    venueName: {type: String},
-    latitude: {type: String},
-    longitude: {type: String},
-    events: {type: Object}
+    venueId: { type: String, unique: [true, "venueId should be unique"] },
+    venueName: { type: String },
+    latitude: { type: String },
+    longitude: { type: String },
+    events: { type: Object }
   })
 
   const Venue = mongoose.model("Venue", VenueSchema)
+
+  const CommentSchema = mongoose.Schema({
+    userId: { type: String, ref: 'User' },
+    venueId: { type: String, ref: 'Venue' },
+    comment: { type: String },
+  }, { timestamps: true });
+
+  const Comment = mongoose.model("Comment", CommentSchema)
+
+  const UserSchema = mongoose.Schema({
+    userId: { type: String, unique: true },
+    password: { type: String },
+    role: { type: String, enum: ['user', 'admin'] }
+  }, { timestamps: true });
+
+  const User = mongoose.model("User", UserSchema)
+
+  let user1 = new User({
+    userId: 'user1',
+    password: '123',
+    role: 'user'
+  })
+  await user1.save()
+    .catch(err => {
+      console.log(err)
+    })
 
   const newVenue = new Venue({
     venueId: "36310304",
@@ -251,6 +279,70 @@ db.once('open', async function () {
   console.log(newVenue)
 
   await newVenue.save()
+    .catch((err) => {
+      console.log(err)
+    })
+
+  app.get('/getAllVenue', (req, res) => {
+    Venue.find()
+      .then((items) => {
+        res.status(200).send({ success: 1, message: `get venues successfully`, venues: items })
+      })
+      .catch((err) => {
+        res.status(200).send({ success: 0, message: err, venues: items })
+      })
+  })
+
+  app.post('/addComment', (req, res) => {
+    console.log({ input: req.body })
+    Venue.findOne({ venueId: req.body.venueId })
+      .then((venue) => {
+        if (!venue)
+          res.status(404).send({ success: 0, message: `Invalid venueId` });
+        else {
+          User.findOne({ userId: req.body.userId })
+            .then((user) => {
+              if (!user)
+                res.status(404).send({ success: 0, message: `Invalid userId` });
+              else {
+                let newComment = new Comment({
+                  userId: req.body.userId,
+                  venueId: req.body.venueId,
+                  comment: req.body.comment
+                })
+                newComment.save()
+                  .then(() => {
+                    res.status(201).send({ success: 1, message: `add comment successfully` });
+                  })
+                  .catch((err) => {
+                    res.status(500).send({ success: 0, message: err })
+                  })
+              }
+            })
+            .catch((err) => {
+              res.status(500).send({ success: 0, message: err });
+            })
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err });
+      })
+  })
+
+  app.delete('/delComment/:id', (req, res) => {
+    console.log({ input: req.params })
+    Comment.findByIdAndDelete(req.params.id)
+      .then((cm) => {
+        if (!cm)
+          res.status(404).send({ success: 0, message: `Invalid comment _id` });
+        else
+          res.status(200).send({ success: 1, message: `comment deleted successfully` })
+        // res.status(204).send() // 204 no content
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err });
+      })
+  })
 
 })
 
