@@ -80,11 +80,6 @@ db.once('open', async function () {
   // const fetchedVenues = await Venue
   //   .find({}).populate('events')
   // console.log(fetchedVenues[0])
-
-  app.post('/api/users/signup', async (req, res) => {
-    console.log(req.body)
-    res.send('done')
-  })
   const CommentSchema = mongoose.Schema({
     userId: { type: String, ref: 'User' },
     venueId: { type: String, ref: 'Venue' },
@@ -130,6 +125,7 @@ db.once('open', async function () {
     console.log({ "input": req.body })
     User.findOne({ userId: req.body.username })
       .then((user) => {
+        // console.log(user)
         if (!user)
           res.status(404).send({ success: 0, message: `Invalid user` })
         else
