@@ -91,7 +91,8 @@ db.once('open', async function () {
   const UserSchema = mongoose.Schema({
     userId: { type: String, unique: true },
     password: { type: String },
-    role: { type: String, enum: ['user', 'admin'] }
+    role: { type: String, enum: ['user', 'admin'] },
+    favouriteVenue: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Venue', default: [] }]
   }, { timestamps: true });
 
   const User = mongoose.model("User", UserSchema)
@@ -176,6 +177,99 @@ db.once('open', async function () {
         else
           res.status(200).send({ success: 1, message: `user deleted successfully` })
         // res.status(204).send() // 204 no content
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
+  app.get('/profile/:userId', (req, res) => {
+    console.log({ input: req.params })
+    User.findOne({ userId: req.params.userId })
+      .populate({
+        path: 'favouriteVenue',
+        populate: {
+          path: 'events',
+          model: 'Event'
+        }
+      })
+      .then((user) => {
+        if (!user)
+          res.status(404).send({ success: 0, message: `user not found` })
+        else
+          res.status(200).send({ success: 1, message: `get profile successfully`, profile: user })
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
+  app.put('/addVenue/:venueId/toFavourite/:userId', (req, res) => {
+    console.log({ input: req.params })
+    User.findOne({ userId: req.params.userId })
+      .then((user) => {
+        if (!user)
+          res.status(404).send({ success: 0, message: `userId not found` })
+        else {
+          Venue.findOne({ venueId: req.params.venueId })
+            .then((venue) => {
+              if (!venue)
+                res.status(404).send({ success: 0, message: `venueId not found` })
+              else {
+                if (user.favouriteVenue.includes(venue._id))
+                  res.status(200).send({ success: 0, message: `Venue already exists in favorites` });
+                else {
+                  user.favouriteVenue.push(venue._id);
+                  user.save()
+                    .then(() => {
+                      res.status(200).send({ success: 1, message: `successfully add to my favourite` })
+                    })
+                    .catch((err) => {
+                      res.status(500).send({ success: 0, message: err })
+                    })
+                }
+              }
+            })
+            .catch((err) => {
+              res.status(500).send({ success: 0, message: err })
+            })
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
+  app.put('/delVenue/:venueId/fromFavourite/:userId', (req, res) => {
+    console.log({ input: req.params })
+    User.findOne({ userId: req.params.userId })
+      .then((user) => {
+        if (!user)
+          res.status(404).send({ success: 0, message: `userId not found` })
+        else {
+          Venue.findOne({ venueId: req.params.venueId })
+            .then((venue) => {
+              if (!venue)
+                res.status(404).send({ success: 0, message: `venueId not found` })
+              else {
+                if (!user.favouriteVenue.includes(venue._id))
+                  res.status(200).send({ success: 0, message: `Venue does not exists in favorites` });
+                else {
+                  user.favouriteVenue.pull(venue._id);
+                  user.save()
+                    .then(() => {
+                      res.status(200).send({ success: 1, message: `successfully add to my favourite` })
+                    })
+                    .catch((err) => {
+                      res.status(500).send({ success: 0, message: err })
+                    })
+                }
+              }
+            })
+            .catch((err) => {
+              res.status(500).send({ success: 0, message: err })
+            })
+        }
       })
       .catch((err) => {
         res.status(500).send({ success: 0, message: err })

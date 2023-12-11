@@ -1,3 +1,21 @@
+### 36310035 is venueId user1 is userId
+PUT http://localhost:8080/addVenue/36310035/toFavourite/user1 HTTP/1.1
+
+###
+GET http://localhost:8080/profile/user1
+
+###
+PUT http://localhost:8080/delVenue/36310035/fromFavourite/user1 HTTP/1.1
+
+###
+
+
+
+
+
+
+
+###
 GET http://localhost:8080/getAllVenue
 
 ###
@@ -5,9 +23,9 @@ POST http://localhost:8080/register
 Content-Type: application/json
 
 {
-    "username": "user4",
+    "username": "user1",
     "password": "123",
-    "role": "admin"
+    "role": "user"
 }
 
 ###
@@ -32,7 +50,7 @@ Content-Type: application/json
 ###
 DELETE http://localhost:8080/delUser/user4
 
-
+###
 
 
 
