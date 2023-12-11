@@ -258,7 +258,7 @@ db.once('open', async function () {
                   user.favouriteVenue.pull(venue._id);
                   user.save()
                     .then(() => {
-                      res.status(200).send({ success: 1, message: `successfully add to my favourite` })
+                      res.status(200).send({ success: 1, message: `successfully delete from my favourite` })
                     })
                     .catch((err) => {
                       res.status(500).send({ success: 0, message: err })
@@ -270,6 +270,135 @@ db.once('open', async function () {
               res.status(500).send({ success: 0, message: err })
             })
         }
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
+  app.post('/addEventToVenue/:venueId/by/:userId', (req, res) => {
+    console.log({ input: req.body, input_params: req.params })
+    User.findOne({ userId: req.params.userId })
+      .then((user) => {
+        if (!user)
+          res.status(404).send({ success: 0, message: `user not found` });
+        else
+          if (user.role !== "admin")
+            res.status(401).send({ success: 0, message: `Only admin can do this operation` });
+          else
+            Venue.findOne({ venueId: req.params.venueId })
+              .then((venue) => {
+                if (!venue)
+                  res.status(404).send({ success: 0, message: `venue not found` });
+                else {
+                  let newEvent = new Event({
+                    eventId: Date.now(),
+                    titlee: req.body.titlee,
+                    cat1: req.body.cat1,
+                    cat2: req.body.cat2,
+                    predateE: req.body.predateE,
+                    progtimee: req.body.progtimee,
+                    agelimite: req.body.agelimite,
+                    pricee: req.body.pricee,
+                    desce: req.body.desce,
+                    urle: req.body.urle,
+                    tagenturle: req.body.tagenturle,
+                    remarke: req.body.remarke,
+                    enquiry: req.body.enquiry,
+                    fax: req.body.fax,
+                    email: req.body.email,
+                    saledate: req.body.saledate,
+                    interbook: req.body.interbook,
+                    presenterorge: req.body.presenterorge
+                  })
+                  newEvent.save()
+                    .then((e) => {
+                      venue.events.push(e._id);
+                      venue.save()
+                        .then(() => {
+                          res.status(200).send({ success: 1, message: `add event successfully`, event: newEvent })
+                        })
+                        .catch((err) => {
+                          res.status(500).send({ success: 0, message: err })
+                        })
+                    })
+                    .catch((err) => {
+                      res.status(500).send({ success: 0, message: err })
+                    })
+                }
+              })
+              .catch((err) => {
+                res.status(500).send({ success: 0, message: err })
+              })
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
+  app.delete('/deleteEvent/:eventId/fromVenue/:venueId/by/:userId', (req, res) => {
+    console.log({ input: req.params })
+    User.findOne({ userId: req.params.userId })
+      .then((user) => {
+        if (!user)
+          res.status(404).send({ success: 0, message: `user not found` });
+        else
+          if (user.role !== "admin")
+            res.status(401).send({ success: 0, message: `Only admin can do this operation` });
+          else
+            Venue.findOne({ venueId: req.params.venueId })
+              .then((venue) => {
+                if (!venue)
+                  res.status(404).send({ success: 0, message: `venue not found` });
+                else
+                  Event.findOne({ eventId: req.params.eventId })
+                    .then((e) => {
+                      if (!e)
+                        res.status(404).send({ success: 0, message: `event not found` });
+                      else {
+                        venue.events.pull(e._id);
+                        venue.save()
+                          .then(() => {
+                            res.status(200).send({ success: 1, message: `delete event successfully` })
+                          })
+                          .catch((err) => {
+                            res.status(500).send({ success: 0, message: err })
+                          })
+                      }
+                    })
+                    .catch((err) => {
+                      res.status(500).send({ success: 0, message: err })
+                    })
+              })
+              .catch((err) => {
+                res.status(500).send({ success: 0, message: err })
+              })
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
+  app.put('/updateEvent/:eventId/by/:userId', (req, res) => {
+    console.log({ input: req.body, input_params: req.params })
+    User.findOne({ userId: req.params.userId })
+      .then((user) => {
+        if (!user)
+          res.status(404).send({ success: 0, message: `user not found` });
+        else
+          if (user.role !== "admin")
+            res.status(401).send({ success: 0, message: `Only admin can do this operation` });
+          else
+            Event.findOneAndUpdate(
+              { eventId: req.params.eventId },
+              req.body,
+              { new: true }
+            ).then((e) => {
+              if (!e)
+                res.status(404).send({ success: 0, message: `eventId not found` });
+              else
+                res.status(200).send({ success: 1, message: `update event successfully`, event: e })
+            })
       })
       .catch((err) => {
         res.status(500).send({ success: 0, message: err })
