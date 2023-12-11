@@ -26,7 +26,7 @@ db.once('open', async function () {
     cat2: { type: String },
     predateE: { type: String },
     progtimee: { type: String },
-    venueId: { type: String },
+    venueid: { type: String },
     agelimite: { type: String },
     pricee: { type: String },
     desce: { type: String },
@@ -51,35 +51,42 @@ db.once('open', async function () {
   }, { timestamps: true })
   const Venue = mongoose.model("Venue", VenueSchema)
 
-  // const populateDB = async () => {
-  //   const venueJSON = JSON.parse(venueData)
-  //   for(var venueKey in venueJSON) {
-  //     let events = venueJSON[venueKey].events
-  //     let eventJSON = {}
-  //     let allEvents = []
-  //     for(var eventKey in events) {
-  //       eventJSON = events[eventKey]
-  //       eventJSON['eventId'] = eventKey
-  //       const eventTemp = new Event(eventJSON)
-  //       allEvents.push(eventTemp._id)
-  //       await eventTemp.save()
-  //     }
+  const populateDB = async () => {
+    const venueJSON = JSON.parse(venueData)
+    for(var venueKey in venueJSON) {
+      let events = venueJSON[venueKey].events
+      let eventJSON = {}
+      let allEvents = []
+      for(var eventKey in events) {
+        eventJSON = events[eventKey]
+        eventJSON['eventId'] = eventKey
+        eventJSON['venuee'] = venueKey
+        const eventTemp = new Event(eventJSON)
+        allEvents.push(eventTemp._id)
+        await eventTemp.save()
+      }
 
-  //     const newVenue = new Venue({
-  //       venueId: venueKey,
-  //       venuee: venueJSON[venueKey].venuee,
-  //       latitude: venueJSON[venueKey].latitude,
-  //       longitude: venueJSON[venueKey].longitude,
-  //       events: allEvents
-  //     })
-  //     // console.log(newVenue)
-  //     await newVenue.save()
-  //   }
-  // }
+      const newVenue = new Venue({
+        venueId: venueKey,
+        venuee: venueJSON[venueKey].venuee,
+        latitude: venueJSON[venueKey].latitude,
+        longitude: venueJSON[venueKey].longitude,
+        events: allEvents
+      })
+      // console.log(newVenue)
+      await newVenue.save()
+    }
+  }
+  // await populateDB()
 
+  // const fetchedEvents = await Event
+  //   .find({})
   // const fetchedVenues = await Venue
-  //   .find({}).populate('events')
-  // console.log(fetchedVenues[0])
+  //   .find({})
+  // console.log(fetchedEvents.length)
+  // console.log(fetchedVenues.length)
+  // return
+  
   const CommentSchema = mongoose.Schema({
     userId: { type: String, ref: 'User' },
     venueId: { type: String, ref: 'Venue' },
@@ -211,7 +218,7 @@ db.once('open', async function () {
         if (!user)
           res.status(404).send({ success: 0, message: `userId not found` })
         else {
-          Venue.findOne({ venueId: req.params.venueId })
+          Venue.findOne({ venueId: req.params.venueid })
             .then((venue) => {
               if (!venue)
                 res.status(404).send({ success: 0, message: `venueId not found` })
@@ -299,6 +306,8 @@ db.once('open', async function () {
                     predateE: req.body.predateE,
                     progtimee: req.body.progtimee,
                     agelimite: req.body.agelimite,
+                    venueid: req.body.venueid,
+                    venuee: req.body.venuee,
                     pricee: req.body.pricee,
                     desce: req.body.desce,
                     urle: req.body.urle,
@@ -359,7 +368,10 @@ db.once('open', async function () {
                         venue.events.pull(e._id);
                         venue.save()
                           .then(() => {
-                            res.status(200).send({ success: 1, message: `delete event successfully` })
+                            e.deleteOne()
+                            .then(()=>{
+                              res.status(200).send({ success: 1, message: `delete event successfully` })
+                            })
                           })
                           .catch((err) => {
                             res.status(500).send({ success: 0, message: err })
@@ -410,6 +422,17 @@ db.once('open', async function () {
       .populate('events')
       .then((items) => {
         res.status(200).send({ success: 1, message: `get venues successfully`, venues: items })
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
+  app.get('/getAllEvent', (req, res) => {
+    Event.find()
+      // .populate('events')
+      .then((items) => {
+        res.status(200).send({ success: 1, message: `get events successfully`, events: items })
       })
       .catch((err) => {
         res.status(500).send({ success: 0, message: err })
