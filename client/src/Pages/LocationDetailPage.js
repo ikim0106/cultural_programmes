@@ -81,6 +81,22 @@ function LocationDetailPage() {
         // TODO: append child?
         console.log(data.message)
     };
+    const favourite = async () => {
+        let response = await fetch(`http://localhost:8080/addVenue/${venue.venueId}/toFavourite/${userData.user.userId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            // body: JSON.stringify({
+            //     "userId": userData.user.userId,
+            //     "venueId": venue.venueId,
+            //     "comment": comment
+            // }),
+        })
+        let data = await response.json();
+
+        // if (data.success)
+        // TODO: display in front end?
+        console.log(data.message)
+    };
     return (
         // Important! Always set the container height explicitly
         <>
@@ -99,6 +115,9 @@ function LocationDetailPage() {
                     </iframe>
                     <h4>location details:</h4>
                     <p>Name: {venue.venuee}</p>
+                    <Button variant="outlined" onClick={() => {
+                        favourite()
+                    }}>Add to my favourite Venue</Button><br />
                     <TextField
                         id="outlined-multiline-flexible"
                         label="Your Comment Here"
