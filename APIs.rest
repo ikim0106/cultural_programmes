@@ -89,5 +89,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/delComment/6575c40e978455b790de64b5 HTTP/1.1
+DELETE http://localhost:8080/delComment/6578281e690157254b4533d0 HTTP/1.1
 
+###
+GET http://localhost:8080/getAllCommentFor/36310035
