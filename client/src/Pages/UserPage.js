@@ -25,16 +25,6 @@ function UserPage() {
 
 
 	useEffect(() => {
-		const tempJSON = JSON.parse(localStorage.getItem('userData'))
-		if (localStorage.getItem('userData') && tempJSON.user.role === "user") {
-			setUserData(JSON.parse(localStorage.getItem('userData')))
-			setIsLoading(false)
-		} else {
-			window.location.href = '/';
-		}
-	}, [])
-
-	useEffect(() => {
 		const getAllVenue = async () => {
 			let response = await fetch('http://localhost:8080/getAllVenue', {
 				method: "Get",
@@ -44,7 +34,15 @@ function UserPage() {
 				SetVenues(data.venues)
 			console.log(data.message)
 		}
-		getAllVenue();
+
+		const tempJSON = JSON.parse(localStorage.getItem('userData'))
+		if (localStorage.getItem('userData') && tempJSON.user.role === "user") {
+			setUserData(JSON.parse(localStorage.getItem('userData')))
+			getAllVenue();
+			setIsLoading(false)
+		} else {
+			window.location.href = '/';
+		}
 	}, [])
 
 	const defaultProps = {
@@ -66,47 +64,50 @@ function UserPage() {
 	return (
 		<>
 			{!isLoading &&
-				<div>
-					<PrimarySearchAppBar userData={userData.user} logOut={logout} />
-					User id: {userData.user.userId}
-					<table>
-						<tr>
-							<th>Venue Name</th>
-							<th>Events</th>
-						</tr>
-						{venues.map((val, key) => {
-							return (
-								<tr key={key}>
-									<td>{val.venuee ? val.venuee : 'No Name'}</td>
-									<td>{val.events ? val.events.length : 0}</td>
-								</tr>
-							)
-						})}
-					</table>
-				</div>
+				<>
+					<div>
+						<PrimarySearchAppBar userData={userData.user} logOut={logout} />
+						User id: {userData.user.userId}
+						<table>
+							<tr>
+								<th>Venue Name</th>
+								<th>Events</th>
+							</tr>
+							{venues.map((val, key) => {
+								return (
+									<tr key={key}>
+										<td>{val.venuee ? val.venuee : 'No Name'}</td>
+										<td>{val.events ? val.events.length : 0}</td>
+									</tr>
+								)
+							})}
+						</table>
+					</div>
+
+					<div className={"container"} style={{ height: '100vh', width: '90%', margin: "auto" }}>
+						<GoogleMapReact
+							bootstrapURLKeys={{ key: "AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4" }}
+							defaultCenter={defaultProps.center}
+							defaultZoom={defaultProps.zoom}
+							yesIWantToUseGoogleMapApiInternals
+							onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+						>
+							{venues.map((val, key) => {
+								console.log(val)
+								const venue = JSON.parse(JSON.stringify(val));
+								return (
+									<Lable
+										lat={val.latitude}
+										lng={val.longitude}
+										text={val.venuee}
+										venue={val}
+										buttonOnclickFunction={viewLocationDetails}
+									/>)
+							})}
+						</GoogleMapReact>
+					</div>
+				</>
 			}
-			<div className={"container"} style={{ height: '100vh', width: '90%', margin: "auto" }}>
-				<GoogleMapReact
-					bootstrapURLKeys={{ key: "AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4" }}
-					defaultCenter={defaultProps.center}
-					defaultZoom={defaultProps.zoom}
-					yesIWantToUseGoogleMapApiInternals
-					onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-				>
-					{venues.map((val, key) => {
-						console.log(val)
-						const venue = JSON.parse(JSON.stringify(val));
-						return (
-							<Lable
-								lat={val.latitude}
-								lng={val.longitude}
-								text={val.venuee}
-								venue={val}
-								buttonOnclickFunction={viewLocationDetails}
-							/>)
-					})}
-				</GoogleMapReact>
-			</div>
 		</>
 	);
 }

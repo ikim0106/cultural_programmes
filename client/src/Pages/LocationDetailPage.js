@@ -21,6 +21,20 @@ const Lable = ({ text }) => <div style={{
 
 function LocationDetailPage() {
 
+    const [userData, setUserData] = useState();
+    const [isLoading, setIsLoading] = useState(true);
+    const [comment, setComment] = useState('');
+
+    useEffect(() => {
+        const tempJSON = JSON.parse(localStorage.getItem('userData'))
+        if (localStorage.getItem('userData') && tempJSON.user.role === "user") {
+            setUserData(JSON.parse(localStorage.getItem('userData')))
+            setIsLoading(false)
+        } else {
+            window.location.href = '/';
+        }
+    }, [])
+
     const location = useLocation();
     console.log(location.state)
     const venue = location.state
@@ -36,11 +50,28 @@ function LocationDetailPage() {
         // use map and maps objects
 
     };
+    const addComment = async () => {
+        let response = await fetch('http://localhost:8080/addComment', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                "userId": userData.user.userId,
+                "venueId": venue.venueId,
+                "comment": comment
+            }),
+        })
+        let data = await response.json();
+
+        // if (data.success)
+        // TODO: append child?
+        console.log(data.message)
+    };
     return (
         // Important! Always set the container height explicitly
-
-        <div className={"container"} style={{ height: '100vh', width: '100%', margin: "auto" }}>
-            {/* <GoogleMapReact
+        <>
+            {!isLoading &&
+                <div className={"container"} style={{ height: '100vh', width: '100%', margin: "auto" }}>
+                    {/* <GoogleMapReact
                 bootstrapURLKeys={{ key: "AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4" }}
                 defaultCenter={defaultProps.center}
                 defaultZoom={defaultProps.zoom}
@@ -53,28 +84,36 @@ function LocationDetailPage() {
                 />
 
             </GoogleMapReact> */}
-            <iframe
-                width="100%"
-                height="450"
-                loading="lazy"
-                allowfullscreen
-                referrerpolicy="no-referrer-when-downgrade"
-                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.latitude},${venue.longitude}`}
+                    <iframe
+                        width="100%"
+                        height="450"
+                        loading="lazy"
+                        allowfullscreen
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.latitude},${venue.longitude}`}
 
-            // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.venuee}`}
-            >
-            </iframe>
-            <h4>location details:</h4>
-            <p>Name: {venue.venuee}</p>
-            {/* <p>name: {venue.venuee}</p> */}
-            <TextField
-                id="outlined-multiline-flexible"
-                label="Comment"
-                maxRows={4}
-            />
-            <Button variant="outlined">Comment</Button>
-        </div>
-
+                    // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.venuee}`}
+                    >
+                    </iframe>
+                    <h4>location details:</h4>
+                    <p>Name: {venue.venuee}</p>
+                    {/* <p>name: {venue.venuee}</p> */}
+                    <TextField
+                        id="outlined-multiline-flexible"
+                        label="Your Comment Here"
+                        maxRows={4}
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                    />
+                    <Button variant="outlined" onClick={() => {
+                        if (comment.trim() === '')
+                            console.log(`Comment should not be empty`)
+                        else
+                            addComment();
+                    }}>Comment</Button>
+                </div>
+            }
+        </>
 
         // <div style={{
         //     backgroundColor: 'blue',
