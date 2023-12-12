@@ -218,7 +218,7 @@ db.once('open', async function () {
         if (!user)
           res.status(404).send({ success: 0, message: `userId not found` })
         else {
-          Venue.findOne({ venueId: req.params.venueid })
+          Venue.findOne({ venueId: req.params.venueId })
             .then((venue) => {
               if (!venue)
                 res.status(404).send({ success: 0, message: `venueId not found` })
