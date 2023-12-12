@@ -13,8 +13,9 @@ const Lable = ({ text, venue, buttonOnclickFunction }) => <div style={{
     alignSelf: "center",
 }}><h5 style={{ color: "black" }}>{text}</h5>
     <button onClick={() => buttonOnclickFunction(venue)}>Click Me</button></div>;
+
 function LocationPage() {
-    const nagivate = useNavigate()
+    const nagivate = useNavigate();
     const [venues, SetVenues] = useState([]);
     const defaultProps = {
         center: {
