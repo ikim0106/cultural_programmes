@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PrimarySearchAppBar from '../Components/PrimarySearchAppBar';
 import GoogleMapReact from 'google-map-react';
 import { useNavigate, useLocation } from 'react-router-dom'
+import Button from '@mui/material/Button';
+
 const Lable = ({ text, venue, buttonOnclickFunction }) => <div style={{
 	backgroundColor: 'white',
 	width: '100px',
@@ -88,6 +90,7 @@ function UserPage() {
 							})}
 						</table>
 					</div>
+					<Button variant="outlined" color="secondary" onClick={() => { nagivate('/myFavourite') }}>See my favourite location</Button>
 
 					<div className={"container"} style={{ height: '100vh', width: '90%', margin: "auto" }}>
 						<GoogleMapReact

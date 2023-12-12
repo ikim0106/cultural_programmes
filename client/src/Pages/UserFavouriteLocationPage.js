@@ -23,18 +23,31 @@ function UserFavouriteLocation() {
         localStorage.clear()
         window.location.href = '/';
     }
-
+    const getMyFavouriteVenue = async () => {
+        let response = await fetch('http://localhost:8080/profile', {
+            method: "Get",
+            headers: {
+                Authorization: userData?.user?.userId,
+            }
+        })
+        let data = await response.json();
+        if (data.success)
+            SetVenues(data.profile.favouriteVenue)
+        console.log(data.message)
+    }
 
     useEffect(() => {
         const tempJSON = JSON.parse(localStorage.getItem('userData'))
         if (localStorage.getItem('userData') && tempJSON.user.role === "user") {
             setUserData(JSON.parse(localStorage.getItem('userData')))
-            // getAllVenue();
-            setIsLoading(false)
+            if (userData?.user?.userId) {
+                getMyFavouriteVenue();
+                setIsLoading(false)
+            }
         } else {
             window.location.href = '/';
         }
-    }, [])
+    }, [userData?.user?.userId])
 
 
     const viewLocationDetails = (venue) => {

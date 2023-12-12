@@ -121,11 +121,12 @@ function LocationDetailPage() {
                     // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.venuee}`}
                     >
                     </iframe>
-                    <h4>location details:</h4>
-                    <p>Name: {venue.venuee}</p>
-                    <Button variant="outlined" onClick={() => {
+                    <Button variant="outlined" color="secondary" onClick={() => {
                         favourite()
                     }}>Add to my favourite Venue</Button><br />
+                    <h4>location details:</h4>
+                    <p>Name: {venue.venuee}</p>
+
                     <TextField
                         id="outlined-multiline-flexible"
                         label="Your Comment Here"
