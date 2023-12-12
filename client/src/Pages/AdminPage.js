@@ -95,31 +95,50 @@ function AdminPage() {
     window.location.href = '/';
   }
 
-  useEffect(()=> {
-    const tempJSON = JSON.parse(localStorage.getItem('userData'))
-    if(localStorage.getItem('userData') && tempJSON.user.role === "admin") {
-      setUserData(JSON.parse(localStorage.getItem('userData')))
-      setIsLoading(false)
+  const getAllEvent = async () => {
+    let response = await fetch('http://localhost:8080/getAllEvent', {
+      method: "Get",
+      headers: {
+        Authorization: userData.user?.userId,
+      }
+    })
+    let data = await response.json();
+    if (data.success)
+      setEvents(data.events)
+  }
+
+  useEffect(() => {
+    const tempJSON = JSON.parse(localStorage.getItem('userData'));
+    if (localStorage.getItem('userData') && tempJSON.user.role === "admin") {
+      setUserData(JSON.parse(localStorage.getItem('userData')));
+      if (userData?.user?.userId) {
+        getAllEvent();
+        setIsLoading(false);
+      }
     } else {
       window.location.href = '/';
     }
-  },[])
+  }, [userData?.user?.userId]);
 
-  const handleEditEvent = async ({values, table}) => {
+  const handleEditEvent = async ({ values, table }) => {
     // console.log(values, table)
-    let response = await fetch(`http://localhost:8080/updateEvent/${values.eventId}/by/${userData.user.userId}`, {
+    let response = await fetch(`http://localhost:8080/updateEvent/${values.eventId}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: userData.user.userId
       },
       body: JSON.stringify(values)
     })
     const resJSON = await response.json()
     console.log(resJSON)
-    if(resJSON.success){
+    if (resJSON.success) {
       const getAllEvent = async () => {
         let response = await fetch('http://localhost:8080/getAllEvent', {
           method: "Get",
+          headers: {
+            Authorization: userData.user.userId,
+          }
         })
         let data = await response.json();
         if (data.success)
@@ -134,18 +153,22 @@ function AdminPage() {
     if (window.confirm('Are you sure you want to delete this event?')) {
       console.log(row)
       const data = row.original
-      let response = await fetch(`http://localhost:8080/deleteEvent/${data.eventId}/fromVenue/${data.venueid}/by/${userData.user.userId}`, {
+      let response = await fetch(`http://localhost:8080/deleteEvent/${data.eventId}/fromVenue/${data.venueid}`, {
         method: "DELETE",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: userData.user.userId
         },
       })
       const resJSON = await response.json()
       console.log(resJSON)
-      if(resJSON.success){
+      if (resJSON.success) {
         const getAllEvent = async () => {
           let response = await fetch('http://localhost:8080/getAllEvent', {
             method: "Get",
+            headers: {
+              Authorization: userData.user.userId,
+            }
           })
           let data = await response.json();
           if (data.success)
@@ -156,22 +179,26 @@ function AdminPage() {
     }
   }
 
-  const handleNewEvent = async ({values, table}) => {
+  const handleNewEvent = async ({ values, table }) => {
     console.log(values)
     // return
-    let response = await fetch(`http://localhost:8080/addEventToVenue/${values.venueid}/by/${userData.user.userId}`, {
+    let response = await fetch(`http://localhost:8080/addEventToVenue/${values.venueid}`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: userData.user.userId
       },
       body: JSON.stringify(values)
     })
     const resJSON = await response.json()
     console.log(resJSON)
-    if(resJSON.success){
+    if (resJSON.success) {
       const getAllEvent = async () => {
         let response = await fetch('http://localhost:8080/getAllEvent', {
           method: "Get",
+          headers: {
+            Authorization: userData.user.userId,
+          }
         })
         let data = await response.json();
         if (data.success)
@@ -209,14 +236,14 @@ function AdminPage() {
     renderRowActions: ({ row, table }) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
         <Tooltip title="Edit">
-          <IconButton 
+          <IconButton
             onClick={() => table.setEditingRow(row)}
           >
             <EditIcon />
           </IconButton>
         </Tooltip>
         <Tooltip title="Delete">
-          <IconButton color="error" 
+          <IconButton color="error"
             onClick={() => openDeleteConfirmModal(row)}
           >
             <DeleteIcon />
@@ -242,26 +269,29 @@ function AdminPage() {
     ),
   })
 
-  
-  useEffect(() => {
-  const getAllEvent = async () => {
-    let response = await fetch('http://localhost:8080/getAllEvent', {
-      method: "Get",
-    })
-    let data = await response.json();
-    if (data.success)
-      setEvents(data.events)
-    }
-    getAllEvent();
-  }, [])
+
+  // useEffect(() => {
+  //   const getAllEvent = async () => {
+  //     let response = await fetch('http://localhost:8080/getAllEvent', {
+  //       method: "Get",
+  //       headers: {
+  //         Authorization: userData.user?.userId,
+  //       }
+  //     })
+  //     let data = await response.json();
+  //     if (data.success)
+  //       setEvents(data.events)
+  //   }
+  //   getAllEvent();
+  // }, [])
 
   return (
     <>
-    {!isLoading &&
-      <div>
-        <PrimarySearchAppBar userData={userData.user} logOut={logout}/>
-        <MaterialReactTable table={table}/>
-        {/* <table>
+      {!isLoading &&
+        <div>
+          <PrimarySearchAppBar userData={userData.user} logOut={logout} />
+          <MaterialReactTable table={table} />
+          {/* <table>
           <tr>
             <th>Venue Name</th>
             <th>Events</th>
@@ -275,8 +305,8 @@ function AdminPage() {
           )
         })}
         </table> */}
-      </div>
-    }
+        </div>
+      }
     </>
   );
 }
