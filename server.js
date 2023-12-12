@@ -53,11 +53,11 @@ db.once('open', async function () {
 
   const populateDB = async () => {
     const venueJSON = JSON.parse(venueData)
-    for(var venueKey in venueJSON) {
+    for (var venueKey in venueJSON) {
       let events = venueJSON[venueKey].events
       let eventJSON = {}
       let allEvents = []
-      for(var eventKey in events) {
+      for (var eventKey in events) {
         eventJSON = events[eventKey]
         eventJSON['eventId'] = eventKey
         eventJSON['venuee'] = venueKey
@@ -86,7 +86,7 @@ db.once('open', async function () {
   // console.log(fetchedEvents.length)
   // console.log(fetchedVenues.length)
   // return
-  
+
   const CommentSchema = mongoose.Schema({
     userId: { type: String, ref: 'User' },
     venueId: { type: String, ref: 'Venue' },
@@ -369,9 +369,9 @@ db.once('open', async function () {
                         venue.save()
                           .then(() => {
                             e.deleteOne()
-                            .then(()=>{
-                              res.status(200).send({ success: 1, message: `delete event successfully` })
-                            })
+                              .then(() => {
+                                res.status(200).send({ success: 1, message: `delete event successfully` })
+                              })
                           })
                           .catch((err) => {
                             res.status(500).send({ success: 0, message: err })
@@ -433,6 +433,18 @@ db.once('open', async function () {
       // .populate('events')
       .then((items) => {
         res.status(200).send({ success: 1, message: `get events successfully`, events: items })
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
+  app.get('/getAllCommentFor/:venueId', (req, res) => {
+    console.log({ input: req.params })
+    Comment.find({ venueId: req.params.venueId })
+      .sort({ createdAt: 1 })
+      .then((comments) => {
+        res.status(200).send({ success: 1, message: `get comments successfully`, comments: comments })
       })
       .catch((err) => {
         res.status(500).send({ success: 0, message: err })
