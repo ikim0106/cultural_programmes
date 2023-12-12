@@ -53,13 +53,21 @@ const RegisterLogin = () => {
         body: JSON.stringify({username: userId, password: password})
       })
       const resJSON = await response.json()
-      if(resJSON.success && resJSON.user.role=="user") {
-        nagivate('/user', {state: resJSON})
+      console.log(resJSON)
+      if(resJSON.success && resJSON.user.role==="user") {
+        localStorage.setItem('userData', JSON.stringify(resJSON))
+        nagivate('/user')
+        return
+      }
+
+      if(resJSON.success && resJSON.user.role==="admin") {
+        localStorage.setItem('userData', JSON.stringify(resJSON))
+        nagivate('/admin')
         return
       }
     }
 
-    if(isRegister && userId && password && password==confirmPassword) {
+    if(isRegister && userId && password && password===confirmPassword) {
       let response = await fetch('http://localhost:8080/register', {
         method: "POST",
         headers: {
@@ -69,7 +77,8 @@ const RegisterLogin = () => {
       })
       const resJSON = await response.json()
       if(resJSON.success) {
-        nagivate('/user', {state: {user: {userId: userId, password: password}}})
+        localStorage.setItem('userData', JSON.stringify(resJSON))
+        nagivate('/user')
       }
     }
   }
@@ -148,7 +157,8 @@ const RegisterLogin = () => {
                 id="outlined-basic" 
                 label="Username *" 
                 variant="outlined" 
-                fullWidth 
+                fullWidth
+                autoComplete='off'
                 value={userId}
                 sx={{
                   marginTop: '3vh'
@@ -161,6 +171,7 @@ const RegisterLogin = () => {
                 label="Password *" 
                 variant="outlined" 
                 fullWidth 
+                autoComplete='off'
                 value={password}
                 sx={{
                   marginTop: '3vh'
@@ -173,6 +184,7 @@ const RegisterLogin = () => {
                   label="Confirm Password *" 
                   variant="outlined" 
                   fullWidth 
+                  autoComplete='off'
                   value={confirmPassword}
                   sx={{
                     marginTop: '3vh'
