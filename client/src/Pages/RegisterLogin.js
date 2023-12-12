@@ -150,6 +150,8 @@ const RegisterLogin = () => {
               alignItems: 'center',
             }}>
               <Avatar src="https://cdn-icons-png.flaticon.com/512/197/197570.png" />
+              <h2 style={{ fontFamily: "Georgia, serif", textAlign: 'center' }}>Hong Kong<br></br>
+              Culture Programme Application</h2>
               <Typography variant="h5" sx={{marginTop:'2vh'}}>
                 {isRegister ? 'Sign up' : 'Sign in'}
               </Typography>
