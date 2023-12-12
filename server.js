@@ -416,6 +416,18 @@ db.once('open', async function () {
       })
   })
 
+  app.get('/getAllCommentFor/:venueId', (req, res) => {
+    console.log({ input: req.params })
+    Comment.find({ venueId: req.params.venueId })
+      .sort({ createdAt: 1 })
+      .then((comments) => {
+        res.status(200).send({ success: 1, message: `get comments successfully`, comments: comments })
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  })
+
   app.post('/addComment', (req, res) => {
     console.log({ input: req.body })
     Venue.findOne({ venueId: req.body.venueId })
