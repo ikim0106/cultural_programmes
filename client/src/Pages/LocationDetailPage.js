@@ -29,7 +29,10 @@ function LocationDetailPage() {
 
     const getAllCommentFor = async () => {
         let response = await fetch(`http://localhost:8080/getAllCommentFor/${venue.venueId}`, {
-            method: "GET"
+            method: "GET",
+            headers: {
+                Authorization: userData.user.userId,
+            }
         })
         let data = await response.json();
 
@@ -43,12 +46,14 @@ function LocationDetailPage() {
         const tempJSON = JSON.parse(localStorage.getItem('userData'))
         if (localStorage.getItem('userData') && tempJSON.user.role === "user") {
             setUserData(JSON.parse(localStorage.getItem('userData')))
-            getAllCommentFor();
-            setIsLoading(false)
+            if (userData?.user?.userId) {
+                getAllCommentFor();
+                setIsLoading(false)
+            }
         } else {
             window.location.href = '/';
         }
-    }, [])
+    }, [userData?.user?.userId])
 
     const location = useLocation();
     console.log(location.state)
@@ -68,7 +73,10 @@ function LocationDetailPage() {
     const addComment = async () => {
         let response = await fetch('http://localhost:8080/addComment', {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: userData.user.userId,
+            },
             body: JSON.stringify({
                 "userId": userData.user.userId,
                 "venueId": venue.venueId,
