@@ -8,6 +8,8 @@ import { useLocation } from 'react-router-dom'
 import GoogleMapReact from 'google-map-react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { grey } from '@mui/material/colors';
+import { padding } from '@mui/system';
 const Lable = ({ text }) => <div style={{
     backgroundColor: 'white',
     width: '100px',
@@ -109,51 +111,116 @@ function LocationDetailPage() {
         // Important! Always set the container height explicitly
         <>
             {!isLoading &&
-                <div className={"container"} style={{ height: '100vh', width: '100%', margin: "auto" }}>
-                    <iframe
-                        width="100%"
-                        height="450"
-                        loading="lazy"
-                        allowFullScreen
-                        referrerPolicy="no-referrer-when-downgrade"
-                        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.latitude},${venue.longitude}`}
+                <div className={"container"} style={{
+                    height: '100%',
+                    width: '100%',
+                    margin: "auto",
+                    backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/e/e0/Hong_Kong_Cultural_Centre_201408.jpg)',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundAttachment: 'fixed',
+                    backgroundSize: 'cover',
+                }}>
+                    <div style={{
+                        height: '100%',
+                        backgroundColor: '#bbc4eb8c'
+                    }}>
 
-                    // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.venuee}`}
-                    >
-                    </iframe>
-                    <Button variant="outlined" color="secondary" onClick={() => {
-                        favourite()
-                    }}>Add to my favourite Venue</Button><br />
-                    <h4>location details:</h4>
-                    <p>Name: {venue.venuee}</p>
+                        <iframe
+                            width="100%"
+                            height="450"
+                            loading="lazy"
+                            allowfullscreen
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.latitude},${venue.longitude}`}
 
-                    <TextField
-                        id="outlined-multiline-flexible"
-                        label="Your Comment Here"
-                        maxRows={4}
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                    />
-                    <Button variant="outlined" onClick={() => {
-                        if (comment.trim() === '')
-                            console.log(`Comment should not be empty`)
-                        else
-                            addComment();
-                    }}>Comment</Button>
+                        // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.venuee}`}
+                        >
+                        </iframe>
+                        <Button variant="outlined" color="secondary" onClick={() => {
+                            favourite()
+                        }}>Add to my favourite Venue</Button><br />
+                        <div style={{
+                            margin: "5%",
+                            padding: "3%",
+                            background: "#ebedf4df",
+                            borderRadius: "10px"
+                        }}>
+                            <h1 style={{ fontFamily: "Georgia, serif" }}>{venue.venuee}</h1>
+                            <h3 style={{ fontFamily: "Georgia, serif" }}>Event details:</h3>
 
-                    {comments && comments.length > 0 &&
-                        comments.map((val, key) => {
-                            return (
-                                <div key={key}>
-                                    <p>{val.userId}: {val.comment}</p>
-                                </div>
-                            )
-                        })
-                    }
+                            <p>--Event table--</p>
+                            <br></br>
+                            <br></br>
+                            <br></br>
 
+
+                            <div style={{ border: '2px solid rgba(128, 128, 128, 0.58)' }}></div>
+
+                            <table id="formtable" style={{
+                                padding: '0.5%',
+                                marginTop: '1%',
+                                marginLeft: '3%',
+                                backgroundColor: '#faf9fa6e',
+
+                            }}><tr>
+                                    <td id="formleft" style={{
+                                        padding: '2%',
+
+                                    }}>
+                                        <h2 style={{ fontFamily: "Georgia, serif" }}>Comments</h2>
+                                        <hr></hr>
+                                        {comments && comments.length > 0 &&
+                                            comments.map((val, key) => {
+                                                return (
+                                                    <div key={key} >
+                                                        <h4>@{val.userId}</h4>
+                                                        <p style={{
+                                                            marginTop: '-2%',
+                                                        }}>{val.comment}</p>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </td>
+                                    <td id="formright" style={{
+                                        width: '55%',
+                                        paddingBottom: '50%',
+                                        paddingLeft: '10%',
+                                    }}>
+                                        <h1 style={{ fontFamily: "Georgia, serif" }}>Any Question?</h1>
+                                        <h3 style={{ fontFamily: "Georgia, serif" }}>Leave a comment:</h3>
+
+                                        {/* <p>name: {venue.venuee}</p> */}
+
+                                        <TextField
+                                            id="outlined-multiline-flexible"
+                                            label="Your Comment Here"
+                                            maxRows={4}
+                                            value={comment}
+                                            onChange={(e) => setComment(e.target.value)}
+                                            style={{
+                                                marginBottom: '2%',
+                                                width: '90%',
+                                                backgroundColor: '#ebedf4f6'
+                                            }}
+                                        />
+                                        <br></br>
+                                        <Button variant="outlined" onClick={() => {
+                                            if (comment.trim() === '')
+                                                console.log(`Comment should not be empty`)
+                                            else
+                                                addComment();
+                                        }} style={{
+                                            marginLeft: '71%',
+                                            backgroundColor: '#d4e3ee5f'
+                                        }}>Submit</Button>
+                                    </td></tr></table>
+                        </div>
+                    </div>
                 </div>
             }
         </>
+
 
     );
 }
