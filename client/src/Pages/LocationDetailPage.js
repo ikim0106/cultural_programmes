@@ -24,11 +24,26 @@ function LocationDetailPage() {
     const [userData, setUserData] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [comment, setComment] = useState('');
+    const [comments, setComments] = useState([]);
+
+
+    const getAllCommentFor = async () => {
+        let response = await fetch(`http://localhost:8080/getAllCommentFor/${venue.venueId}`, {
+            method: "GET"
+        })
+        let data = await response.json();
+
+        if (data.success)
+            setComments(data.comments)
+        console.log(data.message)
+        console.log(data.comments)
+    };
 
     useEffect(() => {
         const tempJSON = JSON.parse(localStorage.getItem('userData'))
         if (localStorage.getItem('userData') && tempJSON.user.role === "user") {
             setUserData(JSON.parse(localStorage.getItem('userData')))
+            getAllCommentFor();
             setIsLoading(false)
         } else {
             window.location.href = '/';
@@ -111,6 +126,17 @@ function LocationDetailPage() {
                         else
                             addComment();
                     }}>Comment</Button>
+
+                    {comments && comments.length > 0 &&
+                        comments.map((val, key) => {
+                            return (
+                                <div key={key}>
+                                    <p>{val.userId}: {val.comment}</p>
+                                </div>
+                            )
+                        })
+                    }
+
                 </div>
             }
         </>
