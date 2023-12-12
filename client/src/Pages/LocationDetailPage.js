@@ -6,6 +6,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
 import GoogleMapReact from 'google-map-react';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 const Lable = ({ text }) => <div style={{
     backgroundColor: 'white',
     width: '100px',
@@ -37,7 +39,7 @@ function LocationDetailPage() {
     return (
         // Important! Always set the container height explicitly
 
-        <div style={{ height: '100vh', width: '100%' }}>
+        <div className={"container"} style={{ height: '100vh', width: '100%', margin: "auto" }}>
             {/* <GoogleMapReact
                 bootstrapURLKeys={{ key: "AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4" }}
                 defaultCenter={defaultProps.center}
@@ -52,7 +54,7 @@ function LocationDetailPage() {
 
             </GoogleMapReact> */}
             <iframe
-                width="600"
+                width="100%"
                 height="450"
                 loading="lazy"
                 allowfullscreen
@@ -65,6 +67,12 @@ function LocationDetailPage() {
             <h4>location details:</h4>
             <p>Name: {venue.venuee}</p>
             {/* <p>name: {venue.venuee}</p> */}
+            <TextField
+                id="outlined-multiline-flexible"
+                label="Comment"
+                maxRows={4}
+            />
+            <Button variant="outlined">Comment</Button>
         </div>
 
 
