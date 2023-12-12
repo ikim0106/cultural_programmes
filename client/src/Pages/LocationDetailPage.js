@@ -155,7 +155,8 @@ function LocationDetailPage() {
                                 marginTop: '1%',
                                 marginLeft: '3%',
                                 backgroundColor: '#faf9fa6e',
-
+                                width: '95%',
+                                paddingBottom: '5%',
                             }}><tr>
                                     <td id="formleft" style={{
                                         padding: '2%',
@@ -178,7 +179,7 @@ function LocationDetailPage() {
                                     </td>
                                     <td id="formright" style={{
                                         width: '55%',
-                                        paddingBottom: '50%',
+                                        
                                         paddingLeft: '10%',
                                     }}>
                                         <h1 style={{ fontFamily: "Georgia, serif" }}>Any Question?</h1>
