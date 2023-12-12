@@ -86,25 +86,12 @@ function LocationDetailPage() {
         <>
             {!isLoading &&
                 <div className={"container"} style={{ height: '100vh', width: '100%', margin: "auto" }}>
-                    {/* <GoogleMapReact
-                bootstrapURLKeys={{ key: "AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4" }}
-                defaultCenter={defaultProps.center}
-                defaultZoom={defaultProps.zoom}
-                yesIWantToUseGoogleMapApiInternals
-                onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-            >
-                <Lable lat={venue.latitude}
-                    lng={venue.longitude}
-                    text={venue.venuee}
-                />
-
-            </GoogleMapReact> */}
                     <iframe
                         width="100%"
                         height="450"
                         loading="lazy"
-                        allowfullscreen
-                        referrerpolicy="no-referrer-when-downgrade"
+                        allowFullScreen
+                        referrerPolicy="no-referrer-when-downgrade"
                         src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.latitude},${venue.longitude}`}
 
                     // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.venuee}`}
@@ -112,7 +99,6 @@ function LocationDetailPage() {
                     </iframe>
                     <h4>location details:</h4>
                     <p>Name: {venue.venuee}</p>
-                    {/* <p>name: {venue.venuee}</p> */}
                     <TextField
                         id="outlined-multiline-flexible"
                         label="Your Comment Here"
@@ -141,13 +127,6 @@ function LocationDetailPage() {
             }
         </>
 
-        // <div style={{
-        //     backgroundColor: 'blue',
-        //     height: '100vh', width: '100%'
-        // }}>
-        //     <h5 style={{ color: "red" }}>text</h5>
-        //     <button>Click Me</button>
-        // </div>
     );
 }
 

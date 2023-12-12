@@ -70,11 +70,6 @@ function LocationPage() {
             </GoogleMapReact>
         </div>
 
-
-        // <div style={{
-        //     backgroundColor: 'blue',
-        // }}><h5 style={{ color: "red" }}>text</h5>
-        //     <button>Click Me</button></div>
     );
 }
 
