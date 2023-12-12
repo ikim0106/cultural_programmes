@@ -3,6 +3,8 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom'
 import UserPage from './Pages/UserPage';
 import RegisterLogin from './Pages/RegisterLogin';
+import AdminPage from './Pages/AdminPage';
+
 import LocationPage from './Pages/LocationPage';
 import LocationDetailPage from './Pages/LocationDetailPage';
 function App() {
@@ -12,6 +14,7 @@ function App() {
       <Route path="/user" element={<UserPage />} />
       <Route path="/LocationPage" element={<LocationPage />} />
       <Route path="/LocationDetailPage" element={<LocationDetailPage />} />
+      <Route path="/admin" element={<AdminPage />} />
       {/* <Route path="/user/:userid/:role" element={<UserPage/>}/> */}
     </Routes>
   );
