@@ -27,7 +27,7 @@ function LocationDetailPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
-
+    const [errors, setErrors] = useState(null);
 
     const getAllCommentFor = async () => {
         let response = await fetch(`http://localhost:8080/getAllCommentFor/${venue.venueId}`, {
@@ -87,8 +87,15 @@ function LocationDetailPage() {
         })
         let data = await response.json();
 
-        // if (data.success)
-        // TODO: append child?
+        if (data.success) {
+            setComment('');
+            setComments((prevComments) => [data.comment, ...prevComments]);
+            setErrors(null);
+        } else {
+            let errors = {}
+            errors.comment = data.message
+            setErrors(errors);
+        }
         console.log(data.message)
     };
     return (
@@ -179,7 +186,6 @@ function LocationDetailPage() {
                                     </td>
                                     <td id="formright" style={{
                                         width: '55%',
-                                        
                                         paddingLeft: '10%',
                                     }}>
                                         <h1 style={{ fontFamily: "Georgia, serif" }}>Any Question?</h1>
@@ -198,10 +204,16 @@ function LocationDetailPage() {
                                                 backgroundColor: '#ebedf4f6'
                                             }}
                                         />
+                                        {errors?.comment &&
+                                            <p style={{ fontFamily: "Georgia, serif", color: 'red ' }}>{errors.comment}</p>
+                                        }
                                         <br></br>
                                         <Button variant="outlined" onClick={() => {
-                                            if (comment.trim() === '')
-                                                console.log(`Comment should not be empty`)
+                                            if (comment.trim() === '') {
+                                                let errors = {}
+                                                errors.comment = 'Comment should not be empty'
+                                                setErrors(errors)
+                                            }
                                             else
                                                 addComment();
                                         }} style={{
