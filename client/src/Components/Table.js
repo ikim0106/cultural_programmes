@@ -90,6 +90,9 @@ function Table(mode) {
             const getAllEvent = async () => {
                 let response = await fetch('http://localhost:8080/getAllEvent', {
                     method: "Get",
+                    headers: {
+                        Authorization: userData?.user?.userId,
+                    }
                 })
                 let data = await response.json();
                 if (data.success)
@@ -101,6 +104,9 @@ function Table(mode) {
             const getAllVenue = async () => {
                 let response = await fetch('http://localhost:8080/getAllVenue', {
                     method: "Get",
+                    headers: {
+                        Authorization: userData?.user?.userId,
+                    }
                 })
                 let data = await response.json();
                 if (data.success)
@@ -132,7 +138,6 @@ function Table(mode) {
         <>
             {!isLoading &&
                 <div>
-                    <PrimarySearchAppBar userData={userData.user} />
                     <MaterialReactTable table={table} />
                 </div>
             }

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import LocationTable from '../Components/LocationTable';
 import Tables from '../Components/Table';
-import EventTable from '../Components/EventTable';
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";

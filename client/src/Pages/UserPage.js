@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PrimarySearchAppBar from '../Components/PrimarySearchAppBar';
 import GoogleMapReact from 'google-map-react';
 import { useNavigate, useLocation } from 'react-router-dom'
+import { Table } from '@mui/material';
+import TablePage from './TablePage';
 const Lable = ({ text, venue, buttonOnclickFunction }) => <div style={{
 	backgroundColor: 'white',
 	width: '100px',
@@ -87,6 +89,10 @@ function UserPage() {
 								)
 							})}
 						</table>
+					</div>
+
+					<div>
+						<TablePage/>
 					</div>
 
 					<div className={"container"} style={{ height: '100vh', width: '90%', margin: "auto" }}>
