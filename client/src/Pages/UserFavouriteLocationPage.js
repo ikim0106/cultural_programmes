@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PrimarySearchAppBar from '../Components/PrimarySearchAppBar';
 // import GoogleMapReact from 'google-map-react';
 import { useNavigate, useLocation } from 'react-router-dom'
+import Button from '@mui/material/Button';
+import { margin } from '@mui/system';
 
 // const Lable = ({ text, venue, buttonOnclickFunction }) => <div style={{
 // 	backgroundColor: 'white',
@@ -23,6 +25,8 @@ function UserFavouriteLocation() {
         localStorage.clear()
         window.location.href = '/';
     }
+    
+
     const getMyFavouriteVenue = async () => {
         let response = await fetch('http://localhost:8080/profile', {
             method: "Get",
@@ -57,26 +61,62 @@ function UserFavouriteLocation() {
         <>
             {!isLoading &&
                 <>
-                    <div>
-                        <PrimarySearchAppBar userData={userData.user} logOut={logout} />
-                        User id: {userData.user.userId}
-                        <table>
-                            <tr>
-                                <th>Venue Name</th>
-                                <th>Events</th>
-                            </tr>
-                            {venues.map((val, key) => {
-                                return (
-                                    <tr key={key}>
-                                        <td>{val.venuee ? val.venuee : 'No Name'}</td>
-                                        <td>{val.events ? val.events.length : 0}</td>
+                    <div className={"container"} style={{
+                        height: '100%',
+                        width: '100%',
+                        margin: "auto",
+                        backgroundImage: 'url(https://media.nomadicmatt.com/2020/thingstodohk1.jpg)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundAttachment: 'fixed',
+                        backgroundSize: 'cover',
+                    }}>
+                        <div style={{
+                            height: '100%',
+                            backgroundColor: '#bbc4eb8c'
+                        }}>
+                            <PrimarySearchAppBar userData={userData.user} logOut={logout} />
+                            {/* User id: {userData.user.userId} */}
+
+                            <div style={{
+                                margin: "5%",
+                                padding: "3%",
+                                background: "#ebedf4df",
+                                borderRadius: "10px",
+                                height: '1000px'
+                            }}>
+                                <h1 style={{ margin: '2%', fontFamily: "Georgia, serif" }}>MY Favourite Locations</h1>
+                                <hr></hr>
+
+                                <table style={{ margin: '2%', width: '95%',}}>
+                                    <tr>
+                                        <th></th>
+                                        <th><h3 style={{ margin: '2%', fontFamily: "Georgia, serif" }}>Location Venue</h3></th>
+                                        <th><h3 style={{ margin: '2%', fontFamily: "Georgia, serif" }}>Number of Events</h3></th>
+                                        <th><h3 style={{ margin: '2%', fontFamily: "Georgia, serif" }}>Location Details</h3></th>
                                     </tr>
-                                )
-                            })}
-                        </table>
+                                    
+                                    {venues.map((val, key) => {
+                                        return (
+                                            
+                                            <tr key={key} style={{ 
+                                                fontFamily: "Georgia",
+                                                textAlign: 'center', 
+                                                fontSize: 'large',
+                                                padding: '2%'
+                                                }}>
+                                                <td>1.</td>
+                                                <td>{val.venuee ? val.venuee : 'No Name'}</td>
+                                                <td>{val.events ? val.events.length : 0}</td>
+                                                <td><Button variant="contained" color="success" onClick={() => 
+                                                    viewLocationDetails(val.venuee)}>Click Me</Button></td>
+                                            </tr>
+                                            
+                                        )
+                                    })}
+                                </table>
+                            </div>
+                        </div>
                     </div>
-
-
                 </>
             }
         </>
