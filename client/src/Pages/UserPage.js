@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PrimarySearchAppBar from '../Components/PrimarySearchAppBar';
 import GoogleMapReact from 'google-map-react';
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button';
 
 const Lable = ({ text, venue, buttonOnclickFunction }) => <div style={{

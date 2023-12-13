@@ -5,21 +5,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
-import GoogleMapReact from 'google-map-react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { grey } from '@mui/material/colors';
 import { padding } from '@mui/system';
-const Lable = ({ text }) => <div style={{
-    backgroundColor: 'white',
-    width: '100px',
-    height: '100px',
-    borderRadius: 5,
-    padding: 10,
-    alignItems: "center",
-    alignSelf: "center",
-}}><h5 style={{ color: "black" }}>{text}</h5>
-    <button>Click Me</button></div>;
+
 
 function LocationDetailPage() {
 
@@ -60,18 +50,8 @@ function LocationDetailPage() {
     const location = useLocation();
     console.log(location.state)
     const venue = location.state
-    const defaultProps = {
-        center: {
-            lat: venue.latitude,
-            lng: venue.longitude
-        },
-        zoom: 18
 
-    };
-    const handleApiLoaded = (map, maps) => {
-        // use map and maps objects
 
-    };
     const addComment = async () => {
         let response = await fetch('http://localhost:8080/addComment', {
             method: "POST",
@@ -126,6 +106,7 @@ function LocationDetailPage() {
                     }}>
 
                         <iframe
+                            title="googleMap"
                             width="100%"
                             height="450"
                             loading="lazy"
