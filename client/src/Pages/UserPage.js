@@ -83,7 +83,7 @@ function UserPage() {
 							{venues.map((val, key) => {
 								return (
 									<tr key={key}>
-										<td>{val.venuee ? val.venuee : 'No Name'}</td>
+										<td onClick={() => { viewLocationDetails(val) }}>{val.venuee ? val.venuee : 'No Name'}</td>
 										<td>{val.events ? val.events.length : 0}</td>
 									</tr>
 								)
@@ -102,7 +102,6 @@ function UserPage() {
 						>
 							{venues.map((val, key) => {
 								console.log(val)
-								const venue = JSON.parse(JSON.stringify(val));
 								return (
 									<Lable
 										lat={val.latitude}
