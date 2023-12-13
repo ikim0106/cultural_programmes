@@ -104,6 +104,25 @@ db.once('open', async function () {
 
   const User = mongoose.model("User", UserSchema)
 
+  async function auth(req, res, next) {
+    console.log({ "headers": req.headers.authorization })
+    if (!req.headers.authorization)
+      return res.status(401).json({ success: 0, message: 'Plz Login' });
+    User.findOne({ userId: req.headers.authorization })
+      .then((user) => {
+        if (!user)
+          res.status(401).json({ success: 0, message: 'User not found' });
+        else {
+          req.user = user;
+          console.log(`Authentication success`);
+          next();
+        }
+      })
+      .catch(err => {
+        res.status(500).send({ success: 0, message: err })
+      })
+  }
+
   app.post('/register', (req, res) => {
     console.log({ "input": req.body })
     let newUser = new User({
@@ -150,49 +169,76 @@ db.once('open', async function () {
       })
   })
 
-  app.post('/resetPassword', (req, res) => {
+  app.post('/resetPassword', auth, (req, res) => {
     console.log({ "input": req.body })
-    User.findOne({ userId: req.body.username })
-      .then((user) => {
-        if (!user)
-          res.status(404).send({ success: 0, message: `Invalid user` })
-        else
-          if (user.password !== req.body.password)
-            res.status(401).send({ success: 0, message: `Wrong old password` })
-          else {
-            user.password = req.body.newpassword;
-            user.save()
-              .then(() => {
-                res.status(200).send({ success: 1, message: `reset password successfully` })
-              })
-              .catch((err) => {
-                res.status(500).send({ success: 0, message: err })
-              })
-          }
-      })
-      .catch((err) => {
-        res.status(500).send({ success: 0, message: err })
-      })
+    if (req.user.password != req.body.password)
+      res.status(401).send({ success: 0, message: `Wrong old password` })
+    else {
+      req.user.password = req.body.newpassword;
+      req.user.save()
+        .then(() => {
+          res.status(200).send({ success: 1, message: `reset password successfully` })
+        })
+        .catch((err) => {
+          res.status(500).send({ success: 0, message: err })
+        })
+    }
   })
 
-  app.delete('/delUser/:userId', (req, res) => {
+  app.delete('/delUser/:userId0', auth, (req, res) => {
     console.log({ input: req.params })
-    User.findOneAndDelete({ userId: req.params.userId })
-      .then((user) => {
-        if (!user)
-          res.status(404).send({ success: 0, message: `userId not found` })
-        else
-          res.status(200).send({ success: 1, message: `user deleted successfully` })
-        // res.status(204).send() // 204 no content
-      })
-      .catch((err) => {
-        res.status(500).send({ success: 0, message: err })
-      })
+    if (req.user.role !== "admin")
+      res.status(401).send({ success: 0, message: `Only admin can do this operation` });
+    else
+      User.findOneAndDelete({ userId: req.params.userId0, role: 'user' })
+        .then((user) => {
+          if (!user)
+            res.status(404).send({ success: 0, message: `You cannot delete an admin or a user not existing` })
+          else
+            res.status(200).send({ success: 1, message: `user deleted successfully` })
+        })
+        .catch((err) => {
+          res.status(500).send({ success: 0, message: err })
+        })
   })
 
-  app.get('/profile/:userId', (req, res) => {
+  app.get('/getAllUser', auth, (req, res) => {
+    if (req.user.role !== "admin")
+      res.status(401).send({ success: 0, message: `Only admin can do this operation` });
+    else
+      User.find({ role: 'user' })
+        .then((users) => {
+          res.status(200).send({ success: 1, message: `get all user`, users, users })
+        })
+        .catch((err) => {
+          res.status(500).send({ success: 0, message: err })
+        })
+  })
+
+  app.put('/updateUser/:userId0', auth, (req, res) => {
+    console.log({ input: req.body, input_params: req.params })
+    if (req.user.role !== "admin")
+      res.status(401).send({ success: 0, message: `Only admin can do this operation` });
+    else
+      User.findOneAndUpdate(
+        { userId: req.params.userId0, role: 'user' },
+        req.body,
+        { new: true }
+      )
+        .then((user) => {
+          if (!user)
+            res.status(404).send({ success: 0, message: `you cannot modify another admin or a user not existing` });
+          else
+            res.status(200).send({ success: 1, message: `update event successfully`, user: user })
+        })
+        .catch((err) => {
+          res.status(500).send({ success: 0, message: err })
+        })
+  })
+
+  app.get('/profile', auth, (req, res) => {
     console.log({ input: req.params })
-    User.findOne({ userId: req.params.userId })
+    req.user
       .populate({
         path: 'favouriteVenue',
         populate: {
@@ -201,45 +247,35 @@ db.once('open', async function () {
         }
       })
       .then((user) => {
-        if (!user)
-          res.status(404).send({ success: 0, message: `user not found` })
-        else
-          res.status(200).send({ success: 1, message: `get profile successfully`, profile: user })
+        res.status(200).send({
+          success: 1, message: `get profile successfully`,
+          profile: user
+        })
       })
       .catch((err) => {
         res.status(500).send({ success: 0, message: err })
       })
   })
 
-  app.put('/addVenue/:venueId/toFavourite/:userId', (req, res) => {
+  app.put('/addVenue/:venueId/toFavourite', auth, (req, res) => {
     console.log({ input: req.params })
-    User.findOne({ userId: req.params.userId })
-      .then((user) => {
-        if (!user)
-          res.status(404).send({ success: 0, message: `userId not found` })
+    Venue.findOne({ venueId: req.params.venueId })
+      .then((venue) => {
+        if (!venue)
+          res.status(404).send({ success: 0, message: `venueId not found` })
         else {
-          Venue.findOne({ venueId: req.params.venueid })
-            .then((venue) => {
-              if (!venue)
-                res.status(404).send({ success: 0, message: `venueId not found` })
-              else {
-                if (user.favouriteVenue.includes(venue._id))
-                  res.status(200).send({ success: 0, message: `Venue already exists in favorites` });
-                else {
-                  user.favouriteVenue.push(venue._id);
-                  user.save()
-                    .then(() => {
-                      res.status(200).send({ success: 1, message: `successfully add to my favourite` })
-                    })
-                    .catch((err) => {
-                      res.status(500).send({ success: 0, message: err })
-                    })
-                }
-              }
-            })
-            .catch((err) => {
-              res.status(500).send({ success: 0, message: err })
-            })
+          if (req.user.favouriteVenue.includes(venue._id))
+            res.status(200).send({ success: 0, message: `Venue already exists in favorites` });
+          else {
+            req.user.favouriteVenue.push(venue._id);
+            req.user.save()
+              .then(() => {
+                res.status(200).send({ success: 1, message: `successfully add to my favourite` })
+              })
+              .catch((err) => {
+                res.status(500).send({ success: 0, message: err })
+              })
+          }
         }
       })
       .catch((err) => {
@@ -247,35 +283,25 @@ db.once('open', async function () {
       })
   })
 
-  app.put('/delVenue/:venueId/fromFavourite/:userId', (req, res) => {
+  app.put('/delVenue/:venueId/fromFavourite', auth, (req, res) => {
     console.log({ input: req.params })
-    User.findOne({ userId: req.params.userId })
-      .then((user) => {
-        if (!user)
-          res.status(404).send({ success: 0, message: `userId not found` })
+    Venue.findOne({ venueId: req.params.venueId })
+      .then((venue) => {
+        if (!venue)
+          res.status(404).send({ success: 0, message: `venueId not found` })
         else {
-          Venue.findOne({ venueId: req.params.venueId })
-            .then((venue) => {
-              if (!venue)
-                res.status(404).send({ success: 0, message: `venueId not found` })
-              else {
-                if (!user.favouriteVenue.includes(venue._id))
-                  res.status(200).send({ success: 0, message: `Venue does not exists in favorites` });
-                else {
-                  user.favouriteVenue.pull(venue._id);
-                  user.save()
-                    .then(() => {
-                      res.status(200).send({ success: 1, message: `successfully delete from my favourite` })
-                    })
-                    .catch((err) => {
-                      res.status(500).send({ success: 0, message: err })
-                    })
-                }
-              }
-            })
-            .catch((err) => {
-              res.status(500).send({ success: 0, message: err })
-            })
+          if (!req.user.favouriteVenue.includes(venue._id))
+            res.status(200).send({ success: 0, message: `Venue does not exists in favorites` });
+          else {
+            req.user.favouriteVenue.pull(venue._id);
+            req.user.save()
+              .then(() => {
+                res.status(200).send({ success: 1, message: `successfully delete from my favourite` })
+              })
+              .catch((err) => {
+                res.status(500).send({ success: 0, message: err })
+              })
+          }
         }
       })
       .catch((err) => {
@@ -283,52 +309,80 @@ db.once('open', async function () {
       })
   })
 
-  app.post('/addEventToVenue/:venueId/by/:userId', (req, res) => {
+  app.post('/addEventToVenue/:venueId', auth, (req, res) => {
     console.log({ input: req.body, input_params: req.params })
-    User.findOne({ userId: req.params.userId })
-      .then((user) => {
-        if (!user)
-          res.status(404).send({ success: 0, message: `user not found` });
-        else
-          if (user.role !== "admin")
-            res.status(401).send({ success: 0, message: `Only admin can do this operation` });
-          else
-            Venue.findOne({ venueId: req.params.venueId })
-              .then((venue) => {
-                if (!venue)
-                  res.status(404).send({ success: 0, message: `venue not found` });
-                else {
-                  let newEvent = new Event({
-                    eventId: Date.now(),
-                    titlee: req.body.titlee,
-                    cat1: req.body.cat1,
-                    cat2: req.body.cat2,
-                    predateE: req.body.predateE,
-                    progtimee: req.body.progtimee,
-                    agelimite: req.body.agelimite,
-                    venueid: req.body.venueid,
-                    venuee: req.body.venuee,
-                    pricee: req.body.pricee,
-                    desce: req.body.desce,
-                    urle: req.body.urle,
-                    tagenturle: req.body.tagenturle,
-                    remarke: req.body.remarke,
-                    enquiry: req.body.enquiry,
-                    fax: req.body.fax,
-                    email: req.body.email,
-                    saledate: req.body.saledate,
-                    interbook: req.body.interbook,
-                    presenterorge: req.body.presenterorge
+    if (req.user.role !== "admin")
+      res.status(401).send({ success: 0, message: `Only admin can do this operation` });
+    else
+      Venue.findOne({ venueId: req.params.venueId })
+        .then((venue) => {
+          if (!venue)
+            res.status(404).send({ success: 0, message: `venue not found` });
+          else {
+            let newEvent = new Event({
+              eventId: Date.now(),
+              titlee: req.body.titlee,
+              cat1: req.body.cat1,
+              cat2: req.body.cat2,
+              predateE: req.body.predateE,
+              progtimee: req.body.progtimee,
+              agelimite: req.body.agelimite,
+              venueid: req.body.venueid,
+              venuee: req.body.venuee,
+              pricee: req.body.pricee,
+              desce: req.body.desce,
+              urle: req.body.urle,
+              tagenturle: req.body.tagenturle,
+              remarke: req.body.remarke,
+              enquiry: req.body.enquiry,
+              fax: req.body.fax,
+              email: req.body.email,
+              saledate: req.body.saledate,
+              interbook: req.body.interbook,
+              presenterorge: req.body.presenterorge
+            })
+            newEvent.save()
+              .then((e) => {
+                venue.events.push(e._id);
+                venue.save()
+                  .then(() => {
+                    res.status(200).send({ success: 1, message: `add event successfully`, event: newEvent })
                   })
-                  newEvent.save()
-                    .then((e) => {
-                      venue.events.push(e._id);
-                      venue.save()
+                  .catch((err) => {
+                    res.status(500).send({ success: 0, message: err })
+                  })
+              })
+              .catch((err) => {
+                res.status(500).send({ success: 0, message: err })
+              })
+          }
+        })
+        .catch((err) => {
+          res.status(500).send({ success: 0, message: err })
+        })
+  })
+
+  app.delete('/deleteEvent/:eventId/fromVenue/:venueId', auth, (req, res) => {
+    console.log({ input: req.params })
+    if (req.user.role !== "admin")
+      res.status(401).send({ success: 0, message: `Only admin can do this operation` });
+    else
+      Venue.findOne({ venueId: req.params.venueId })
+        .then((venue) => {
+          if (!venue)
+            res.status(404).send({ success: 0, message: `venue not found` });
+          else
+            Event.findOne({ eventId: req.params.eventId })
+              .then((e) => {
+                if (!e)
+                  res.status(404).send({ success: 0, message: `event not found` });
+                else {
+                  venue.events.pull(e._id);
+                  venue.save()
+                    .then(() => {
+                      e.deleteOne()
                         .then(() => {
-                          res.status(200).send({ success: 1, message: `add event successfully`, event: newEvent })
-                        })
-                        .catch((err) => {
-                          res.status(500).send({ success: 0, message: err })
+                          res.status(200).send({ success: 1, message: `delete event successfully` })
                         })
                     })
                     .catch((err) => {
@@ -339,85 +393,34 @@ db.once('open', async function () {
               .catch((err) => {
                 res.status(500).send({ success: 0, message: err })
               })
-      })
-      .catch((err) => {
-        res.status(500).send({ success: 0, message: err })
-      })
+        })
+        .catch((err) => {
+          res.status(500).send({ success: 0, message: err })
+        })
   })
 
-  app.delete('/deleteEvent/:eventId/fromVenue/:venueId/by/:userId', (req, res) => {
-    console.log({ input: req.params })
-    User.findOne({ userId: req.params.userId })
-      .then((user) => {
-        if (!user)
-          res.status(404).send({ success: 0, message: `user not found` });
-        else
-          if (user.role !== "admin")
-            res.status(401).send({ success: 0, message: `Only admin can do this operation` });
-          else
-            Venue.findOne({ venueId: req.params.venueId })
-              .then((venue) => {
-                if (!venue)
-                  res.status(404).send({ success: 0, message: `venue not found` });
-                else
-                  Event.findOne({ eventId: req.params.eventId })
-                    .then((e) => {
-                      if (!e)
-                        res.status(404).send({ success: 0, message: `event not found` });
-                      else {
-                        venue.events.pull(e._id);
-                        venue.save()
-                          .then(() => {
-                            e.deleteOne()
-                              .then(() => {
-                                res.status(200).send({ success: 1, message: `delete event successfully` })
-                              })
-                          })
-                          .catch((err) => {
-                            res.status(500).send({ success: 0, message: err })
-                          })
-                      }
-                    })
-                    .catch((err) => {
-                      res.status(500).send({ success: 0, message: err })
-                    })
-              })
-              .catch((err) => {
-                res.status(500).send({ success: 0, message: err })
-              })
-      })
-      .catch((err) => {
-        res.status(500).send({ success: 0, message: err })
-      })
-  })
-
-  app.put('/updateEvent/:eventId/by/:userId', (req, res) => {
+  app.put('/updateEvent/:eventId', auth, (req, res) => {
     console.log({ input: req.body, input_params: req.params })
-    User.findOne({ userId: req.params.userId })
-      .then((user) => {
-        if (!user)
-          res.status(404).send({ success: 0, message: `user not found` });
-        else
-          if (user.role !== "admin")
-            res.status(401).send({ success: 0, message: `Only admin can do this operation` });
+    if (req.user.role !== "admin")
+      res.status(401).send({ success: 0, message: `Only admin can do this operation` });
+    else
+      Event.findOneAndUpdate(
+        { eventId: req.params.eventId },
+        req.body,
+        { new: true }
+      )
+        .then((e) => {
+          if (!e)
+            res.status(404).send({ success: 0, message: `eventId not found` });
           else
-            Event.findOneAndUpdate(
-              { eventId: req.params.eventId },
-              req.body,
-              { new: true }
-            ).then((e) => {
-              if (!e)
-                res.status(404).send({ success: 0, message: `eventId not found` });
-              else
-                res.status(200).send({ success: 1, message: `update event successfully`, event: e })
-            })
-      })
-      .catch((err) => {
-        res.status(500).send({ success: 0, message: err })
-      })
+            res.status(200).send({ success: 1, message: `update event successfully`, event: e })
+        })
+        .catch((err) => {
+          res.status(500).send({ success: 0, message: err })
+        })
   })
 
-  app.get('/getAllVenue', (req, res) => {
+  app.get('/getAllVenue', auth, (req, res) => {
     Venue.find()
       .populate('events')
       .then((items) => {
@@ -428,15 +431,18 @@ db.once('open', async function () {
       })
   })
 
-  app.get('/getAllEvent', (req, res) => {
-    Event.find()
-      // .populate('events')
-      .then((items) => {
-        res.status(200).send({ success: 1, message: `get events successfully`, events: items })
-      })
-      .catch((err) => {
-        res.status(500).send({ success: 0, message: err })
-      })
+  app.get('/getAllEvent', auth, (req, res) => {
+    if (req.user.role !== "admin")
+      res.status(401).send({ success: 0, message: `Only admin can do this operation` });
+    else
+      Event.find()
+        // .populate('events')
+        .then((items) => {
+          res.status(200).send({ success: 1, message: `get events successfully`, events: items })
+        })
+        .catch((err) => {
+          res.status(500).send({ success: 0, message: err })
+        })
   })
 
   app.get('/getEvent/:venueId', (req, res) => {
@@ -451,10 +457,22 @@ db.once('open', async function () {
 
   })
 
-  app.get('/getAllCommentFor/:venueId', (req, res) => {
+  app.get('/getEvent/:venueId', auth, (req, res) => {
+    Venue.findOne({ venueId: req.params.venueId })
+      .populate('events')
+      .then((items) => {
+        res.status(200).send({ success: 1, message: `get venues successfully`, venues: items })
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+
+  })
+
+  app.get('/getAllCommentFor/:venueId', auth, (req, res) => {
     console.log({ input: req.params })
     Comment.find({ venueId: req.params.venueId })
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .then((comments) => {
         res.status(200).send({ success: 1, message: `get comments successfully`, comments: comments })
       })
@@ -463,34 +481,24 @@ db.once('open', async function () {
       })
   })
 
-  app.post('/addComment', (req, res) => {
+  app.post('/addComment', auth, (req, res) => {
     console.log({ input: req.body })
     Venue.findOne({ venueId: req.body.venueId })
       .then((venue) => {
         if (!venue)
           res.status(404).send({ success: 0, message: `Invalid venueId` });
         else {
-          User.findOne({ userId: req.body.userId })
-            .then((user) => {
-              if (!user)
-                res.status(404).send({ success: 0, message: `Invalid userId` });
-              else {
-                let newComment = new Comment({
-                  userId: req.body.userId,
-                  venueId: req.body.venueId,
-                  comment: req.body.comment
-                })
-                newComment.save()
-                  .then(() => {
-                    res.status(201).send({ success: 1, message: `add comment successfully` });
-                  })
-                  .catch((err) => {
-                    res.status(500).send({ success: 0, message: err })
-                  })
-              }
+          let newComment = new Comment({
+            userId: req.user.userId,
+            venueId: req.body.venueId,
+            comment: req.body.comment
+          })
+          newComment.save()
+            .then(() => {
+              res.status(201).send({ success: 1, message: `add comment successfully`, comment: newComment });
             })
             .catch((err) => {
-              res.status(500).send({ success: 0, message: err });
+              res.status(500).send({ success: 0, message: err })
             })
         }
       })
@@ -499,23 +507,25 @@ db.once('open', async function () {
       })
   })
 
-  app.delete('/delComment/:id', (req, res) => {
+  app.delete('/delComment/:id', auth, (req, res) => {
     console.log({ input: req.params })
-    Comment.findByIdAndDelete(req.params.id)
-      .then((cm) => {
-        if (!cm)
-          res.status(404).send({ success: 0, message: `Invalid comment _id` });
-        else
-          res.status(200).send({ success: 1, message: `comment deleted successfully` })
-        // res.status(204).send() // 204 no content
-      })
-      .catch((err) => {
-        res.status(500).send({ success: 0, message: err });
-      })
+    if (req.user.role !== "admin")
+      res.status(401).send({ success: 0, message: `Only admin can do this operation` });
+    else
+      Comment.findByIdAndDelete(req.params.id)
+        .then((cm) => {
+          if (!cm)
+            res.status(404).send({ success: 0, message: `Invalid comment _id` });
+          else
+            res.status(200).send({ success: 1, message: `comment deleted successfully` })
+          // res.status(204).send() // 204 no content
+        })
+        .catch((err) => {
+          res.status(500).send({ success: 0, message: err });
+        })
   })
 
 })
 
-//
 const server = app.listen(port);
 console.log(`server listening at port ${port}`)
