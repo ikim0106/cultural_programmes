@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import PrimarySearchAppBar from '../Components/PrimarySearchAppBar';
 import { grey } from '@mui/material/colors';
 import { padding } from '@mui/system';
 
@@ -50,6 +51,10 @@ function LocationDetailPage() {
     const location = useLocation();
     console.log(location.state)
     const venue = location.state
+    const logout = () => {
+		localStorage.clear()
+		window.location.href = '/';
+	}
 
 
     const addComment = async () => {
@@ -91,6 +96,8 @@ function LocationDetailPage() {
         // Important! Always set the container height explicitly
         <>
             {!isLoading &&
+                <div>
+                <PrimarySearchAppBar userData={userData.user} logOut={logout} />
                 <div className={"container"} style={{
                     height: '100%',
                     width: '100%',
@@ -121,7 +128,7 @@ function LocationDetailPage() {
                             favourite()
                         }} style={{
                             float: 'right',
-                            backgroundColor: '#cc4646af'
+                            backgroundColor: '#cc4646d2'
                         }}>♥︎ Add to my favourite Venue</Button><br />
 
                         <div style={{
@@ -204,7 +211,7 @@ function LocationDetailPage() {
                                     </td></tr></table>
                         </div>
                     </div>
-                </div>
+                </div></div>
             }
         </>
 
