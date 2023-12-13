@@ -439,6 +439,18 @@ db.once('open', async function () {
       })
   })
 
+  app.get('/getEvent/:venueId', (req, res) => {
+    Venue.findOne({ venueId: req.params.venueId })
+      .populate('events')
+      .then((items) => {
+        res.status(200).send({ success: 1, message: `get venues successfully`, venues: items })
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err })
+      })
+
+  })
+
   app.get('/getAllCommentFor/:venueId', (req, res) => {
     console.log({ input: req.params })
     Comment.find({ venueId: req.params.venueId })
