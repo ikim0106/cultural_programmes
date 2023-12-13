@@ -117,9 +117,13 @@ function LocationDetailPage() {
                         // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.venuee}`}
                         >
                         </iframe>
-                        <Button variant="outlined" color="secondary" onClick={() => {
+                        <Button variant="contained" color="error" onClick={() => {
                             favourite()
-                        }}>Add to my favourite Venue</Button><br />
+                        }} style={{
+                            float: 'right',
+                            backgroundColor: '#cc4646af'
+                        }}>♥︎ Add to my favourite Venue</Button><br />
+
                         <div style={{
                             margin: "5%",
                             padding: "3%",
@@ -142,7 +146,8 @@ function LocationDetailPage() {
                                 marginTop: '1%',
                                 marginLeft: '3%',
                                 backgroundColor: '#faf9fa6e',
-
+                                width:'95%',
+                                paddingBottom: '5%',
                             }}><tr>
                                     <td id="formleft" style={{
                                         padding: '2%',
@@ -165,7 +170,7 @@ function LocationDetailPage() {
                                     </td>
                                     <td id="formright" style={{
                                         width: '55%',
-                                        paddingBottom: '50%',
+                                        
                                         paddingLeft: '10%',
                                     }}>
                                         <h1 style={{ fontFamily: "Georgia, serif" }}>Any Question?</h1>
@@ -186,14 +191,15 @@ function LocationDetailPage() {
                                             }}
                                         />
                                         <br></br>
-                                        <Button variant="outlined" onClick={() => {
+                                        <Button variant="contained" onClick={() => {
                                             if (comment.trim() === '')
                                                 console.log(`Comment should not be empty`)
                                             else
                                                 addComment();
                                         }} style={{
                                             marginLeft: '71%',
-                                            backgroundColor: '#d4e3ee5f'
+                                            // backgroundColor: '#3d7ec98e',
+                                            // border: '1px solid #28558994',
                                         }}>Submit</Button>
                                     </td></tr></table>
                         </div>
