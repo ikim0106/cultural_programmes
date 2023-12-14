@@ -478,7 +478,7 @@ db.once("open", async function () {
           if (req.user.favouriteVenue.includes(venue._id))
             res.status(200).send({
               success: 0,
-              message: `Venue already exists in favorites`,
+              message: `The Location already exists in your favorite veune`,
             });
           else {
             req.user.favouriteVenue.push(venue._id);
@@ -487,7 +487,7 @@ db.once("open", async function () {
               .then(() => {
                 res.status(200).send({
                   success: 1,
-                  message: `successfully add to my favourite`,
+                  message: `Successfully add to my favourite veune`,
                 });
               })
               .catch((err) => {
@@ -511,7 +511,7 @@ db.once("open", async function () {
           if (!req.user.favouriteVenue.includes(venue._id))
             res.status(200).send({
               success: 0,
-              message: `Venue does not exists in favorites`,
+              message: `The Location does not exists in your favorite venue`,
             });
           else {
             req.user.favouriteVenue.pull(venue._id);
@@ -520,7 +520,7 @@ db.once("open", async function () {
               .then(() => {
                 res.status(200).send({
                   success: 1,
-                  message: `successfully delete from my favourite`,
+                  message: `Successfully dropped from your favourite veune`,
                 });
               })
               .catch((err) => {
