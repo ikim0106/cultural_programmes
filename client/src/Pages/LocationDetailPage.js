@@ -90,21 +90,43 @@ function LocationDetailPage() {
     const favourite = async () => {
         let response = await fetch(`http://localhost:8080/addVenue/${venue.venueId}/toFavourite`, {
             method: "PUT",
-            headers: { 
+            headers: {
+                "Content-Type": "application/json",
                 Authorization: userData.user.userId,
-                "Content-Type": "application/json" 
             },
-            // body: JSON.stringify({
-            //     "userId": userData.user.userId,
-            //     "venueId": venue.venueId,
-            //     "comment": comment
-            // }),
+
+            body: JSON.stringify({
+                "userId": userData.user.userId,
+                "venueId": venue.venueId,
+                "comment": comment
+            }),
+        })
+
+        let data = await response.json();
+
+        // if (data.success)
+        console.log(data.message)
+        alert(data.message)
+
+    };
+
+    const fromfavourite = async () => {
+        let response = await fetch(`http://localhost:8080/delVenue/${venue.venueId}/fromFavourite`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                "userId": userData.user.userId,
+                "venueId": venue.venueId,
+                "comment": comment
+            }),
         })
         let data = await response.json();
 
         // if (data.success)
         console.log(data.message)
+        alert(data.message)
     };
+    
     const getRandomDeepColor = () => {
         const getRandomHex = () => {
             const min = 128;
@@ -153,17 +175,27 @@ function LocationDetailPage() {
                                 nagivate('/user')
                             }} style={{
                                 float: 'left',
-                                backgroundColor: '#469f74ec',
+                                backgroundColor: '#2e7d32',
                                 margin: '2%'
                             }}>↩︎  Return to Main Page</Button><br />
+
+                            <Button variant="contained" onClick={() => {
+                                fromfavourite()
+                            }} style={{
+                                float: 'right',
+                                backgroundColor: '#2c5aaaf4',
+                                margin: '2%'
+                            }}>🗑 Remove from my favourite Venue</Button><br />
+Ï
 
                             <Button variant="contained" color="error" onClick={() => {
                                 favourite()
                             }} style={{
                                 float: 'right',
-                                backgroundColor: '#cc4646e0',
-                                margin: '2%'
+                                backgroundColor: '#de2d2dd2',
+                                margin: '0.6%'
                             }}>♥︎ Add to my favourite Venue</Button><br />
+
 
                             <div style={{
                                 margin: "5%",
@@ -171,6 +203,10 @@ function LocationDetailPage() {
                                 background: "#ebedf4df",
                                 borderRadius: "10px"
                             }}>
+                                <path style={{
+								fontFamily: 'Courier New' ,
+							}}>🏡 Main Page > Location Details > {venue.venuee}</path>
+
                                 <h1 style={{ fontFamily: "Georgia, serif" }}>{venue.venuee}</h1>
                                 <h3 style={{ fontFamily: "Georgia, serif" }}>Event details:</h3>
 
