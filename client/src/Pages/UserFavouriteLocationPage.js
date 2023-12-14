@@ -21,6 +21,7 @@ function UserFavouriteLocation() {
     const [userData, setUserData] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const nagivate = useNavigate();
+    let i = 1;
     const logout = () => {
         localStorage.clear()
         window.location.href = '/';
@@ -40,6 +41,23 @@ function UserFavouriteLocation() {
         console.log(data.message)
     }
 
+    const fromfavourite = async (venue) => {
+        let response = await fetch(`http://localhost:8080/delVenue/${venue.venueId}/fromFavourite`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                "userId": userData.user.userId,
+                "venueId": venue.venueId,
+            }),
+        })
+        let data = await response.json();
+
+        // if (data.success)
+        console.log(data.message)
+        alert(data.message)
+        refreshPage()
+    };
+
     useEffect(() => {
         const tempJSON = JSON.parse(localStorage.getItem('userData'))
         if (localStorage.getItem('userData') && tempJSON.user.role === "user") {
@@ -53,6 +71,9 @@ function UserFavouriteLocation() {
         }
     }, [userData?.user?.userId])
 
+    function refreshPage() {
+        window.location.reload(false);
+      }
 
     const viewLocationDetails = (venue) => {
         nagivate('/LocationDetailPage', { state: venue })
@@ -81,7 +102,7 @@ function UserFavouriteLocation() {
                                 nagivate('/user')
                             }} style={{
                                 float: 'left',
-                                backgroundColor: '#469f74ec',
+                                backgroundColor: '#2e7d32',
                                 margin: '2%' 
                             }}>↩︎  Return to Main Page</Button><br />
 
@@ -92,6 +113,10 @@ function UserFavouriteLocation() {
                                 borderRadius: "10px",
                                 height: '1000px'
                             }}>
+                                <path style={{
+								fontFamily: 'Courier New' ,
+							}}>🏡 Main Page > My Favourite Location</path>
+    
                                 <h1 style={{ margin: '2%', fontFamily: "Georgia, serif" }}>MY Favourite Locations</h1>
                                 <hr></hr>
 
@@ -101,6 +126,7 @@ function UserFavouriteLocation() {
                                         <th><h3 style={{ margin: '2%', fontFamily: "Georgia, serif" }}>Location Venue</h3></th>
                                         <th><h3 style={{ margin: '2%', fontFamily: "Georgia, serif" }}>Number of Events</h3></th>
                                         <th><h3 style={{ margin: '2%', fontFamily: "Georgia, serif" }}>Location Details</h3></th>
+                                        <th>🗑</th>
                                     </tr>
                                     
                                     {venues.map((val, key) => {
@@ -110,13 +136,19 @@ function UserFavouriteLocation() {
                                                 fontFamily: "Georgia",
                                                 textAlign: 'center', 
                                                 fontSize: 'large',
-                                                padding: '2%'
+                                                height: '70px'
                                                 }}>
-                                                <td>1.</td>
+                                                <td>{i++}.</td>
                                                 <td>{val.venuee ? val.venuee : 'No Name'}</td>
                                                 <td>{val.events ? val.events.length : 0}</td>
-                                                <td><Button variant="contained" color="success" onClick={() => 
-                                                    viewLocationDetails(val)}>Click Me</Button></td>
+                                                <td><Button variant="contained" color="success" onClick={() =>
+                                                    viewLocationDetails(val)} style={{
+                                                        backgroundColor: '#0288d1',
+                                                    }}>Click Me</Button></td>
+                                                <td><Button variant="contained" color="success" onClick={() =>
+                                                    fromfavourite(val)} style={{
+                                                        backgroundColor: '#7b1fa2',
+                                                    }}>Remove</Button></td>
                                             </tr>
                                             
                                         )
