@@ -11,17 +11,23 @@ import Tabs from "@mui/material/Tabs";
 const Lable = ({ text, venue, buttonOnclickFunction }) => (
 	<div
 		style={{
-			backgroundColor: "white",
-			width: "100px",
-			height: "100px",
+			backgroundColor: 'white',
+			width: '100px',
+			height: '100px',
 			borderRadius: 5,
-			padding: 10,
+			padding: 15,
 			alignItems: "center",
 			alignSelf: "center",
+			fontSize: 13,
+			border: '1px solid #566a9a'
 		}}
 	>
 		<h5 style={{ color: "black" }}>{text}</h5>
-		<button onClick={() => buttonOnclickFunction(venue)}>Click Me</button>
+		<Button onClick={() => buttonOnclickFunction(venue)} style={{
+		backgroundColor: '#566a9a',
+		height: 25,
+		color: 'white',
+		border: '1px solid black'>Click Me</Button>
 	</div>
 );
 
@@ -91,7 +97,7 @@ function UserPage() {
 		<>
 			{!isLoading &&
 				<>
-					<PrimarySearchAppBar userData={userData.user} logOut={logout} />
+					<PrimarySearchAppBar id="top" userData={userData.user} logOut={logout} />
 					<div className={"container"} style={{
 						height: '100%',
 						width: '100%',
@@ -122,6 +128,10 @@ function UserPage() {
 								borderRadius: "10px",
 								height: 'auto'
 							}}>
+								<path style={{
+								fontFamily: 'Courier New' ,
+								}}>🏡 Main Page</path>
+	
 								<h1 style={{ fontFamily: "Georgia, serif" }}>Programme Information:</h1>
 								<hr></hr>
 								<Grid container spacing={4}>
@@ -139,6 +149,13 @@ function UserPage() {
 								{value === 0 ? <Tables mode="venue" /> : <Tables mode="allevent" />}
 							
 							<br></br>
+								<br></br>
+								<br></br>
+								<br></br>
+								<h1 style={{ fontFamily: "Georgia, serif" }}>Programme Location:</h1>
+								<hr></hr>
+								<sta style={{ fontFamily: "Verdana, serif", marginTop: 20 }}>(Click to see location details)</sta>
+
 
 							
 							<div className={"container"} style={{ height: '100vh', width: '90%', margin: "auto" }}>
@@ -161,7 +178,9 @@ function UserPage() {
 											/>)
 									})}
 								</GoogleMapReact>
-							</div></div></div></div>
+							</div>
+							<a href="#top" style={{float: 'right', margin: '1%'}}>Back to Top⇪</a>
+							</div></div></div>
 				</>
 			}
 		</>
