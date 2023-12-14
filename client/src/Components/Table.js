@@ -8,7 +8,7 @@ import {
 } from "material-react-table";
 
 function Table(mode) {
-  console.log(mode.mode);
+  console.log(mode.mode, mode.id);
   const [data, setData] = useState([]);
   const [venues, SetVenues] = useState([]);
   const [userData, setUserData] = useState();
@@ -60,7 +60,7 @@ function Table(mode) {
         accessorKey: "venuee",
         header: "Venue Name",
         enableEditing: true,
-        size: 1200,
+        size: 700,
       },
       {
         accessorKey: "events",
@@ -152,6 +152,7 @@ function Table(mode) {
             }
           );
           let data = await response.json();
+          console.log(data)
           if (data.success) console.log(data.events);
           setData(data.events);
         };
