@@ -448,7 +448,7 @@ db.once('open', async function () {
   app.get('/getAllCommentFor/:venueId', auth, (req, res) => {
     console.log({ input: req.params })
     Comment.find({ venueId: req.params.venueId })
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .then((comments) => {
         res.status(200).send({ success: 1, message: `get comments successfully`, comments: comments })
       })
@@ -471,7 +471,7 @@ db.once('open', async function () {
           })
           newComment.save()
             .then(() => {
-              res.status(201).send({ success: 1, message: `add comment successfully` });
+              res.status(201).send({ success: 1, message: `add comment successfully`, comment: newComment });
             })
             .catch((err) => {
               res.status(500).send({ success: 0, message: err })
