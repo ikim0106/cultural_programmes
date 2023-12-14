@@ -93,13 +93,14 @@ function LocationDetailPage() {
         let response = await fetch(`http://localhost:8080/addVenue/${venue.venueId}/toFavourite`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json",
                 Authorization: userData.user.userId,
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                "userId": userData.user.userId,
-                "venueId": venue.venueId,
-            }),
+            // body: JSON.stringify({
+            //     "userId": userData.user.userId,
+            //     "venueId": venue.venueId,
+            //     "comment": comment
+            // }),
         })
         let data = await response.json();
 
