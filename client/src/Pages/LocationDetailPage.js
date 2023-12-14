@@ -21,7 +21,7 @@ function LocationDetailPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
-
+    const [errors, setErrors] = useState(null);
 
     const getAllCommentFor = async () => {
         let response = await fetch(`http://localhost:8080/getAllCommentFor/${venue.venueId}`, {
@@ -76,8 +76,15 @@ function LocationDetailPage() {
         })
         let data = await response.json();
 
-        // if (data.success)
-        // TODO: append child?
+        if (data.success) {
+            setComment('');
+            setComments((prevComments) => [data.comment, ...prevComments]);
+            setErrors(null);
+        } else {
+            let errors = {}
+            errors.comment = data.message
+            setErrors(errors);
+        }
         console.log(data.message)
     };
     const favourite = async () => {
@@ -94,6 +101,18 @@ function LocationDetailPage() {
 
         // if (data.success)
         console.log(data.message)
+    };
+    const getRandomDeepColor = () => {
+        const getRandomHex = () => {
+            const min = 128;
+            const max = 255;
+            return Math.floor(Math.random() * (max - min + 1) + min).toString(16).padStart(2, '0');
+        };
+
+        const red = getRandomHex();
+        const green = getRandomHex();
+        const blue = getRandomHex();
+        return `#${red}${green}${blue}`;
     };
     return (
         // Important! Always set the container height explicitly
@@ -132,15 +151,15 @@ function LocationDetailPage() {
                             }} style={{
                                 float: 'left',
                                 backgroundColor: '#469f74ec',
-                                margin: '2%' 
+                                margin: '2%'
                             }}>↩︎  Return to Main Page</Button><br />
-                            
+
                             <Button variant="contained" color="error" onClick={() => {
                                 favourite()
                             }} style={{
                                 float: 'right',
                                 backgroundColor: '#cc4646e0',
-                                margin: '2%'  
+                                margin: '2%'
                             }}>♥︎ Add to my favourite Venue</Button><br />
 
                             <div style={{
@@ -152,8 +171,8 @@ function LocationDetailPage() {
                                 <h1 style={{ fontFamily: "Georgia, serif" }}>{venue.venuee}</h1>
                                 <h3 style={{ fontFamily: "Georgia, serif" }}>Event details:</h3>
 
-                                 
-                                <Tables mode="event" id={venue.venueId}/>
+
+                                <Tables mode="event" id={venue.venueId} />
 
                                 <br></br>
                                 <br></br>
@@ -178,12 +197,23 @@ function LocationDetailPage() {
                                             <hr></hr>
                                             {comments && comments.length > 0 &&
                                                 comments.map((val, key) => {
+                                                    const randomColor = getRandomDeepColor();
                                                     return (
-                                                        <div key={key} >
-                                                            <h4>@{val.userId}</h4>
-                                                            <p style={{
-                                                                marginTop: '-2%',
-                                                            }}>{val.comment}</p>
+                                                        <div key={key} style={{ display: 'flex', alignItems: 'center' }}>
+                                                            <div style={{ marginRight: '10px' }}>
+                                                                <svg viewBox="0 0 80 80" width="40" height="40">
+                                                                    <circle cx="40" cy="40" r="38" fill={randomColor} />
+                                                                    <text x="50%" y="50%" text-anchor="middle" fill="white" font-size="30px" dy=".3em">
+                                                                        {val.userId.charAt(0)}
+                                                                    </text>
+                                                                </svg>
+                                                            </div>
+                                                            <div>
+                                                                <h4>@{val.userId}</h4>
+                                                                <p style={{
+                                                                    marginTop: '-2%',
+                                                                }}>{val.comment}</p>
+                                                            </div>
                                                         </div>
                                                     )
                                                 })
@@ -191,7 +221,6 @@ function LocationDetailPage() {
                                         </td>
                                         <td id="formright" style={{
                                             width: '55%',
-
                                             paddingLeft: '10%',
                                         }}>
                                             <h1 style={{ fontFamily: "Georgia, serif" }}>Any Question?</h1>
@@ -211,10 +240,16 @@ function LocationDetailPage() {
                                                     backgroundColor: '#ebedf4f6'
                                                 }}
                                             />
+                                            {errors?.comment &&
+                                             <p style={{ fontFamily: "Georgia, serif", color: 'red ' }}>{errors.comment}</p>
+                                         }
                                             <br></br>
                                             <Button variant="contained" onClick={() => {
-                                                if (comment.trim() === '')
-                                                    console.log(`Comment should not be empty`)
+                                                 if (comment.trim() === '') {
+                                                    let errors = {}
+                                                    errors.comment = 'Comment should not be empty'
+                                                    setErrors(errors)
+                                                }
                                                 else
                                                     addComment();
                                             }} style={{
