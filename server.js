@@ -218,7 +218,7 @@ db.once("open", async function () {
                   .then(() => {
                     res
                       .status(201)
-                      .send({ success: 1, message: `register successfully` });
+                      .send({ success: 1, message: `register successfully`, user: { userId: newUser.userId, role: newUser.role } });
                   })
                   .catch((err) => {
                     res.status(500).send({ success: 0, message: err });

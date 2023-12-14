@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom'
 
 import { TextField, Button } from '@mui/material';
 
-function EmailVerificationPage() {
+function ResetPassword() {
     const [userData, setUserData] = useState();
     const [isLoading, setIsLoading] = useState(true);
-    const [emailAddress, setEmailAddress] = useState('')
+    const [email, setEmail] = useState('')
     const [code, setCode] = useState('')
+    const [errors, setErrors] = useState({});
     const nagivate = useNavigate();
     const logout = () => {
         localStorage.clear()
@@ -26,14 +27,90 @@ function EmailVerificationPage() {
             window.location.href = "/";
         }
     }, [userData?.user?.userId]);
-    const changeEmailAddress = (event) => {
-        setEmailAddress(event.target.value)
+    const changeEmail = (event) => {
+        setEmail(event.target.value)
     }
 
     const changeCode = (event) => {
         setCode(event.target.value)
     }
+    const validateEmail = () => {
+        let errors = {};
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!email) errors.email = "Email is required";
+        else if (!emailRegex.test(email)) errors.email = "Wrong format";
+
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
+    const validateForm = () => {
+        let errors = {};
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!email) errors.email = "Email is required";
+        else if (!emailRegex.test(email)) errors.email = "Wrong format";
+
+        if (!code) errors.code = "Verification code is required";
+        if (code.length != 6) errors.code = "Invalid verification code";
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
+    const getVerificationCode = async () => {
+        if (validateEmail()) {
+            let body = { email: email }
+
+            let response = await fetch("http://localhost:8080/" + "getVerificationCode", {
+                method: "POST",
+                cache: "no-store",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body)
+            })
+
+            const data = await response.json();
+            console.log(data);
+            let errors = {};
+            errors.code = data.message;
+            setErrors(errors);
+        }
+    }
+    const handleVerification = async () => {
+        if (validateForm()) {
+            let body = {
+                email: email,
+                code: Number(code),
+            }
+
+            let response = await fetch("http://localhost:8080/" + "register", {
+                method: "POST",
+                cache: "no-store",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body)
+            })
+
+            const data = await response.json();
+            console.log(data);
+
+            if (!data.success) {
+                let errors = {};
+                errors.code = data.message;
+                setErrors(errors);
+            } else {
+                console.log(data.message);
+                setEmail("");
+                // setPassword("");
+                setErrors({});
+            }
+        }
+    };
     return (
         <>
             {!isLoading &&
@@ -77,11 +154,11 @@ function EmailVerificationPage() {
                                         variant="outlined"
                                         fullWidth
                                         autoComplete='off'
-                                        value={emailAddress}
+                                        value={email}
                                         sx={{
                                             marginTop: '3vh'
                                         }}
-                                        onChange={changeEmailAddress}
+                                        onChange={changeEmail}
                                     />
                                     <Button
                                         sx={{ mt: 2, mb: 2, height: '4vh' }}
@@ -115,4 +192,4 @@ function EmailVerificationPage() {
 }
 
 
-export default EmailVerificationPage;
+export default ResetPassword;

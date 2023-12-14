@@ -87,15 +87,19 @@ function LocationDetailPage() {
         }
         console.log(data.message)
     };
+
+    //this is the real favourite function
     const favourite = async () => {
-        let response = await fetch(`http://localhost:8080/addVenue/${venue.venueId}/toFavourite/${userData.user.userId}`, {
+        let response = await fetch(`http://localhost:8080/addVenue/${venue.venueId}/toFavourite`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            // body: JSON.stringify({
-            //     "userId": userData.user.userId,
-            //     "venueId": venue.venueId,
-            //     "comment": comment
-            // }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: userData.user.userId,
+            },
+            body: JSON.stringify({
+                "userId": userData.user.userId,
+                "venueId": venue.venueId,
+            }),
         })
         let data = await response.json();
 
@@ -172,7 +176,9 @@ function LocationDetailPage() {
                                 <h3 style={{ fontFamily: "Georgia, serif" }}>Event details:</h3>
 
 
-                                <Tables mode="event" id={venue.venueId} />
+                                {/* This part is commented because of the .length error */
+                                /* <Tables mode="event" id={venue.venueId} /> */}
+
 
                                 <br></br>
                                 <br></br>
