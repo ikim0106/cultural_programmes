@@ -7,6 +7,7 @@ import AdminPage from './Pages/AdminPage';
 
 import LocationDetailPage from './Pages/LocationDetailPage';
 import UserFavouriteLocation from './Pages/UserFavouriteLocationPage';
+import EmailVerificationPage from './Pages/EmailVerificationPage';
 function App() {
   return (
     <Routes>
@@ -15,6 +16,7 @@ function App() {
       <Route path="/LocationDetailPage" element={<LocationDetailPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/myFavourite" element={<UserFavouriteLocation />} />
+      <Route path="/EmailVerification" element={<EmailVerificationPage />} />
       {/* <Route path="/user/:userid/:role" element={<UserPage/>}/> */}
     </Routes>
   );
