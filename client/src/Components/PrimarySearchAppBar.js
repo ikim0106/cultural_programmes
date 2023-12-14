@@ -154,7 +154,7 @@ export default function PrimarySearchAppBar({ userData, logOut }) {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            <h4 style={{ fontFamily: "Georgia, serif" }}>Hong Kong Culture Programme Application</h4>
+            <h4 style={{ fontFamily: "Georgia, serif" }}>Hong Kong Culture Programme</h4>
           </Typography>
           {/* <Search>
             <SearchIconWrapper>
