@@ -10,6 +10,9 @@ import Button from '@mui/material/Button';
 import PrimarySearchAppBar from '../Components/PrimarySearchAppBar';
 import { grey } from '@mui/material/colors';
 import { padding } from '@mui/system';
+import Tables from "../Components/Table";
+import { useNavigate } from 'react-router-dom'
+
 
 
 function LocationDetailPage() {
@@ -51,11 +54,11 @@ function LocationDetailPage() {
     const location = useLocation();
     console.log(location.state)
     const venue = location.state
+    const nagivate = useNavigate();
     const logout = () => {
         localStorage.clear()
         window.location.href = '/';
     }
-
 
 
     const addComment = async () => {
@@ -77,7 +80,6 @@ function LocationDetailPage() {
         // TODO: append child?
         console.log(data.message)
     };
-    
     const favourite = async () => {
         let response = await fetch(`http://localhost:8080/addVenue/${venue.venueId}/toFavourite/${userData.user.userId}`, {
             method: "PUT",
@@ -91,7 +93,6 @@ function LocationDetailPage() {
         let data = await response.json();
 
         // if (data.success)
-        // TODO: display in front end?
         console.log(data.message)
     };
     return (
@@ -126,11 +127,20 @@ function LocationDetailPage() {
                             // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.venuee}`}
                             >
                             </iframe>
+                            <Button variant="contained" color="success" onClick={() => {
+                                nagivate('/user')
+                            }} style={{
+                                float: 'left',
+                                backgroundColor: '#469f74ec',
+                                margin: '2%' 
+                            }}>↩︎  Return to Main Page</Button><br />
+                            
                             <Button variant="contained" color="error" onClick={() => {
                                 favourite()
                             }} style={{
                                 float: 'right',
-                                backgroundColor: '#cc4646d2'
+                                backgroundColor: '#cc4646e0',
+                                margin: '2%'  
                             }}>♥︎ Add to my favourite Venue</Button><br />
 
                             <div style={{
@@ -142,7 +152,9 @@ function LocationDetailPage() {
                                 <h1 style={{ fontFamily: "Georgia, serif" }}>{venue.venuee}</h1>
                                 <h3 style={{ fontFamily: "Georgia, serif" }}>Event details:</h3>
 
-                                <p>--Event table--</p>
+                                 
+                                <Tables mode="event" id={venue.venueId}/>
+
                                 <br></br>
                                 <br></br>
                                 <br></br>
@@ -224,4 +236,3 @@ function LocationDetailPage() {
 
 
 export default LocationDetailPage;
-
