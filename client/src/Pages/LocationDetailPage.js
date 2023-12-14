@@ -98,6 +98,18 @@ function LocationDetailPage() {
         }
         console.log(data.message)
     };
+    const getRandomDeepColor = () => {
+        const getRandomHex = () => {
+            const min = 128;
+            const max = 255;
+            return Math.floor(Math.random() * (max - min + 1) + min).toString(16).padStart(2, '0');
+        };
+
+        const red = getRandomHex();
+        const green = getRandomHex();
+        const blue = getRandomHex();
+        return `#${red}${green}${blue}`;
+    };
     return (
         // Important! Always set the container height explicitly
         <>
@@ -173,12 +185,23 @@ function LocationDetailPage() {
                                         <hr></hr>
                                         {comments && comments.length > 0 &&
                                             comments.map((val, key) => {
+                                                const randomColor = getRandomDeepColor();
                                                 return (
-                                                    <div key={key} >
-                                                        <h4>@{val.userId}</h4>
-                                                        <p style={{
-                                                            marginTop: '-2%',
-                                                        }}>{val.comment}</p>
+                                                    <div key={key} style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <div style={{ marginRight: '10px' }}>
+                                                            <svg viewBox="0 0 80 80" width="40" height="40">
+                                                                <circle cx="40" cy="40" r="38" fill={randomColor} />
+                                                                <text x="50%" y="50%" text-anchor="middle" fill="white" font-size="30px" dy=".3em">
+                                                                    {val.userId.charAt(0)}
+                                                                </text>
+                                                            </svg>
+                                                        </div>
+                                                        <div>
+                                                            <h4>@{val.userId}</h4>
+                                                            <p style={{
+                                                                marginTop: '-2%',
+                                                            }}>{val.comment}</p>
+                                                        </div>
                                                     </div>
                                                 )
                                             })
