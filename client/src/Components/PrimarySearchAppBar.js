@@ -54,7 +54,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar( {userData, logOut} ) {
+export default function PrimarySearchAppBar({ userData, logOut }) {
   const [anchorEl, setAnchorEl] = useState();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState();
   const isMenuOpen = Boolean(anchorEl);
@@ -154,9 +154,9 @@ export default function PrimarySearchAppBar( {userData, logOut} ) {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Locations
+            <h4 style={{ fontFamily: "Georgia, serif" }}>Hong Kong Culture Programme Application</h4>
           </Typography>
-          <Search>
+          {/* <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -164,15 +164,15 @@ export default function PrimarySearchAppBar( {userData, logOut} ) {
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
             />
-          </Search>
+          </Search> */}
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: {  } }}>
-            <span style={{paddingRight: '10px', display: 'inline-block'}}>
+          <Box sx={{ display: {} }}>
+            <span style={{ paddingRight: '10px', display: 'inline-block' }}>
               {`Logged in as: ${userData.userId}`}
             </span>
-              <Button variant="contained" color="secondary" onClick={handleLogout}>
-                Log out
-              </Button>
+            <Button variant="contained" color="secondary" onClick={handleLogout}>
+              Log out
+            </Button>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
