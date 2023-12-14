@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import PrimarySearchAppBar from '../Components/PrimarySearchAppBar';
-import GoogleMapReact from 'google-map-react';
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import PrimarySearchAppBar from "../Components/PrimarySearchAppBar";
+import GoogleMapReact from "google-map-react";
+import { useNavigate } from "react-router-dom";
+import { Table } from "@mui/material";
+import TablePage from "./TablePage";
 import Button from '@mui/material/Button';
 
-const Lable = ({ text, venue, buttonOnclickFunction }) => <div style={{
-	backgroundColor: 'white',
-	width: '100px',
-	height: '100px',
-	borderRadius: 5,
-	padding: 10,
-	alignItems: "center",
-	alignSelf: "center",
-}}><h5 style={{ color: "black" }}>{text}</h5>
-	<button onClick={() => buttonOnclickFunction(venue)}>Click Me</button></div>;
+const Lable = ({ text, venue, buttonOnclickFunction }) => (
+	<div
+		style={{
+			backgroundColor: "white",
+			width: "100px",
+			height: "100px",
+			borderRadius: 5,
+			padding: 10,
+			alignItems: "center",
+			alignSelf: "center",
+		}}
+	>
+		<h5 style={{ color: "black" }}>{text}</h5>
+		<button onClick={() => buttonOnclickFunction(venue)}>Click Me</button>
+	</div>
+);
 
 function UserPage() {
 	const [venues, SetVenues] = useState([]);
@@ -21,36 +29,34 @@ function UserPage() {
 	const [isLoading, setIsLoading] = useState(true);
 	const nagivate = useNavigate();
 	const logout = () => {
-		localStorage.clear()
-		window.location.href = '/';
-	}
-
+		localStorage.clear();
+		window.location.href = "/";
+	};
 
 	useEffect(() => {
 		const getAllVenue = async () => {
-			let response = await fetch('http://localhost:8080/getAllVenue', {
+			let response = await fetch("http://localhost:8080/getAllVenue", {
 				method: "Get",
 				headers: {
 					Authorization: userData?.user?.userId,
-				}
-			})
+				},
+			});
 			let data = await response.json();
-			if (data.success)
-				SetVenues(data.venues)
-			console.log(data.message)
-		}
+			if (data.success) SetVenues(data.venues);
+			console.log(data.message);
+		};
 
-		const tempJSON = JSON.parse(localStorage.getItem('userData'))
-		if (localStorage.getItem('userData') && tempJSON.user.role === "user") {
-			setUserData(JSON.parse(localStorage.getItem('userData')))
+		const tempJSON = JSON.parse(localStorage.getItem("userData"));
+		if (localStorage.getItem("userData") && tempJSON.user.role === "user") {
+			setUserData(JSON.parse(localStorage.getItem("userData")));
 			if (userData?.user?.userId) {
 				getAllVenue();
-				setIsLoading(false)
+				setIsLoading(false);
 			}
 		} else {
-			window.location.href = '/';
+			window.location.href = "/";
 		}
-	}, [userData?.user?.userId])
+	}, [userData?.user?.userId]);
 
 	const defaultProps = {
 		center: {
@@ -92,16 +98,26 @@ function UserPage() {
 					</div>
 					<Button variant="outlined" color="secondary" onClick={() => { nagivate('/myFavourite') }}>See my favourite location</Button>
 
-					<div className={"container"} style={{ height: '100vh', width: '90%', margin: "auto" }}>
+					<div>
+						<TablePage />
+					</div>
+
+					<div
+						className={"container"}
+						style={{ height: "100vh", width: "90%", margin: "auto" }}
+					>
 						<GoogleMapReact
-							bootstrapURLKeys={{ key: "AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4" }}
+							bootstrapURLKeys={{
+								key: "AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4",
+							}}
 							defaultCenter={defaultProps.center}
 							defaultZoom={defaultProps.zoom}
 							yesIWantToUseGoogleMapApiInternals
 							onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
 						>
 							{venues.map((val, key) => {
-								console.log(val)
+								console.log(val);
+								const venue = JSON.parse(JSON.stringify(val));
 								return (
 									<Lable
 										lat={val.latitude}
@@ -109,12 +125,13 @@ function UserPage() {
 										text={val.venuee}
 										venue={val}
 										buttonOnclickFunction={viewLocationDetails}
-									/>)
+									/>
+								);
 							})}
 						</GoogleMapReact>
 					</div>
 				</>
-			}
+      )}
 		</>
 	);
 }
