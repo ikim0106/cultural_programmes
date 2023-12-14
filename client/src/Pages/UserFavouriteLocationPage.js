@@ -77,6 +77,14 @@ function UserFavouriteLocation() {
                             <PrimarySearchAppBar userData={userData.user} logOut={logout} />
                             {/* User id: {userData.user.userId} */}
 
+                            <Button variant="contained" color="success" onClick={() => {
+                                nagivate('/user')
+                            }} style={{
+                                float: 'left',
+                                backgroundColor: '#469f74ec',
+                                margin: '2%' 
+                            }}>↩︎  Return to Main Page</Button><br />
+
                             <div style={{
                                 margin: "5%",
                                 padding: "3%",
