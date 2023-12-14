@@ -76,7 +76,7 @@ function UserPage() {
 	}
 	return (
 		<>
-			{!isLoading &&
+			{!isLoading && (
 				<>
 					<div>
 						<PrimarySearchAppBar userData={userData.user} logOut={logout} />
@@ -131,7 +131,7 @@ function UserPage() {
 						</GoogleMapReact>
 					</div>
 				</>
-      )}
+			)}
 		</>
 	);
 }
