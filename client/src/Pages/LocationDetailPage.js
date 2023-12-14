@@ -195,7 +195,7 @@ function LocationDetailPage() {
                                         }}>
                                             <h2 style={{ fontFamily: "Georgia, serif" }}>Comments</h2>
                                             <hr></hr>
-                                            {comments && comments.length > 0 &&
+                                            {comments &&
                                                 comments.map((val, key) => {
                                                     const randomColor = getRandomDeepColor();
                                                     return (
@@ -241,11 +241,11 @@ function LocationDetailPage() {
                                                 }}
                                             />
                                             {errors?.comment &&
-                                             <p style={{ fontFamily: "Georgia, serif", color: 'red ' }}>{errors.comment}</p>
-                                         }
+                                                <p style={{ fontFamily: "Georgia, serif", color: 'red ' }}>{errors.comment}</p>
+                                            }
                                             <br></br>
                                             <Button variant="contained" onClick={() => {
-                                                 if (comment.trim() === '') {
+                                                if (comment.trim() === '') {
                                                     let errors = {}
                                                     errors.comment = 'Comment should not be empty'
                                                     setErrors(errors)

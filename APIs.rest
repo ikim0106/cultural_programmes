@@ -50,13 +50,23 @@ GET http://localhost:8080/getAllVenue
 Authorization: user1
 
 ###
+POST http://localhost:8080/genCodeForRegister
+Content-Type: application/json
+
+{
+    "email": "romog15854@anawalls.com"
+}
+
+###
 POST http://localhost:8080/register
 Content-Type: application/json
 
 {
-    "username": "user3",
+    "username": "qq",
+    "email": "romog15854@anawalls.com",
     "password": "123",
-    "role": "user"
+    "role": "user",
+    "code": "515925"
 }
 
 ###
@@ -64,8 +74,28 @@ POST http://localhost:8080/login
 Content-Type: application/json
 
 {
-    "username": "user4",
-    "password": "123"
+    "username": "q",
+    "password": "321"
+}
+
+###
+POST http://localhost:8080/genCodeForForgetPassword
+Content-Type: application/json
+
+{
+    "userId": "q",
+    "email": "romog15854@anawalls.com"
+}
+
+###
+POST http://localhost:8080/forgetPassword
+Content-Type: application/json
+
+{
+    "userId": "q",
+    "email": "romog15854@anawalls.com",
+    "code": "tFPl_hCLVo",
+    "password": "321"
 }
 
 ###

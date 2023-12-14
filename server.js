@@ -4,6 +4,12 @@ const fs = require("fs");
 const morgan = require("morgan");
 const app = express();
 const port = 8080;
+const nodemailer = require("nodemailer");
+const schedule = require('node-schedule');
+
+const SENDER_EMAIL = 'fyy2303@gmail.com';
+const SENDER_EMAIL_PASSWORD = 'gzkjinvlemayjnto';
+
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
@@ -110,6 +116,7 @@ db.once("open", async function () {
   const UserSchema = mongoose.Schema(
     {
       userId: { type: String, unique: true },
+      email: { type: String },
       password: { type: String },
       role: { type: String, enum: ["user", "admin"] },
       favouriteVenue: [
@@ -120,6 +127,16 @@ db.once("open", async function () {
   );
 
   const User = mongoose.model("User", UserSchema);
+
+  const CodeSchema = mongoose.Schema(
+    {
+      email: { type: String },
+      code: { type: String },
+    },
+    { timestamps: true }
+  );
+
+  const Code = mongoose.model("Code", CodeSchema);
 
   async function auth(req, res, next) {
     console.log({ headers: req.headers.authorization });
@@ -140,26 +157,73 @@ db.once("open", async function () {
       });
   }
 
+  app.post('/genCodeForRegister', (req, res) => {
+    console.log({ input: req.body });
+    let code = Math.floor(100000 + Math.random() * 900000);
+    let subject = "Please confirm your account";
+    let data = `<p>Your verification code is: <strong>${code}</strong><br>This verification code will be expired in 15 mins</p>`
+    let newCode = new Code({ email: req.body.email, code: code });
+    newCode.save()
+      .then((newCode) => {
+        console.log(newCode.code)
+        schedule.scheduleJob(newCode.createdAt.getTime() + 15 * 60 * 1000, async () => {
+          Code.findByIdAndDelete(newCode._id)
+            .then((deleted) => {
+              if (!deleted) console.log(`${code} is removed before this scheduleJob`);
+              else console.log(`${code} successfully removed`);
+            })
+            .catch((err) => {
+              res.status(500).send({ success: 0, message: err });
+            })
+        })
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err });
+      })
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user: SENDER_EMAIL, pass: SENDER_EMAIL_PASSWORD, },
+    });
+    var mailOptions = { from: SENDER_EMAIL, to: req.body.email, subject: subject, html: data, };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error)
+        return res.status(500).json({ success: 0, message: error });
+      else {
+        console.log(info.response)
+        res.status(200).send({ success: 1, message: 'Email sent' });
+      }
+    })
+  })
+
   app.post("/register", (req, res) => {
     console.log({ input: req.body });
-    let newUser = new User({
-      userId: req.body.username,
-      password: req.body.password,
-      role: req.body.role === "admin" ? "admin" : "user",
-    });
     User.findOne({ userId: req.body.username })
       .then((user) => {
         if (user)
-          res
-            .status(409)
-            .send({ success: 0, message: `username already exists` });
+          res.status(409).send({ success: 0, message: `username already exists` });
         else
-          newUser
-            .save()
-            .then(() => {
-              res
-                .status(201)
-                .send({ success: 1, message: `register successfully` });
+          Code.findOneAndDelete({ email: req.body.email, code: req.body.code })
+            .then((code) => {
+              if (!code)
+                res.status(400).send({ success: 0, message: `Invalid code` });
+              else {
+                let newUser = new User({
+                  userId: req.body.username,
+                  email: req.body.email,
+                  password: req.body.password,
+                  role: req.body.role === "admin" ? "admin" : "user",
+                });
+                newUser
+                  .save()
+                  .then(() => {
+                    res
+                      .status(201)
+                      .send({ success: 1, message: `register successfully` });
+                  })
+                  .catch((err) => {
+                    res.status(500).send({ success: 0, message: err });
+                  });
+              }
             })
             .catch((err) => {
               res.status(500).send({ success: 0, message: err });
@@ -200,15 +264,116 @@ db.once("open", async function () {
       req.user
         .save()
         .then(() => {
-          res
-            .status(200)
-            .send({ success: 1, message: `reset password successfully` });
+          var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: { user: SENDER_EMAIL, pass: SENDER_EMAIL_PASSWORD },
+          });
+          var mailOptions = {
+            from: SENDER_EMAIL,
+            to: req.user.email,
+            subject: `Your password have been reset`,
+            html: `<p>Your have reset your password.</p>`,
+          };
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error)
+              return res.status(500).json({ success: 0, message: error });
+            else {
+              console.log(info.response)
+              res.status(200).send({ success: 1, message: `reset password successfully` });
+            }
+          });
         })
         .catch((err) => {
           res.status(500).send({ success: 0, message: err });
         });
     }
   });
+
+  app.post('/genCodeForForgetPassword', async (req, res) => {
+    console.log({ input: req.body });
+    User.findOne({ email: req.body.email, userId: req.body.userId })
+      .then((user) => {
+        if (!user)
+          res.status(404).send({ success: 0, message: `User not registered` });
+        else {
+          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%*_+-';
+          let code = ''
+          for (let i = 0; i < 10; i++)
+            code += characters[Math.floor(Math.random() * characters.length)];
+          let subject = "One-time Password";
+          let data = `<p>Your one-time password is: <strong>${code}</strong><br>This password will be expired in 15 mins</p>`
+          let newCode = new Code({ email: req.body.email, code: code });
+          newCode.save()
+            .then((newCode) => {
+              console.log(newCode.code)
+              schedule.scheduleJob(newCode.createdAt.getTime() + 15 * 60 * 1000, async () => {
+                Code.findByIdAndDelete(newCode._id)
+                  .then((deleted) => {
+                    if (!deleted) console.log(`${code} is removed before this scheduleJob`);
+                    else console.log(`${code} successfully removed`);
+                  })
+                  .catch((err) => {
+                    res.status(500).send({ success: 0, message: err });
+                  })
+              })
+            })
+            .catch((err) => {
+              res.status(500).send({ success: 0, message: err });
+            })
+          var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: SENDER_EMAIL,
+              pass: SENDER_EMAIL_PASSWORD,
+            },
+          });
+          var mailOptions = {
+            from: SENDER_EMAIL,
+            to: req.body.email,
+            subject: subject,
+            html: data,
+          };
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error)
+              res.status(500).json({ success: 0, message: error });
+            else {
+              console.log(info.response)
+              res.status(200).send({ success: 1, message: 'Email sent' });
+            }
+          });
+        }
+      })
+      .catch((err) => {
+        res.status(500).json({ success: 0, message: err });
+      })
+  })
+
+  app.post('/forgetPassword', (req, res) => {
+    console.log({ input: req.body });
+    Code.findOneAndDelete({ email: req.body.email, code: req.body.code })
+      .then((code) => {
+        if (!code)
+          res.status(400).send({ success: 0, message: `Invalid code` });
+        else
+          User.findOneAndUpdate(
+            { userId: req.body.userId },
+            { password: req.body.password },
+            { new: true }
+          )
+            .then((user) => {
+              if (!user)
+                res.status(404).send({ success: 0, message: `Invalid userId` });
+              else
+                res.status(200).send({ success: 1, message: `reset password successfully` });
+            })
+            .catch((err) => {
+              res.status(500).send({ success: 0, message: err });
+            });
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err });
+      });
+  })
 
   app.delete("/delUser/:userId0", auth, (req, res) => {
     console.log({ input: req.params });
