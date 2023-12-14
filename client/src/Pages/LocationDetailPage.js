@@ -18,7 +18,7 @@ function LocationDetailPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
-    const [errors, setErrors] = useState(null);
+
 
     const getAllCommentFor = async () => {
         let response = await fetch(`http://localhost:8080/getAllCommentFor/${venue.venueId}`, {
@@ -57,6 +57,7 @@ function LocationDetailPage() {
     }
 
 
+
     const addComment = async () => {
         let response = await fetch('http://localhost:8080/addComment', {
             method: "POST",
@@ -72,29 +73,11 @@ function LocationDetailPage() {
         })
         let data = await response.json();
 
-        if (data.success) {
-            setComment('');
-            setComments((prevComments) => [data.comment, ...prevComments]);
-            setErrors(null);
-        } else {
-            let errors = {}
-            errors.comment = data.message
-            setErrors(errors);
-        }
+        // if (data.success)
+        // TODO: append child?
         console.log(data.message)
     };
-    const getRandomDeepColor = () => {
-        const getRandomHex = () => {
-            const min = 128;
-            const max = 255;
-            return Math.floor(Math.random() * (max - min + 1) + min).toString(16).padStart(2, '0');
-        };
-
-        const red = getRandomHex();
-        const green = getRandomHex();
-        const blue = getRandomHex();
-        return `#${red}${green}${blue}`;
-    };
+    
     const favourite = async () => {
         let response = await fetch(`http://localhost:8080/addVenue/${venue.venueId}/toFavourite/${userData.user.userId}`, {
             method: "PUT",

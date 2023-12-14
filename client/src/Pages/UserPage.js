@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
-import PrimarySearchAppBar from "../Components/PrimarySearchAppBar";
-import GoogleMapReact from "google-map-react";
-import { useNavigate } from "react-router-dom";
-import { Table } from "@mui/material";
-import TablePage from "./TablePage";
+import React, { useEffect, useState } from 'react';
+import PrimarySearchAppBar from '../Components/PrimarySearchAppBar';
+import GoogleMapReact from 'google-map-react';
+import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button';
+import Tables from "../Components/Table";
+import Grid from "@mui/material/Grid";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 
 const Lable = ({ text, venue, buttonOnclickFunction }) => (
 	<div
@@ -27,11 +29,13 @@ function UserPage() {
 	const [venues, SetVenues] = useState([]);
 	const [userData, setUserData] = useState();
 	const [isLoading, setIsLoading] = useState(true);
+	const [value, setValue] = React.useState(0);
 	const nagivate = useNavigate();
 	const logout = () => {
-		localStorage.clear();
-		window.location.href = "/";
-	};
+		localStorage.clear()
+		window.location.href = '/';
+	}
+
 
 	useEffect(() => {
 		const getAllVenue = async () => {
@@ -74,66 +78,95 @@ function UserPage() {
 	const viewLocationDetails = (venue) => {
 		nagivate('/LocationDetailPage', { state: venue })
 	}
+
+
+
+	const handleChange = (event, newValue) => {
+		// event.type can be equal to focus with selectionFollowsFocus.
+		setValue(newValue);
+		console.log(newValue);
+	};
+
 	return (
 		<>
-			{!isLoading && (
+			{!isLoading &&
 				<>
-					<div>
-						<PrimarySearchAppBar userData={userData.user} logOut={logout} />
-						User id: {userData.user.userId}
-						<table>
-							<tr>
-								<th>Venue Name</th>
-								<th>Events</th>
-							</tr>
-							{venues.map((val, key) => {
-								return (
-									<tr key={key}>
-										<td onClick={() => { viewLocationDetails(val) }}>{val.venuee ? val.venuee : 'No Name'}</td>
-										<td>{val.events ? val.events.length : 0}</td>
-									</tr>
-								)
-							})}
-						</table>
-					</div>
-					<Button variant="outlined" color="secondary" onClick={() => { nagivate('/myFavourite') }}>See my favourite location</Button>
+					<PrimarySearchAppBar userData={userData.user} logOut={logout} />
+					<div className={"container"} style={{
+						height: '100%',
+						width: '100%',
+						margin: "auto",
+						backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/e/e0/Hong_Kong_Cultural_Centre_201408.jpg)',
+						backgroundRepeat: 'no-repeat',
+						backgroundAttachment: 'fixed',
+						backgroundSize: 'cover',
+					}}>
+						<div style={{
+							height: '100%',
+							backgroundColor: '#bbc4eb8c'
+						}}>
 
-					<div>
-						<TablePage />
-					</div>
+							<Button variant="contained" color="error" onClick={() => {
+								nagivate('/myFavourite')
+							}} style={{
+								float: 'right',
+								backgroundColor: '#de2d2dd2',
+								margin: '2%',
+								marginRight: '5%',
+							}}>♥︎ See my favourite location</Button><br />
 
-					<div
-						className={"container"}
-						style={{ height: "100vh", width: "90%", margin: "auto" }}
-					>
-						<GoogleMapReact
-							bootstrapURLKeys={{
-								key: "AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4",
-							}}
-							defaultCenter={defaultProps.center}
-							defaultZoom={defaultProps.zoom}
-							yesIWantToUseGoogleMapApiInternals
-							onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-						>
-							{venues.map((val, key) => {
-								console.log(val);
-								const venue = JSON.parse(JSON.stringify(val));
-								return (
-									<Lable
-										lat={val.latitude}
-										lng={val.longitude}
-										text={val.venuee}
-										venue={val}
-										buttonOnclickFunction={viewLocationDetails}
-									/>
-								);
-							})}
-						</GoogleMapReact>
-					</div>
+							<div style={{
+								margin: "5%",
+								padding: "3%",
+								background: "#ebedf4df",
+								borderRadius: "10px",
+								height: 'auto'
+							}}>
+								<h1 style={{ fontFamily: "Georgia, serif" }}>Programme Information:</h1>
+								<hr></hr>
+								<Grid container spacing={4}>
+									<Grid item lg={3} sm={6} xl={3} xs={12} m={2}>
+										<Tabs
+											value={value}
+											onChange={handleChange}
+											aria-label="nav tabs example"
+										>
+											<Tab label="Location" />
+											<Tab label="Event" />
+										</Tabs>
+									</Grid>
+								</Grid>
+								{value === 0 ? <Tables mode="venue" /> : <Tables mode="allevent" />}
+							
+							<br></br>
+
+							
+							<div className={"container"} style={{ height: '100vh', width: '90%', margin: "auto" }}>
+								<GoogleMapReact
+									bootstrapURLKeys={{ key: "AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4" }}
+									defaultCenter={defaultProps.center}
+									defaultZoom={defaultProps.zoom}
+									yesIWantToUseGoogleMapApiInternals
+									onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+								>
+									{venues.map((val, key) => {
+										console.log(val)
+										return (
+											<Lable
+												lat={val.latitude}
+												lng={val.longitude}
+												text={val.venuee}
+												venue={val}
+												buttonOnclickFunction={viewLocationDetails}
+											/>)
+									})}
+								</GoogleMapReact>
+							</div></div></div></div>
 				</>
-			)}
+			}
 		</>
 	);
 }
+
 
 export default UserPage;

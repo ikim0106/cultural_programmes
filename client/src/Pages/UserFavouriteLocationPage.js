@@ -108,7 +108,7 @@ function UserFavouriteLocation() {
                                                 <td>{val.venuee ? val.venuee : 'No Name'}</td>
                                                 <td>{val.events ? val.events.length : 0}</td>
                                                 <td><Button variant="contained" color="success" onClick={() => 
-                                                    viewLocationDetails(val.venuee)}>Click Me</Button></td>
+                                                    viewLocationDetails(val)}>Click Me</Button></td>
                                             </tr>
                                             
                                         )
