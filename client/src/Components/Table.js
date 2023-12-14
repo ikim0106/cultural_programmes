@@ -193,29 +193,25 @@ function Table(mode) {
     editDisplayMode: "modal",
     muiTableBodyRowProps: ({ row }) => ({
       onClick: (event) => {
+        if(mode.mode != "venue") return;
         console.log("row", row.original.venuee);
         viewLocationDetails(row.original.venuee);
       },
       sx: {
-        cursor: "pointer", //you might want to change the cursor too when adding an onClick
+        cursor:  mode.mode == "venue"? "pointer" : null, //you might want to change the cursor too when adding an onClick
       },
     }),
   });
 
-  const eventTable = useMaterialReactTable({
-    columns,
-    data: data,
-    createDisplayMode: "modal",
-    editDisplayMode: "modal",
-  });
 
 
   return (
     <>
       {!isLoading && (
         <div>
+
           <MaterialReactTable
-            table={mode.mode === "venue" ? venueTable : eventTable}
+            table={venueTable}
           />
         </div>
       )}
