@@ -77,7 +77,7 @@ const RegisterLogin = () => {
       })
       const resJSON = await response.json()
       if(resJSON.success) {
-        localStorage.setItem('userData', JSON.stringify(resJSON))
+        localStorage.setItem('userData', JSON.stringify({user: {userId: userId, password: password, role: "user"}}))
         nagivate('/user')
       }
     }
