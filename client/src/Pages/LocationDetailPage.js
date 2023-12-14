@@ -5,21 +5,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
-import GoogleMapReact from 'google-map-react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import PrimarySearchAppBar from '../Components/PrimarySearchAppBar';
 import { grey } from '@mui/material/colors';
 import { padding } from '@mui/system';
-const Lable = ({ text }) => <div style={{
-    backgroundColor: 'white',
-    width: '100px',
-    height: '100px',
-    borderRadius: 5,
-    padding: 10,
-    alignItems: "center",
-    alignSelf: "center",
-}}><h5 style={{ color: "black" }}>{text}</h5>
-    <button>Click Me</button></div>;
+
 
 function LocationDetailPage() {
 
@@ -27,7 +18,7 @@ function LocationDetailPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
-    const [errors, setErrors] = useState(null);
+
 
     const getAllCommentFor = async () => {
         let response = await fetch(`http://localhost:8080/getAllCommentFor/${venue.venueId}`, {
@@ -60,18 +51,12 @@ function LocationDetailPage() {
     const location = useLocation();
     console.log(location.state)
     const venue = location.state
-    const defaultProps = {
-        center: {
-            lat: venue.latitude,
-            lng: venue.longitude
-        },
-        zoom: 18
+    const logout = () => {
+		localStorage.clear()
+		window.location.href = '/';
+	}
 
-    };
-    const handleApiLoaded = (map, maps) => {
-        // use map and maps objects
 
-    };
     const addComment = async () => {
         let response = await fetch('http://localhost:8080/addComment', {
             method: "POST",
@@ -87,33 +72,32 @@ function LocationDetailPage() {
         })
         let data = await response.json();
 
-        if (data.success) {
-            setComment('');
-            setComments((prevComments) => [data.comment, ...prevComments]);
-            setErrors(null);
-        } else {
-            let errors = {}
-            errors.comment = data.message
-            setErrors(errors);
-        }
+        // if (data.success)
+        // TODO: append child?
         console.log(data.message)
     };
-    const getRandomDeepColor = () => {
-        const getRandomHex = () => {
-            const min = 128;
-            const max = 255;
-            return Math.floor(Math.random() * (max - min + 1) + min).toString(16).padStart(2, '0');
-        };
+    const favourite = async () => {
+        let response = await fetch(`http://localhost:8080/addVenue/${venue.venueId}/toFavourite/${userData.user.userId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            // body: JSON.stringify({
+            //     "userId": userData.user.userId,
+            //     "venueId": venue.venueId,
+            //     "comment": comment
+            // }),
+        })
+        let data = await response.json();
 
-        const red = getRandomHex();
-        const green = getRandomHex();
-        const blue = getRandomHex();
-        return `#${red}${green}${blue}`;
+        // if (data.success)
+        // TODO: display in front end?
+        console.log(data.message)
     };
     return (
         // Important! Always set the container height explicitly
         <>
             {!isLoading &&
+                <div>
+                <PrimarySearchAppBar userData={userData.user} logOut={logout} />
                 <div className={"container"} style={{
                     height: '100%',
                     width: '100%',
@@ -123,25 +107,13 @@ function LocationDetailPage() {
                     backgroundAttachment: 'fixed',
                     backgroundSize: 'cover',
                 }}>
-                    {/* <GoogleMapReact
-                bootstrapURLKeys={{ key: "AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4" }}
-                defaultCenter={defaultProps.center}
-                defaultZoom={defaultProps.zoom}
-                yesIWantToUseGoogleMapApiInternals
-                onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-            >
-                <Lable lat={venue.latitude}
-                    lng={venue.longitude}
-                    text={venue.venuee}
-                />
-
-            </GoogleMapReact> */}
                     <div style={{
                         height: '100%',
                         backgroundColor: '#bbc4eb8c'
                     }}>
 
                         <iframe
+                            title="googleMap"
                             width="100%"
                             height="450"
                             loading="lazy"
@@ -152,6 +124,13 @@ function LocationDetailPage() {
                         // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.venuee}`}
                         >
                         </iframe>
+                        <Button variant="contained" color="error" onClick={() => {
+                            favourite()
+                        }} style={{
+                            float: 'right',
+                            backgroundColor: '#cc4646d2'
+                        }}>♥︎ Add to my favourite Venue</Button><br />
+
                         <div style={{
                             margin: "5%",
                             padding: "3%",
@@ -174,7 +153,7 @@ function LocationDetailPage() {
                                 marginTop: '1%',
                                 marginLeft: '3%',
                                 backgroundColor: '#faf9fa6e',
-                                width: '95%',
+                                width:'95%',
                                 paddingBottom: '5%',
                             }}><tr>
                                     <td id="formleft" style={{
@@ -185,23 +164,12 @@ function LocationDetailPage() {
                                         <hr></hr>
                                         {comments && comments.length > 0 &&
                                             comments.map((val, key) => {
-                                                const randomColor = getRandomDeepColor();
                                                 return (
-                                                    <div key={key} style={{ display: 'flex', alignItems: 'center' }}>
-                                                        <div style={{ marginRight: '10px' }}>
-                                                            <svg viewBox="0 0 80 80" width="40" height="40">
-                                                                <circle cx="40" cy="40" r="38" fill={randomColor} />
-                                                                <text x="50%" y="50%" text-anchor="middle" fill="white" font-size="30px" dy=".3em">
-                                                                    {val.userId.charAt(0)}
-                                                                </text>
-                                                            </svg>
-                                                        </div>
-                                                        <div>
-                                                            <h4>@{val.userId}</h4>
-                                                            <p style={{
-                                                                marginTop: '-2%',
-                                                            }}>{val.comment}</p>
-                                                        </div>
+                                                    <div key={key} >
+                                                        <h4>@{val.userId}</h4>
+                                                        <p style={{
+                                                            marginTop: '-2%',
+                                                        }}>{val.comment}</p>
                                                     </div>
                                                 )
                                             })
@@ -209,12 +177,14 @@ function LocationDetailPage() {
                                     </td>
                                     <td id="formright" style={{
                                         width: '55%',
+                                        
                                         paddingLeft: '10%',
                                     }}>
                                         <h1 style={{ fontFamily: "Georgia, serif" }}>Any Question?</h1>
                                         <h3 style={{ fontFamily: "Georgia, serif" }}>Leave a comment:</h3>
 
                                         {/* <p>name: {venue.venuee}</p> */}
+
                                         <TextField
                                             id="outlined-multiline-flexible"
                                             label="Your Comment Here"
@@ -227,35 +197,23 @@ function LocationDetailPage() {
                                                 backgroundColor: '#ebedf4f6'
                                             }}
                                         />
-                                        {errors?.comment &&
-                                            <p style={{ fontFamily: "Georgia, serif", color: 'red ' }}>{errors.comment}</p>
-                                        }
                                         <br></br>
-                                        <Button variant="outlined" onClick={() => {
-                                            if (comment.trim() === '') {
-                                                let errors = {}
-                                                errors.comment = 'Comment should not be empty'
-                                                setErrors(errors)
-                                            }
+                                        <Button variant="contained" onClick={() => {
+                                            if (comment.trim() === '')
+                                                console.log(`Comment should not be empty`)
                                             else
                                                 addComment();
                                         }} style={{
                                             marginLeft: '71%',
-                                            backgroundColor: '#d4e3ee5f'
+                                            // backgroundColor: '#3d7ec98e',
+                                            // border: '1px solid #28558994',
                                         }}>Submit</Button>
                                     </td></tr></table>
                         </div>
                     </div>
-                </div>
+                </div></div>
             }
         </>
-        // <div style={{
-        //     backgroundColor: 'blue',
-        //     height: '100vh', width: '100%'
-        // }}>
-        //     <h5 style={{ color: "red" }}>text</h5>
-        //     <button>Click Me</button>
-        // </div>
 
 
     );
