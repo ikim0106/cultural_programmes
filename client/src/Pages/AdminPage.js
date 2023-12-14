@@ -13,8 +13,11 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Typography,
   IconButton,
   Tooltip,
+  Tabs,
+  Tab
 } from '@mui/material';
 // import {
 //   QueryClient,
@@ -29,15 +32,49 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 function AdminPage() {
   const [events, setEvents] = useState([]);
+  const [users, setUsers] = useState([]);
   const [userData, setUserData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [validationErrors, setValidationErrors] = useState({});
+  const [value, setValue] = React.useState(0);
+  const [toEditUserId, setToEditUserId] = useState('');
 
-  const columns = useMemo(() => [
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const CustomTabPanel = (props) => {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+
+  const a11yProps = (index) => {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+
+  const columns1 = useMemo(() => [
     {
       accessorKey: 'eventId',
       header: 'Event ID',
-      enableEditing: true,
+      enableEditing: false,
       size: 80
     },
     {
@@ -90,6 +127,27 @@ function AdminPage() {
     },
   ])
 
+  const columns2 = useMemo(() => [
+    {
+      accessorKey: 'userId',
+      header: 'User ID',
+      enableEditing: true,
+      size: 160
+    },
+    {
+      accessorKey: 'email',
+      header: 'Email',
+      enableEditing: false,
+      size: 160
+    },
+    {
+      accessorKey: 'password',
+      header: 'Password',
+      enableEditing: true,
+      size: 160
+    },
+  ])
+
   const logout = () => {
     localStorage.clear()
     window.location.href = '/';
@@ -107,12 +165,26 @@ function AdminPage() {
       setEvents(data.events)
   }
 
+  const getAllUser = async () => {
+    let response = await fetch('http://localhost:8080/getAllUser', {
+      method: "Get",
+      headers: {
+        Authorization: userData.user?.userId,
+      }
+    })
+    let data = await response.json();
+    if (data.success)
+      setUsers(data.users)
+      // console.log(data)
+  }
+
   useEffect(() => {
     const tempJSON = JSON.parse(localStorage.getItem('userData'));
     if (localStorage.getItem('userData') && tempJSON.user.role === "admin") {
       setUserData(JSON.parse(localStorage.getItem('userData')));
       if (userData?.user?.userId) {
         getAllEvent();
+        getAllUser();
         setIsLoading(false);
       }
     } else {
@@ -146,6 +218,34 @@ function AdminPage() {
       }
       getAllEvent();
     }
+    table.setEditingRow(null)
+  }
+
+  const handleEditUser = async ({ values, table }) => {
+    console.log(values, table)
+    // return
+    let response = await fetch(`http://localhost:8080/updateUser/${toEditUserId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: userData.user.userId
+      },
+      body: JSON.stringify(values)
+    })
+    const resJSON = await response.json()
+    console.log(resJSON)
+    const getAllUsers = async () => {
+      let response = await fetch('http://localhost:8080/getAllUser', {
+        method: "Get",
+        headers: {
+          Authorization: userData.user.userId,
+        }
+      })
+      let data = await response.json();
+      if (data.success)
+        setUsers(data.users)
+    }
+    getAllUsers();
     table.setEditingRow(null)
   }
 
@@ -209,8 +309,8 @@ function AdminPage() {
     table.setEditingRow(null)
   }
 
-  const table = useMaterialReactTable({
-    columns,
+  const eventsTable = useMaterialReactTable({
+    columns: columns1,
     data: events,
     createDisplayMode: 'modal',
     editDisplayMode: 'modal',
@@ -269,28 +369,67 @@ function AdminPage() {
     ),
   })
 
+  const usersTable = useMaterialReactTable({
+    columns: columns2,
+    data: users,
+    createDisplayMode: 'modal',
+    editDisplayMode: 'modal',
+    enableEditing: true,
+    getRowId: (row) => row.id,
+    onEditingRowCancel: () => setValidationErrors({}),
+    onEditingRowSave: handleEditUser,
+    renderEditRowDialogContent: ({ table, row, internalEditComponents }) => { 
+      setToEditUserId(row.original.userId)
+      return (
 
-  // useEffect(() => {
-  //   const getAllEvent = async () => {
-  //     let response = await fetch('http://localhost:8080/getAllEvent', {
-  //       method: "Get",
-  //       headers: {
-  //         Authorization: userData.user?.userId,
-  //       }
-  //     })
-  //     let data = await response.json();
-  //     if (data.success)
-  //       setEvents(data.events)
-  //   }
-  //   getAllEvent();
-  // }, [])
+      <>
+        <DialogTitle variant="h6">Edit User</DialogTitle>
+        <DialogContent
+          sx={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
+        >
+          {internalEditComponents} {/* or render custom edit components here */}
+        </DialogContent>
+        <DialogActions>
+          <MRT_EditActionButtons variant="text" table={table} row={row} />
+        </DialogActions>
+      </>
+    )},
+    renderRowActions: ({ row, table }) => (
+      <Box sx={{ display: 'flex', gap: '1rem' }}>
+        <Tooltip title="Edit">
+          <IconButton
+            onClick={() => table.setEditingRow(row)}
+          >
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    ),
+  })
 
   return (
     <>
       {!isLoading &&
-        <div>
-          <PrimarySearchAppBar userData={userData.user} logOut={logout} />
-          <MaterialReactTable table={table} />
+      <div>
+        <PrimarySearchAppBar userData={userData.user} logOut={logout} />
+        <div style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center'
+        }}>
+          <Box 
+          >
+            <Tabs value={value} onChange={handleChange} centered>
+              <Tab label="CRUD Events" sx={{fontSize:'20px'}} {...a11yProps(0)} />
+              <Tab label="CRUD Users" sx={{fontSize:'20px'}} {...a11yProps(1)}/>
+            </Tabs>
+            <CustomTabPanel value={value} index={0}>
+              <MaterialReactTable table={eventsTable} />
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={1}>
+              <MaterialReactTable table={usersTable} />
+            </CustomTabPanel>
+          </Box>
           {/* <table>
           <tr>
             <th>Venue Name</th>
@@ -306,6 +445,7 @@ function AdminPage() {
         })}
         </table> */}
         </div>
+      </div>
       }
     </>
   );

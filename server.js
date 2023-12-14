@@ -190,7 +190,7 @@ db.once("open", async function () {
         return res.status(500).json({ success: 0, message: error });
       else {
         console.log(info.response)
-        res.status(200).send({ success: 1, message: 'Email sent' });
+        res.status(200).send({ success: 1, message: 'Email sent', code: newCode.code});
       }
     })
   })
@@ -211,7 +211,7 @@ db.once("open", async function () {
                   userId: req.body.username,
                   email: req.body.email,
                   password: req.body.password,
-                  role: req.body.role === "admin" ? "admin" : "user",
+                  role: req.body.role,
                 });
                 newUser
                   .save()
@@ -424,7 +424,7 @@ db.once("open", async function () {
         .send({ success: 0, message: `Only admin can do this operation` });
     else
       User.findOneAndUpdate(
-        { userId: req.params.userId0, role: "user" },
+        { userId: req.params.userId0 },
         req.body,
         { new: true }
       )
@@ -437,7 +437,7 @@ db.once("open", async function () {
           else
             res.status(200).send({
               success: 1,
-              message: `update event successfully`,
+              message: `update user successfully`,
               user: user,
             });
         })

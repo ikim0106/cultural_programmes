@@ -9,6 +9,7 @@ import InputBase from '@mui/material/InputBase';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
+import {ButtonGroup} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -54,7 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar({ userData, logOut }) {
+export default function PrimarySearchAppBar({ userData, logOut, resetPassword }) {
   const [anchorEl, setAnchorEl] = useState();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState();
   const isMenuOpen = Boolean(anchorEl);
@@ -62,6 +63,10 @@ export default function PrimarySearchAppBar({ userData, logOut }) {
 
   const handleLogout = () => {
     logOut()
+  }
+
+  const handleResetPassword = () => {
+    resetPassword()
   }
 
   const handleProfileMenuOpen = (event) => {
@@ -170,9 +175,19 @@ export default function PrimarySearchAppBar({ userData, logOut }) {
             <span style={{ paddingRight: '10px', display: 'inline-block' }}>
               {`Logged in as: ${userData.userId}`}
             </span>
-            <Button variant="contained" color="secondary" onClick={handleLogout}>
-              Log out
-            </Button>
+            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+              <Button style={{
+                backgroundColor: "#8eaeed"
+              }} 
+              onClick={handleLogout}>
+                Log out
+              </Button>
+              <Button style={{
+                backgroundColor: "#8eaeed"
+              }} onClick={handleResetPassword}>
+                Reset password
+              </Button>
+            </ButtonGroup>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton

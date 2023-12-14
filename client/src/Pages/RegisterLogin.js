@@ -1,7 +1,8 @@
 import React,  {useEffect, useState } from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Grid, Paper, Box, Avatar, Typography, TextField, Button, Alert, Snackbar, AlertTitle, Link} from '@mui/material';
+import { Grid, Paper, Box, Avatar, Typography, TextField, Button, Alert, Snackbar, AlertTitle, Link, InputAdornment, FormGroup, FormControlLabel, Checkbox} from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 import useWindowDimensions from '../Utils/WidthHeight';
 import { useNavigate } from 'react-router-dom'
 
@@ -11,7 +12,11 @@ const RegisterLogin = () => {
   const { height, width } = useWindowDimensions();
   const [isMobile, setIsMobile] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
+  const [newRole, setNewRole] = useState('user');
   const [userId, setUserId] = useState('')
+  const [verifCode, setVerifCode] = useState('')
+  const [code, setCode] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [openToast, setOpenToast] = useState(false)
@@ -31,12 +36,37 @@ const RegisterLogin = () => {
     setConfirmPassword(event.target.value)
   }
 
+  const changeCode = (event) => {
+    setCode(event.target.value)
+  }
+
+  const toggleAdmin = () => {
+    setNewRole(newRole==='user'? 'admin' : 'user')
+  }
+
+  const sendVerificationCode = async () => {
+    let response = await fetch('http://localhost:8080/genCodeForRegister', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({email: email})
+    })
+    const temp = await response.json()
+    setVerifCode(temp.code)
+  }
+
+
+  const changeEmail = (event) => {
+    setEmail(event.target.value)
+  }
+
   const userLogIn = async () => {
     if(!isRegister && (!userId || !password)) {
       setOpenToast(true)
       return
     }
-    if(isRegister && (!userId || !password || !confirmPassword)) {
+    if(isRegister && (!userId || !password || !confirmPassword || !code || !email)) {
       setOpenToast(true)
       return
     }
@@ -67,18 +97,30 @@ const RegisterLogin = () => {
       }
     }
 
-    if(isRegister && userId && password && password===confirmPassword) {
+    if(isRegister && userId && password && password===confirmPassword && code===verifCode && email) {
+      // console.log(newRole)
+      // return
       let response = await fetch('http://localhost:8080/register', {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({username: userId, password: password})
+        body: JSON.stringify({
+          username: userId,
+          email: email,
+          password: password,
+          code: code,
+          role: newRole
+        })
       })
       const resJSON = await response.json()
-      if(resJSON.success) {
-        localStorage.setItem('userData', JSON.stringify({user: {userId: userId, password: password, role: "user"}}))
+      if(resJSON.success && newRole === "user") {
+        localStorage.setItem('userData', JSON.stringify({user: {userId: userId, password: password, role: newRole}}))
         nagivate('/user')
+      }
+      else if(resJSON.success && newRole === "admin") {
+        localStorage.setItem('userData', JSON.stringify({user: {userId: userId, password: password, role: newRole}}))
+        nagivate('/admin')
       }
     }
   }
@@ -88,6 +130,8 @@ const RegisterLogin = () => {
     setPassword('')
     setConfirmPassword('')
     setUserId('')
+    setEmail('')
+    setCode('')
   }
 
   const handleCloseToast = () => {
@@ -113,7 +157,7 @@ const RegisterLogin = () => {
         width: '100vw',
       }}>
         <Alert severity="error" sx={{ width: '30vw'}}>
-          <AlertTitle>Failed to log in</AlertTitle>
+          <AlertTitle>Failed to {isRegister ? 'register' : 'log in'}</AlertTitle>
           <strong>Please fill out all required fields</strong>
         </Alert>
       </Snackbar>
@@ -168,12 +212,49 @@ const RegisterLogin = () => {
                 onChange={changeUserId}
                 autoFocus
               />
+              {isRegister && 
+                <TextField 
+                  id="outlined-basic" 
+                  label="Email *" 
+                  variant="outlined" 
+                  fullWidth 
+                  autoComplete='off'
+                  value={email}
+                  sx={{
+                    marginTop: '3vh'
+                  }}
+                  onChange={changeEmail}
+                  InputProps={
+                    {endAdornment:
+                      <InputAdornment position="end">
+                        <Button onClick={sendVerificationCode} variant="contained" endIcon={<SendIcon />}>
+                          Send Code
+                        </Button>
+                    </InputAdornment>
+                  }}
+                />
+              }
+              {isRegister && 
+                <TextField 
+                  id="outlined-basic" 
+                  label="Verification Code *" 
+                  variant="outlined" 
+                  fullWidth 
+                  autoComplete='off'
+                  value={code}
+                  sx={{
+                    marginTop: '3vh'
+                  }}
+                  onChange={changeCode}
+                />
+              }
               <TextField 
                 id="outlined-basic" 
                 label="Password *" 
                 variant="outlined" 
                 fullWidth 
                 autoComplete='off'
+                type='password'
                 value={password}
                 sx={{
                   marginTop: '3vh'
@@ -185,6 +266,7 @@ const RegisterLogin = () => {
                   id="outlined-basic" 
                   label="Confirm Password *" 
                   variant="outlined" 
+                  type='password'
                   fullWidth 
                   autoComplete='off'
                   value={confirmPassword}
@@ -199,6 +281,11 @@ const RegisterLogin = () => {
               }}>
                 <span style={{color: 'red'}}>*</span> are required fields
               </div>
+              {isRegister && 
+                <FormGroup>
+                  <FormControlLabel control={<Checkbox onClick={toggleAdmin} />} label="Admin account" />
+                </FormGroup>
+              }
               <Button
                 type="submit"
                 fullWidth

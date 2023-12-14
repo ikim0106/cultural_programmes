@@ -7,6 +7,7 @@ import Tables from "../Components/Table";
 import Grid from "@mui/material/Grid";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
+import { Modal, Box, Typography, TextField, Snackbar, Alert, AlertTitle } from '@mui/material';
 
 const Lable = ({ text, venue, buttonOnclickFunction }) => (
 	<div
@@ -19,7 +20,6 @@ const Lable = ({ text, venue, buttonOnclickFunction }) => (
 			alignItems: "center",
 			alignSelf: "center",
 			fontSize: 13,
-			border: '1px solid #566a9a'
 		}}
 	>
 		<h5 style={{ color: "black" }}>{text}</h5>
@@ -27,19 +27,53 @@ const Lable = ({ text, venue, buttonOnclickFunction }) => (
 		backgroundColor: '#566a9a',
 		height: 25,
 		color: 'white',
-		border: '1px solid black'>Click Me</Button>
+		border: '1px solid black'}}>Click Me</Button>
 	</div>
 );
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+	height: '30vh',
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+};
 
 function UserPage() {
 	const [venues, SetVenues] = useState([]);
 	const [userData, setUserData] = useState();
 	const [isLoading, setIsLoading] = useState(true);
 	const [value, setValue] = React.useState(0);
+	const [open, setOpen] = useState(false)
+	const [oldPw, setOldPw] = useState('')
+	const [newPw, setNewPw] = useState('')
+	const [openToast, setOpenToast] = useState(false)
 	const nagivate = useNavigate();
 	const logout = () => {
 		localStorage.clear()
 		window.location.href = '/';
+	}
+
+	const handleOpen = () => setOpen(true);
+	const handleCloseToast = () => {
+    setOpenToast(false)
+  }
+	const handleClose = () => setOpen(false);
+	const resetPassword = () => {
+		console.log("RESET PASSWORD")
+		handleOpen()
+	}
+
+	const handleOldPw = (event) => {
+		setOldPw(event.target.value)
+	}
+
+	const handleNewPw = (event) => {
+		setNewPw(event.target.value)
 	}
 
 
@@ -85,7 +119,24 @@ function UserPage() {
 		nagivate('/LocationDetailPage', { state: venue })
 	}
 
-
+	const newPassword = async () => {
+    // return
+    let response = await fetch(`http://localhost:8080/resetPassword`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: userData.user.userId
+      },
+      body: JSON.stringify({password: oldPw, newpassword: newPw})
+    })
+    const resJSON = await response.json()
+		if(!resJSON.success) {
+			setOpenToast(true)
+		}
+		else {
+			logout()
+		}
+	}
 
 	const handleChange = (event, newValue) => {
 		// event.type can be equal to focus with selectionFollowsFocus.
@@ -97,7 +148,58 @@ function UserPage() {
 		<>
 			{!isLoading &&
 				<>
-					<PrimarySearchAppBar id="top" userData={userData.user} logOut={logout} />
+					<Snackbar open={openToast} autoHideDuration={4000} onClose={handleCloseToast} sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						width: '100vw',
+					}}>
+						<Alert severity="error" sx={{ width: '30vw'}}>
+							<AlertTitle>Failed to reset password</AlertTitle>
+							<strong>Wrong old password</strong>
+						</Alert>
+					</Snackbar>
+					<Modal
+						open={open}
+						onClose={handleClose}
+						aria-labelledby="modal-modal-title"
+						aria-describedby="modal-modal-description"
+					>
+						<Box sx={style}>
+							<Typography id="modal-modal-title" variant="h6" component="h2">
+								Reset password
+							</Typography>
+							
+							<TextField 
+								sx={{
+									marginTop: '2vh',
+									width: '100%'
+								}}
+								label="Old password "
+								value={oldPw}
+								onChange={handleOldPw}
+							>
+							</TextField>
+							<TextField 
+								sx={{
+									marginTop: '2vh',
+									width: '100%'
+								}}
+								label="New password *"
+								value={newPw}
+								onChange={handleNewPw}
+							></TextField>
+							<Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, height: '4vh', marginTop: '7vh' }}
+                onClick={newPassword}
+              >
+                {'Reset Password'}
+              </Button>
+						</Box>
+					</Modal>
+					<PrimarySearchAppBar id="top" userData={userData.user} logOut={logout} resetPassword={resetPassword} />
 					<div className={"container"} style={{
 						height: '100%',
 						width: '100%',

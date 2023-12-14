@@ -186,7 +186,6 @@ function LocationDetailPage() {
                                 backgroundColor: '#2c5aaaf4',
                                 margin: '2%'
                             }}>🗑 Remove from my favourite Venue</Button><br />
-Ï
 
                             <Button variant="contained" color="error" onClick={() => {
                                 favourite()
@@ -205,7 +204,7 @@ function LocationDetailPage() {
                             }}>
                                 <path style={{
 								fontFamily: 'Courier New' ,
-							}}>🏡 Main Page > Location Details > {venue.venuee}</path>
+							}}>🏡 Main Page {'>'} Location Details {'>'} {venue.venuee}</path>
 
                                 <h1 style={{ fontFamily: "Georgia, serif" }}>{venue.venuee}</h1>
                                 <h3 style={{ fontFamily: "Georgia, serif" }}>Event details:</h3>
