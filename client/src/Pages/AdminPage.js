@@ -74,7 +74,7 @@ function AdminPage() {
     {
       accessorKey: 'eventId',
       header: 'Event ID',
-      enableEditing: false,
+      enableEditing: true,
       size: 80
     },
     {
@@ -144,7 +144,7 @@ function AdminPage() {
     {
       accessorKey: 'email',
       header: 'Email',
-      enableEditing: false,
+      enableEditing: true,
       size: 160
     },
     {
@@ -152,6 +152,12 @@ function AdminPage() {
       header: 'Password',
       enableEditing: true,
       size: 160
+    },
+    {
+      accessorKey: 'role',
+      header: 'Role',
+      enableEditing: true,
+      size: 80
     },
     {
       accessorFn: (row) => new Date(row.updatedAt).toLocaleString(),
@@ -326,7 +332,7 @@ function AdminPage() {
   const handleNewEvent = async ({ values, table }) => {
     console.log(values)
     // return
-    let response = await fetch(`http://localhost:8080/addEventToVenue/${values.venueid}`, {
+    let response = await fetch(`http://localhost:8080/addEventToVenue`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -349,8 +355,39 @@ function AdminPage() {
           setEvents(data.events)
       }
       getAllEvent();
+      table.setCreatingRow(null)
     }
-    table.setEditingRow(null)
+  }
+
+  const handleAddUser = async ({ values, table }) => {
+    console.log(values)
+    let response = await fetch(`http://localhost:8080/addUser`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: userData.user.userId
+      },
+      body: JSON.stringify(values)
+    })
+
+    const resJSON = await response.json()
+    console.log(resJSON)
+
+    // if (resJSON.success) {
+      const getAllUser = async () => {
+        let response = await fetch('http://localhost:8080/getAllUser', {
+          method: "Get",
+          headers: {
+            Authorization: userData.user.userId,
+          }
+        })
+        let data = await response.json();
+        if (data.success)
+          setUsers(data.users)
+        table.setCreatingRow(null) 
+      }
+      getAllUser();
+    // }
   }
 
   const eventsTable = useMaterialReactTable({
@@ -420,6 +457,8 @@ function AdminPage() {
     editDisplayMode: 'modal',
     enableEditing: true,
     getRowId: (row) => row.id,
+    onCreatingRowCancel: () => setValidationErrors({}),
+    onCreatingRowSave: handleAddUser,
     onEditingRowCancel: () => setValidationErrors({}),
     onEditingRowSave: handleEditUser,
     renderEditRowDialogContent: ({ table, row, internalEditComponents }) => { 
@@ -438,6 +477,19 @@ function AdminPage() {
         </DialogActions>
       </>
     )},
+    renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
+      <>
+        <DialogTitle variant="h5">Create New User</DialogTitle>
+        <DialogContent
+          sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+        >
+          {internalEditComponents} {/* or render custom edit components here */}
+        </DialogContent>
+        <DialogActions>
+          <MRT_EditActionButtons variant="text" table={table} row={row} />
+        </DialogActions>
+      </>
+    ),
     renderRowActions: ({ row, table }) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
         <Tooltip title="Edit">
@@ -455,6 +507,22 @@ function AdminPage() {
           </IconButton>
         </Tooltip>
       </Box>
+    ),
+    renderTopToolbarCustomActions: ({ table }) => (
+      <Button
+        variant="contained"
+        onClick={() => {
+          table.setCreatingRow(true); //simplest way to open the create row modal with no default values
+          //or you can pass in a row object to set default values with the `createRow` helper function
+          // table.setCreatingRow(
+          //   createRow(table, {
+          //     //optionally pass in default values for the new row, useful for nested data or other complex scenarios
+          //   }),
+          // );
+        }}
+      >
+        Create New User
+      </Button>
     ),
   })
 

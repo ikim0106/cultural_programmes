@@ -1,22 +1,22 @@
 const fs = require('fs')
 const xmljs = require('xml-js')
 
-const xmltojson = () => {
-  const xml = fs.readFileSync('events.xml', 'utf-8')
-  const json = xmljs.xml2js(xml, {compact: true, spaces: 4})
-  // json._declaration = {}
-  const eventArr = json.events.event
+// const xmltojson = () => {
+//   const xml = fs.readFileSync('events.xml', 'utf-8')
+//   const json = xmljs.xml2js(xml, {compact: true, spaces: 4})
+//   // json._declaration = {}
+//   const eventArr = json.events.event
 
-  let res = {}
-  // res["kek"] = "kek"
-  eventArr.map((event) => {
-    // console.log(event)
-    res[`${event._attributes.id}`] = event
-    delete res[`${event._attributes.id}`][`_attributes`]
-  })
+//   let res = {}
+//   // res["kek"] = "kek"
+//   eventArr.map((event) => {
+//     // console.log(event)
+//     res[`${event._attributes.id}`] = event
+//     delete res[`${event._attributes.id}`][`_attributes`]
+//   })
 
-  fs.writeFileSync('events.json', JSON.stringify(res, null, 2))
-}
+//   fs.writeFileSync('events.json', JSON.stringify(res, null, 2))
+// }
 
 const xmltojson2 = () => {
   const xml = fs.readFileSync('venues.xml', 'utf-8')
@@ -121,8 +121,6 @@ const cleanTenVenues = () => {
   console.log(tenVenuesJSON)
   fs.writeFileSync('tenVenuesAndEventsClean.json', JSON.stringify(tenVenuesJSON, null, 2))
 }
-
-// xmltojson()
 // xmltojson2()
 // venueWithEvents()
-cleanTenVenues()
+// cleanTenVenues()

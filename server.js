@@ -247,6 +247,39 @@ db.once("open", async function () {
       });
   });
 
+  app.post("/addUser", (req, res) => {
+    console.log({ input: req.body });
+    User.findOne({ userId: req.body.userId })
+      .then((user) => {
+        if (user) {
+          res
+          .status(409)
+          .send({ success: 0, message: `username already exists` });
+        }
+        else {
+          let newUser = new User({
+            userId: req.body.userId,
+            email: req.body.email,
+            password: req.body.password,
+            role: req.body.role,
+          });
+          newUser
+            .save()
+            .then(() => {
+              res
+                .status(201)
+                .send({ success: 1, message: `register successfully` });
+            })
+            .catch((err) => {
+              res.status(500).send({ success: 0, message: err });
+            });
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({ success: 0, message: err });
+      });
+  });
+
   app.post("/login", (req, res) => {
     console.log({ input: req.body });
     User.findOne({ userId: req.body.username })
