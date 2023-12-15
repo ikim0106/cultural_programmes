@@ -103,6 +103,7 @@ function UserFavouriteLocation() {
               style={{
                 height: "100%",
                 backgroundColor: "#bbc4eb8c",
+                padding: 8
               }}
             >
               <PrimarySearchAppBar userData={userData.user} logOut={logout} />
