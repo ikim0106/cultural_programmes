@@ -66,7 +66,7 @@ Content-Type: application/json
     "email": "romog15854@anawalls.com",
     "password": "123",
     "role": "user",
-    "code": "515925"
+    "code": "403461"
 }
 
 ###
@@ -74,28 +74,37 @@ POST http://localhost:8080/login
 Content-Type: application/json
 
 {
-    "username": "q",
-    "password": "321"
+    "username": "qq",
+    "password": "cu9toeuIMP"
 }
+
+###
+# POST http://localhost:8080/genCodeForForgetPassword
+# Content-Type: application/json
+
+# {
+#     "userId": "q",
+#     "email": "romog15854@anawalls.com"
+# }
+
+# ###
+# POST http://localhost:8080/forgetPassword
+# Content-Type: application/json
+
+# {
+#     "userId": "q",
+#     "email": "romog15854@anawalls.com",
+#     "code": "tFPl_hCLVo",
+#     "password": "321"
+# }
 
 ###
 POST http://localhost:8080/genCodeForForgetPassword
 Content-Type: application/json
 
 {
-    "userId": "q",
+    "userId": "qq",
     "email": "romog15854@anawalls.com"
-}
-
-###
-POST http://localhost:8080/forgetPassword
-Content-Type: application/json
-
-{
-    "userId": "q",
-    "email": "romog15854@anawalls.com",
-    "code": "tFPl_hCLVo",
-    "password": "321"
 }
 
 ###

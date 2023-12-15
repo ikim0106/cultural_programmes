@@ -44,7 +44,8 @@ function UserFavouriteLocation() {
     const fromfavourite = async (venue) => {
         let response = await fetch(`http://localhost:8080/delVenue/${venue.venueId}/fromFavourite`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+		     Authorization: userData.user.userId,},
             body: JSON.stringify({
                 "userId": userData.user.userId,
                 "venueId": venue.venueId,
