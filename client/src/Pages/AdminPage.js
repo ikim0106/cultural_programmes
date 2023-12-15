@@ -463,11 +463,6 @@ function AdminPage() {
       {!isLoading &&
       <div>
         <PrimarySearchAppBar userData={userData.user} logOut={logout} />
-        <div style={{
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center'
-        }}>
           <Box 
           >
             <Tabs value={value} onChange={handleChange} centered>
@@ -495,7 +490,6 @@ function AdminPage() {
           )
         })}
         </table> */}
-        </div>
       </div>
       }
     </>
