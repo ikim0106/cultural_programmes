@@ -211,7 +211,8 @@ function UserPage() {
 					}}>
 						<div style={{
 							height: '100%',
-							backgroundColor: '#bbc4eb8c'
+							backgroundColor: '#bbc4eb8c',
+							padding: 8
 						}}>
 
 							<Button variant="contained" color="error" onClick={() => {
