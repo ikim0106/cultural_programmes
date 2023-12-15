@@ -374,7 +374,9 @@ const RegisterLogin = () => {
             <h2 style={{ fontFamily: "Georgia, serif", textAlign: 'center' }}>Hong Kong<br></br>
               Culture Programme Application</h2>
             <Typography variant="h5" sx={{ marginTop: '2vh' }}>
-              {isRegister ? 'Sign up' : 'Sign in'}
+              {(isRegister && !isForgetPassword) ? 'Sign up' : ''}
+              {(!isRegister && !isForgetPassword) ? 'Sign in' : ''}
+              {(isForgetPassword) ? 'Forget Password' : ''}
             </Typography>
             {!isForgetPassword &&
               <>
