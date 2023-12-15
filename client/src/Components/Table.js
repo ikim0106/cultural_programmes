@@ -184,6 +184,13 @@ function Table(mode) {
           return value <= filterValue[1] && value >= filterValue[0];
         },
       },
+      {
+        accessorFn: (row) => new Date(row.updatedAt).toLocaleString(),
+        accessorKey: "updatedAt",
+        header: "Last Update",
+        enableEditing: false,
+        size: 20,
+      },
     ];
   } else if (mode.mode === "venue") {
     columns = [
@@ -202,7 +209,7 @@ function Table(mode) {
       {
         accessorKey: "updatedAt",
         header: "Last Update",
-        enableEditing: true,
+        enableEditing: false,
         size: 20,
       },
     ];

@@ -89,6 +89,13 @@ function AdminPage() {
       enableEditing: true,
       size: 80
     },
+    {
+      accessorFn: (row) => new Date(row.updatedAt).toLocaleString(),
+      accessorKey: "updatedAt",
+      header: "Last Update",
+      enableEditing: false,
+      size: 20,
+    },
     // {
     //   accessorKey: 'venuee',
     //   header: 'Venue Name',
@@ -145,6 +152,13 @@ function AdminPage() {
       header: 'Password',
       enableEditing: true,
       size: 160
+    },
+    {
+      accessorFn: (row) => new Date(row.updatedAt).toLocaleString(),
+      accessorKey: "updatedAt",
+      header: "Last Update",
+      enableEditing: false,
+      size: 20,
     },
   ])
 
@@ -279,6 +293,36 @@ function AdminPage() {
     }
   }
 
+  const openDeleteUserModal = async (row) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      console.log(row)
+      const data = row.original
+      let response = await fetch(`http://localhost:8080/delUser/${data.userId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: userData.user.userId
+        },
+      })
+      const resJSON = await response.json()
+      console.log(resJSON)
+      if (resJSON.success) {
+        const getAllUser = async () => {
+          let response = await fetch('http://localhost:8080/getAllUser', {
+            method: "Get",
+            headers: {
+              Authorization: userData.user.userId,
+            }
+          })
+          let data = await response.json();
+          if (data.success)
+            setUsers(data.users)
+        }
+        getAllUser();
+      }
+    }
+  }
+
   const handleNewEvent = async ({ values, table }) => {
     console.log(values)
     // return
@@ -401,6 +445,13 @@ function AdminPage() {
             onClick={() => table.setEditingRow(row)}
           >
             <EditIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete">
+          <IconButton color="error"
+            onClick={() => openDeleteUserModal(row)}
+          >
+            <DeleteIcon />
           </IconButton>
         </Tooltip>
       </Box>
