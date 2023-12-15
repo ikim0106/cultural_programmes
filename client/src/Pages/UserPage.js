@@ -24,23 +24,24 @@ const Lable = ({ text, venue, buttonOnclickFunction }) => (
 	>
 		<h5 style={{ color: "black" }}>{text}</h5>
 		<Button onClick={() => buttonOnclickFunction(venue)} style={{
-		backgroundColor: '#566a9a',
-		height: 25,
-		color: 'white',
-		border: '1px solid black'}}>Click Me</Button>
+			backgroundColor: '#566a9a',
+			height: 25,
+			color: 'white',
+			border: '1px solid black'
+		}}>Click Me</Button>
 	</div>
 );
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
+	position: 'absolute',
+	top: '50%',
+	left: '50%',
+	transform: 'translate(-50%, -50%)',
+	width: 400,
 	height: '30vh',
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4,
+	bgcolor: 'background.paper',
+	boxShadow: 24,
+	p: 4,
 };
 
 function UserPage() {
@@ -60,8 +61,8 @@ function UserPage() {
 
 	const handleOpen = () => setOpen(true);
 	const handleCloseToast = () => {
-    setOpenToast(false)
-  }
+		setOpenToast(false)
+	}
 	const handleClose = () => setOpen(false);
 	const resetPassword = () => {
 		console.log("RESET PASSWORD")
@@ -120,17 +121,17 @@ function UserPage() {
 	}
 
 	const newPassword = async () => {
-    // return
-    let response = await fetch(`http://localhost:8080/resetPassword`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: userData.user.userId
-      },
-      body: JSON.stringify({password: oldPw, newpassword: newPw})
-    })
-    const resJSON = await response.json()
-		if(!resJSON.success) {
+		// return
+		let response = await fetch(`http://localhost:8080/resetPassword`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: userData.user.userId
+			},
+			body: JSON.stringify({ password: oldPw, newpassword: newPw })
+		})
+		const resJSON = await response.json()
+		if (!resJSON.success) {
 			setOpenToast(true)
 		}
 		else {
@@ -153,7 +154,7 @@ function UserPage() {
 						justifyContent: 'center',
 						width: '100vw',
 					}}>
-						<Alert severity="error" sx={{ width: '30vw'}}>
+						<Alert severity="error" sx={{ width: '30vw' }}>
 							<AlertTitle>Failed to reset password</AlertTitle>
 							<strong>Wrong old password</strong>
 						</Alert>
@@ -168,8 +169,8 @@ function UserPage() {
 							<Typography id="modal-modal-title" variant="h6" component="h2">
 								Reset password
 							</Typography>
-							
-							<TextField 
+
+							<TextField
 								sx={{
 									marginTop: '2vh',
 									width: '100%'
@@ -179,7 +180,7 @@ function UserPage() {
 								onChange={handleOldPw}
 							>
 							</TextField>
-							<TextField 
+							<TextField
 								sx={{
 									marginTop: '2vh',
 									width: '100%'
@@ -189,14 +190,14 @@ function UserPage() {
 								onChange={handleNewPw}
 							></TextField>
 							<Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2, height: '4vh', marginTop: '7vh' }}
-                onClick={newPassword}
-              >
-                {'Reset Password'}
-              </Button>
+								type="submit"
+								fullWidth
+								variant="contained"
+								sx={{ mt: 3, mb: 2, height: '4vh', marginTop: '7vh' }}
+								onClick={newPassword}
+							>
+								{'Reset Password'}
+							</Button>
 						</Box>
 					</Modal>
 					<PrimarySearchAppBar id="top" userData={userData.user} logOut={logout} resetPassword={resetPassword} />
@@ -232,9 +233,9 @@ function UserPage() {
 								height: 'auto'
 							}}>
 								<path style={{
-								fontFamily: 'Courier New' ,
+									fontFamily: 'Courier New',
 								}}>🏡 Main Page</path>
-	
+
 								<h1 style={{ fontFamily: "Georgia, serif" }}>Programme Information:</h1>
 								<hr></hr>
 								<Grid container spacing={4}>
@@ -250,8 +251,8 @@ function UserPage() {
 									</Grid>
 								</Grid>
 								{value === 0 ? <Tables mode="venue" /> : <Tables mode="allevent" />}
-							
-							<br></br>
+
+								<br></br>
 								<br></br>
 								<br></br>
 								<br></br>
@@ -260,29 +261,30 @@ function UserPage() {
 								<sta style={{ fontFamily: "Verdana, serif", marginTop: 20 }}>(Click to see location details)</sta>
 
 
-							
-							<div className={"container"} style={{ height: '100vh', width: '90%', margin: "auto" }}>
-								<GoogleMapReact
-									bootstrapURLKeys={{ key: "AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4" }}
-									defaultCenter={defaultProps.center}
-									defaultZoom={defaultProps.zoom}
-									yesIWantToUseGoogleMapApiInternals
-									onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-								>
-									{venues.map((val, key) => {
-										console.log(val)
-										return (
-											<Lable
-												lat={val.latitude}
-												lng={val.longitude}
-												text={val.venuee}
-												venue={val}
-												buttonOnclickFunction={viewLocationDetails}
-											/>)
-									})}
-								</GoogleMapReact>
-							</div>
-							<a href="#top" style={{float: 'right', margin: '1%'}}>Back to Top⇪</a>
+
+								<div className={"container"} style={{ height: '100vh', width: '90%', margin: "auto" }}>
+									<GoogleMapReact
+										bootstrapURLKeys={{ key: "AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4" }}
+										defaultCenter={defaultProps.center}
+										defaultZoom={defaultProps.zoom}
+										yesIWantToUseGoogleMapApiInternals
+										onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+									>
+										{venues.map((val, key) => {
+											console.log(val)
+											return (
+												<Lable
+													key={key}
+													lat={val.latitude}
+													lng={val.longitude}
+													text={val.venuee}
+													venue={val}
+													buttonOnclickFunction={viewLocationDetails}
+												/>)
+										})}
+									</GoogleMapReact>
+								</div>
+								<a href="#top" style={{ float: 'right', margin: '1%' }}>Back to Top⇪</a>
 							</div></div></div>
 				</>
 			}
