@@ -167,9 +167,11 @@ function LocationDetailPage() {
             }}
           >
             <div
+              className="container"
               style={{
                 height: "100%",
                 backgroundColor: "#bbc4eb8c",
+                padding: 8
               }}
             >
               <iframe
@@ -177,11 +179,10 @@ function LocationDetailPage() {
                 width="100%"
                 height="450"
                 loading="lazy"
-                allowfullscreen
                 referrerpolicy="no-referrer-when-downgrade"
                 src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.latitude},${venue.longitude}`}
 
-                // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.venuee}`}
+              // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAOgqsV8q9A_EPJVSRJ1XTtUzRhtz-H_B4&q=${venue.venuee}`}
               ></iframe>
               <Button
                 variant="contained"
@@ -199,6 +200,7 @@ function LocationDetailPage() {
               </Button>
               <br />
 
+              <br />
               <Button
                 variant="contained"
                 onClick={() => {
@@ -207,12 +209,12 @@ function LocationDetailPage() {
                 style={{
                   float: "right",
                   backgroundColor: "#2c5aaaf4",
-                  margin: "2%",
+                  margin: "1%",
                 }}
               >
                 🗑 Remove from my favourite Venue
               </Button>
-              <br />
+
 
               <Button
                 variant="contained"
@@ -223,7 +225,7 @@ function LocationDetailPage() {
                 style={{
                   float: "right",
                   backgroundColor: "#de2d2dd2",
-                  margin: "0.6%",
+                  margin: "1%",
                 }}
               >
                 ♥︎ Add to my favourite Venue
