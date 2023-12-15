@@ -553,7 +553,7 @@ const RegisterLogin = () => {
                 },
                 marginTop: '1vh',
               }}>
-                {"Forget Password"}
+                {"Forgot Password?"}
               </Link>
             }
             {isForgetPassword &&

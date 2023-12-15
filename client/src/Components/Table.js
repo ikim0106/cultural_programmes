@@ -235,7 +235,7 @@ function Table(mode) {
       {
         accessorKey: "updatedAt",
         header: "Last Update",
-        enableEditing: true,
+        enableEditing: false,
         size: 20,
       },
     ];
