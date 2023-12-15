@@ -1,3 +1,5 @@
+// Student Name : Ng Tik Wai, Inho Kim, Chan Yau Ki, Mak Wing Chit, Ngai Wai Ki
+// Student ID : 1155151991, 1155116159, 1155157432, 1155157789, 1155158093
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
@@ -253,10 +255,9 @@ db.once("open", async function () {
       .then((user) => {
         if (user) {
           res
-          .status(409)
-          .send({ success: 0, message: `username already exists` });
-        }
-        else {
+            .status(409)
+            .send({ success: 0, message: `username already exists` });
+        } else {
           let newUser = new User({
             userId: req.body.userId,
             email: req.body.email,

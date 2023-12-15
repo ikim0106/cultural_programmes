@@ -1,8 +1,5 @@
-// 4. A separate view for one single location, containing:
-// a. A map showing the location.
-// b. The location details.
-// c. User comments, where users can add new comments seen by all other users.
-
+// Student Name : Ng Tik Wai, Inho Kim, Chan Yau Ki, Mak Wing Chit, Ngai Wai Ki
+// Student ID : 1155151991, 1155116159, 1155157432, 1155157789, 1155158093
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import TextField from "@mui/material/TextField";
