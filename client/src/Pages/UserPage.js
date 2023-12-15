@@ -87,9 +87,25 @@ function UserPage() {
 				},
 			});
 			let data = await response.json();
-			if (data.success) SetVenues(data.venues);
-			console.log(data.message);
-		};
+			if (data.success) { // to shift the lat/long of the data for display
+
+				for (let i = 0; i < data.venues.length; i++) {
+					for (let j = 0; j < data.venues.length; j++) {
+						// prevents the element from comparing with itself
+						if (i !== j) {
+							// check if elements' values are equal
+							if (data.venues[i].latitude === data.venues[j].latitude && data.venues[i].longitude === data.venues[j].longitude) {
+								data.venues[j].latitude = 0.0001 + parseFloat(data.venues[j].latitude);
+								data.venues[j].longitude = 0.0001 + parseFloat(data.venues[j].longitude);
+							}
+						}
+					}
+				}
+
+				SetVenues(data.venues);
+				console.log(data.message);
+			};
+		}
 
 		const tempJSON = JSON.parse(localStorage.getItem("userData"));
 		if (localStorage.getItem("userData") && tempJSON.user.role === "user") {
