@@ -13,7 +13,7 @@ import {ButtonGroup} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { Button } from '@mui/material';
+import { Avatar, Button } from '@mui/material';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
