@@ -52,7 +52,15 @@ function Table(mode) {
           });
           let data = await response.json();
           if (data.success) console.log(data.events);
-          setData(data.events);
+          // setData(data.events);
+          setData(
+            data.events.map((event) => {
+              return {
+                ...event,
+                updatedAt: new Date(event.updatedAt).toLocaleString(),
+              };
+            })
+          );
           setMax(
             Math.max(
               ...data.events.map((event) => calculatePrice(event.pricee))
@@ -98,7 +106,15 @@ function Table(mode) {
           let data = await response.json();
           console.log(data);
           if (data.success) console.log(data.events);
-          setData(data.events);
+          // setData(data.events);
+          setData(
+            data.events.map((event) => {
+              return {
+                ...event,
+                updatedAt: new Date(event.updatedAt).toLocaleString(),
+              };
+            })
+          );
           setMax(
             Math.max(
               ...data.events.map((event) => calculatePrice(event.pricee))
@@ -185,11 +201,10 @@ function Table(mode) {
         },
       },
       {
-        accessorFn: (row) => new Date(row.updatedAt).toLocaleString(),
         accessorKey: "updatedAt",
         header: "Last Update",
-        enableEditing: false,
-        size: 20,
+        enableEditing: true,
+        size: 80,
       },
     ];
   } else if (mode.mode === "venue") {
