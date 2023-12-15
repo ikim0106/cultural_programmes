@@ -40,6 +40,17 @@ function Table(mode) {
     nagivate("/LocationDetailPage", { state: venue[0] });
   };
 
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: true,
+    timeZone: 'Asia/Hong_Kong'
+  };
+
   useEffect(() => {
     const getData = () => {
       if (mode.mode === "allevent") {
@@ -52,7 +63,15 @@ function Table(mode) {
           });
           let data = await response.json();
           if (data.success) console.log(data.events);
-          setData(data.events);
+          // setData(data.events);
+          setData(
+            data.events.map((event) => {
+              return {
+                ...event,
+                updatedAt: new Date(event.updatedAt).toLocaleString('en-US', options),
+              };
+            })
+          );
           setMax(
             Math.max(
               ...data.events.map((event) => calculatePrice(event.pricee))
@@ -78,6 +97,7 @@ function Table(mode) {
               return {
                 venuee: venue.venuee,
                 events: venue.events.length,
+                updatedAt: new Date(venue.updatedAt).toLocaleString('en-US', options),
               };
             })
           );
@@ -97,7 +117,15 @@ function Table(mode) {
           let data = await response.json();
           console.log(data);
           if (data.success) console.log(data.events);
-          setData(data.events);
+          // setData(data.events);
+          setData(
+            data.events.map((event) => {
+              return {
+                ...event,
+                updatedAt: new Date(event.updatedAt).toLocaleString(),
+              };
+            })
+          );
           setMax(
             Math.max(
               ...data.events.map((event) => calculatePrice(event.pricee))
@@ -183,6 +211,12 @@ function Table(mode) {
           return value <= filterValue[1] && value >= filterValue[0];
         },
       },
+      {
+        accessorKey: "updatedAt",
+        header: "Last Update",
+        enableEditing: true,
+        size: 80,
+      },
     ];
   } else if (mode.mode === "venue") {
     columns = [
@@ -197,6 +231,12 @@ function Table(mode) {
         header: "Number of Events",
         enableEditing: true,
         size: 10,
+      },
+      {
+        accessorKey: "updatedAt",
+        header: "Last Update",
+        enableEditing: false,
+        size: 20,
       },
     ];
   }
