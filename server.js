@@ -5,10 +5,10 @@ const morgan = require("morgan");
 const app = express();
 const port = 8080;
 const nodemailer = require("nodemailer");
-const schedule = require('node-schedule');
+const schedule = require("node-schedule");
 
-const SENDER_EMAIL = 'fyy2303@gmail.com';
-const SENDER_EMAIL_PASSWORD = 'gzkjinvlemayjnto';
+const SENDER_EMAIL = "fyy2303@gmail.com";
+const SENDER_EMAIL_PASSWORD = "gzkjinvlemayjnto";
 
 app.use(cors());
 app.use(express.json());
@@ -157,50 +157,63 @@ db.once("open", async function () {
       });
   }
 
-  app.post('/genCodeForRegister', (req, res) => {
+  app.post("/genCodeForRegister", (req, res) => {
     console.log({ input: req.body });
     let code = Math.floor(100000 + Math.random() * 900000);
     let subject = "Please confirm your account";
-    let data = `<p>Your verification code is: <strong>${code}</strong><br>This verification code will be expired in 15 mins</p>`
+    let data = `<p>Your verification code is: <strong>${code}</strong><br>This verification code will be expired in 15 mins</p>`;
     let newCode = new Code({ email: req.body.email, code: code });
-    newCode.save()
+    newCode
+      .save()
       .then((newCode) => {
-        console.log(newCode.code)
-        schedule.scheduleJob(newCode.createdAt.getTime() + 15 * 60 * 1000, async () => {
-          Code.findByIdAndDelete(newCode._id)
-            .then((deleted) => {
-              if (!deleted) console.log(`${code} is removed before this scheduleJob`);
-              else console.log(`${code} successfully removed`);
-            })
-            .catch((err) => {
-              res.status(500).send({ success: 0, message: err });
-            })
-        })
+        console.log(newCode.code);
+        schedule.scheduleJob(
+          newCode.createdAt.getTime() + 15 * 60 * 1000,
+          async () => {
+            Code.findByIdAndDelete(newCode._id)
+              .then((deleted) => {
+                if (!deleted)
+                  console.log(`${code} is removed before this scheduleJob`);
+                else console.log(`${code} successfully removed`);
+              })
+              .catch((err) => {
+                res.status(500).send({ success: 0, message: err });
+              });
+          }
+        );
       })
       .catch((err) => {
         res.status(500).send({ success: 0, message: err });
-      })
+      });
     var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: SENDER_EMAIL, pass: SENDER_EMAIL_PASSWORD, },
+      service: "gmail",
+      auth: { user: SENDER_EMAIL, pass: SENDER_EMAIL_PASSWORD },
     });
-    var mailOptions = { from: SENDER_EMAIL, to: req.body.email, subject: subject, html: data, };
+    var mailOptions = {
+      from: SENDER_EMAIL,
+      to: req.body.email,
+      subject: subject,
+      html: data,
+    };
     transporter.sendMail(mailOptions, function (error, info) {
-      if (error)
-        return res.status(500).json({ success: 0, message: error });
+      if (error) return res.status(500).json({ success: 0, message: error });
       else {
-        console.log(info.response)
-        res.status(200).send({ success: 1, message: 'Email sent', code: newCode.code });
+        console.log(info.response);
+        res
+          .status(200)
+          .send({ success: 1, message: "Email sent", code: newCode.code });
       }
-    })
-  })
+    });
+  });
 
   app.post("/register", (req, res) => {
     console.log({ input: req.body });
     User.findOne({ userId: req.body.username })
       .then((user) => {
         if (user)
-          res.status(409).send({ success: 0, message: `username already exists` });
+          res
+            .status(409)
+            .send({ success: 0, message: `username already exists` });
         else
           Code.findOneAndDelete({ email: req.body.email, code: req.body.code })
             .then((code) => {
@@ -265,7 +278,7 @@ db.once("open", async function () {
         .save()
         .then(() => {
           var transporter = nodemailer.createTransport({
-            service: 'gmail',
+            service: "gmail",
             auth: { user: SENDER_EMAIL, pass: SENDER_EMAIL_PASSWORD },
           });
           var mailOptions = {
@@ -278,8 +291,10 @@ db.once("open", async function () {
             if (error)
               return res.status(500).json({ success: 0, message: error });
             else {
-              console.log(info.response)
-              res.status(200).send({ success: 1, message: `reset password successfully` });
+              console.log(info.response);
+              res
+                .status(200)
+                .send({ success: 1, message: `reset password successfully` });
             }
           });
         })
@@ -289,14 +304,15 @@ db.once("open", async function () {
     }
   });
 
-  app.post('/genCodeForForgetPassword', async (req, res) => {
+  app.post("/genCodeForForgetPassword", async (req, res) => {
     console.log({ input: req.body });
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%*&+1234567890';
-    let code = ''
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%*&+1234567890";
+    let code = "";
     for (let i = 0; i < 10; i++)
       code += characters[Math.floor(Math.random() * characters.length)];
     let subject = "Forget Password";
-    let data = `<p>Your new password is: <strong>${code}</strong><br>Please reset it after login</p>`
+    let data = `<p>Your new password is: <strong>${code}</strong><br>Please reset it after login</p>`;
     User.findOneAndUpdate(
       { email: req.body.email, userId: req.body.userId },
       { password: code },
@@ -306,9 +322,9 @@ db.once("open", async function () {
         if (!user)
           res.status(404).send({ success: 0, message: `User not registered` });
         else {
-          console.log(user.password)
+          console.log(user.password);
           var transporter = nodemailer.createTransport({
-            service: 'gmail',
+            service: "gmail",
             auth: {
               user: SENDER_EMAIL,
               pass: SENDER_EMAIL_PASSWORD,
@@ -321,19 +337,18 @@ db.once("open", async function () {
             html: data,
           };
           transporter.sendMail(mailOptions, function (error, info) {
-            if (error)
-              res.status(500).json({ success: 0, message: error });
+            if (error) res.status(500).json({ success: 0, message: error });
             else {
-              console.log(info.response)
-              res.status(200).send({ success: 1, message: 'Email sent' });
+              console.log(info.response);
+              res.status(200).send({ success: 1, message: "Email sent" });
             }
           });
         }
       })
       .catch((err) => {
         res.status(500).send({ success: 0, message: err });
-      })
-  })
+      });
+  });
 
   // app.post('/genCodeForForgetPassword', async (req, res) => {
   //   console.log({ input: req.body });
@@ -469,11 +484,9 @@ db.once("open", async function () {
         .status(401)
         .send({ success: 0, message: `Only admin can do this operation` });
     else
-      User.findOneAndUpdate(
-        { userId: req.params.userId0 },
-        req.body,
-        { new: true }
-      )
+      User.findOneAndUpdate({ userId: req.params.userId0 }, req.body, {
+        new: true,
+      })
         .then((user) => {
           if (!user)
             res.status(404).send({
@@ -744,13 +757,12 @@ db.once("open", async function () {
   });
 
   app.get("/getEvent/:venueId", (req, res) => {
-    Venue.findOne({ venueId: req.params.venueId })
-      .populate("events")
+    Event.find({ venueid: req.params.venueId })
       .then((items) => {
         res.status(200).send({
           success: 1,
           message: `get venues successfully`,
-          venues: items,
+          events: items,
         });
       })
       .catch((err) => {
