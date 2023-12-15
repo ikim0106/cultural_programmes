@@ -144,20 +144,13 @@ export default function PrimarySearchAppBar({ userData, logOut, resetPassword })
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <Avatar src="https://cdn-icons-png.flaticon.com/512/197/197570.png" />
+
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: { xs: 'none', sm: 'block' }, marginLeft: 2 }}
           >
             <h4 style={{ fontFamily: "Georgia, serif" }}>Hong Kong Culture Programme</h4>
           </Typography>

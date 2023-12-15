@@ -172,7 +172,7 @@ function Table(mode) {
         filterFn: (row, id, filterValue) => {
           console.log("filter:", filterValue);
           let value = row.getValue(id);
-          if (value.includes("Free")) {
+          if (value.includes("Free") || value.includes(":")) {
             value = 0;
           } else if (value.includes("HK$")) {
             value = parseInt(value.slice(3));
