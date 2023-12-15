@@ -190,7 +190,7 @@ db.once("open", async function () {
         return res.status(500).json({ success: 0, message: error });
       else {
         console.log(info.response)
-        res.status(200).send({ success: 1, message: 'Email sent', code: newCode.code});
+        res.status(200).send({ success: 1, message: 'Email sent', code: newCode.code });
       }
     })
   })
@@ -291,35 +291,22 @@ db.once("open", async function () {
 
   app.post('/genCodeForForgetPassword', async (req, res) => {
     console.log({ input: req.body });
-    User.findOne({ email: req.body.email, userId: req.body.userId })
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%*&+1234567890';
+    let code = ''
+    for (let i = 0; i < 10; i++)
+      code += characters[Math.floor(Math.random() * characters.length)];
+    let subject = "Forget Password";
+    let data = `<p>Your new password is: <strong>${code}</strong><br>Please reset it after login</p>`
+    User.findOneAndUpdate(
+      { email: req.body.email, userId: req.body.userId },
+      { password: code },
+      { new: true }
+    )
       .then((user) => {
         if (!user)
           res.status(404).send({ success: 0, message: `User not registered` });
         else {
-          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%*_+-';
-          let code = ''
-          for (let i = 0; i < 10; i++)
-            code += characters[Math.floor(Math.random() * characters.length)];
-          let subject = "One-time Password";
-          let data = `<p>Your one-time password is: <strong>${code}</strong><br>This password will be expired in 15 mins</p>`
-          let newCode = new Code({ email: req.body.email, code: code });
-          newCode.save()
-            .then((newCode) => {
-              console.log(newCode.code)
-              schedule.scheduleJob(newCode.createdAt.getTime() + 15 * 60 * 1000, async () => {
-                Code.findByIdAndDelete(newCode._id)
-                  .then((deleted) => {
-                    if (!deleted) console.log(`${code} is removed before this scheduleJob`);
-                    else console.log(`${code} successfully removed`);
-                  })
-                  .catch((err) => {
-                    res.status(500).send({ success: 0, message: err });
-                  })
-              })
-            })
-            .catch((err) => {
-              res.status(500).send({ success: 0, message: err });
-            })
+          console.log(user.password)
           var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -344,36 +331,95 @@ db.once("open", async function () {
         }
       })
       .catch((err) => {
-        res.status(500).json({ success: 0, message: err });
+        res.status(500).send({ success: 0, message: err });
       })
   })
 
-  app.post('/forgetPassword', (req, res) => {
-    console.log({ input: req.body });
-    Code.findOneAndDelete({ email: req.body.email, code: req.body.code })
-      .then((code) => {
-        if (!code)
-          res.status(400).send({ success: 0, message: `Invalid code` });
-        else
-          User.findOneAndUpdate(
-            { userId: req.body.userId },
-            { password: req.body.password },
-            { new: true }
-          )
-            .then((user) => {
-              if (!user)
-                res.status(404).send({ success: 0, message: `Invalid userId` });
-              else
-                res.status(200).send({ success: 1, message: `reset password successfully` });
-            })
-            .catch((err) => {
-              res.status(500).send({ success: 0, message: err });
-            });
-      })
-      .catch((err) => {
-        res.status(500).send({ success: 0, message: err });
-      });
-  })
+  // app.post('/genCodeForForgetPassword', async (req, res) => {
+  //   console.log({ input: req.body });
+  //   User.findOne({ email: req.body.email, userId: req.body.userId })
+  //     .then((user) => {
+  //       if (!user)
+  //         res.status(404).send({ success: 0, message: `User not registered` });
+  //       else {
+  //         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%*_+-';
+  //         let code = ''
+  //         for (let i = 0; i < 10; i++)
+  //           code += characters[Math.floor(Math.random() * characters.length)];
+  //         let subject = "One-time Password";
+  //         let data = `<p>Your one-time password is: <strong>${code}</strong><br>This password will be expired in 15 mins</p>`
+  //         let newCode = new Code({ email: req.body.email, code: code });
+  //         newCode.save()
+  //           .then((newCode) => {
+  //             console.log(newCode.code)
+  //             schedule.scheduleJob(newCode.createdAt.getTime() + 15 * 60 * 1000, async () => {
+  //               Code.findByIdAndDelete(newCode._id)
+  //                 .then((deleted) => {
+  //                   if (!deleted) console.log(`${code} is removed before this scheduleJob`);
+  //                   else console.log(`${code} successfully removed`);
+  //                 })
+  //                 .catch((err) => {
+  //                   res.status(500).send({ success: 0, message: err });
+  //                 })
+  //             })
+  //           })
+  //           .catch((err) => {
+  //             res.status(500).send({ success: 0, message: err });
+  //           })
+  //         var transporter = nodemailer.createTransport({
+  //           service: 'gmail',
+  //           auth: {
+  //             user: SENDER_EMAIL,
+  //             pass: SENDER_EMAIL_PASSWORD,
+  //           },
+  //         });
+  //         var mailOptions = {
+  //           from: SENDER_EMAIL,
+  //           to: req.body.email,
+  //           subject: subject,
+  //           html: data,
+  //         };
+  //         transporter.sendMail(mailOptions, function (error, info) {
+  //           if (error)
+  //             res.status(500).json({ success: 0, message: error });
+  //           else {
+  //             console.log(info.response)
+  //             res.status(200).send({ success: 1, message: 'Email sent' });
+  //           }
+  //         });
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       res.status(500).json({ success: 0, message: err });
+  //     })
+  // })
+
+  // app.post('/forgetPassword', (req, res) => {
+  //   console.log({ input: req.body });
+  //   Code.findOneAndDelete({ email: req.body.email, code: req.body.code })
+  //     .then((code) => {
+  //       if (!code)
+  //         res.status(400).send({ success: 0, message: `Invalid code` });
+  //       else
+  //         User.findOneAndUpdate(
+  //           { userId: req.body.userId },
+  //           { password: req.body.password },
+  //           { new: true }
+  //         )
+  //           .then((user) => {
+  //             if (!user)
+  //               res.status(404).send({ success: 0, message: `Invalid userId` });
+  //             else
+  //               res.status(200).send({ success: 1, message: `reset password successfully` });
+  //           })
+  //           .catch((err) => {
+  //             res.status(500).send({ success: 0, message: err });
+  //           });
+  //     })
+  //     .catch((err) => {
+  //       res.status(500).send({ success: 0, message: err });
+  //     });
+  // })
 
   app.delete("/delUser/:userId0", auth, (req, res) => {
     console.log({ input: req.params });
