@@ -93,6 +93,8 @@ const RegisterLogin = () => {
     }
     if (temp.success && response.status === 200) {
       setCheckEmailToast(true)
+      setIsForgetPassword(false)
+      setIsRegister(false)
       return
     }
   }
