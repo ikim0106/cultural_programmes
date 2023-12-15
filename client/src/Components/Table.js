@@ -206,6 +206,7 @@ function Table(mode) {
     data: data,
     createDisplayMode: "modal",
     editDisplayMode: "modal",
+    initialState: { showColumnFilters: true, showGlobalFilter: true },
     muiTableBodyRowProps: ({ row }) => ({
       onClick: (event) => {
         if (mode.mode !== "venue") return;
