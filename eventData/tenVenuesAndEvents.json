@@ -1,45 +1,45 @@
 {
-  "36310035": {
+  "3110031": {
     "venuec": {
-      "_cdata": "沙田大會堂 (演奏廳)"
+      "_cdata": "北區大會堂 (演奏廳)"
     },
     "venuee": {
-      "_cdata": "Sha Tin Town Hall (Auditorium)"
+      "_cdata": "North District Town Hall (Auditorium)"
     },
     "latitude": {
-      "_cdata": "22.38136"
+      "_cdata": "22.501639"
     },
     "longitude": {
-      "_cdata": "114.18990"
+      "_cdata": "114.128911"
     },
     "events": {
-      "154950": {
+      "154941": {
         "titlec": {
-          "_cdata": "牡丹花咏耀香江"
+          "_cdata": "十方來客27.12.2023音樂會"
         },
         "titlee": {
-          "_cdata": "Cantonese Opera Excerpts and Operatic Songs Concert"
+          "_cdata": "Pop Concert"
         },
         "cat1": {
           "_cdata": "inc4"
         },
         "cat2": {
-          "_cdata": "inc4sc2"
+          "_cdata": "inc4sc9"
         },
         "predateC": {
-          "_cdata": "2023年12月11日 (一) 晚上7:00"
+          "_cdata": "2023年12月27日 (三) 晚上7:30"
         },
         "predateE": {
-          "_cdata": "11 Dec 2023 (Mon) 7:00pm"
+          "_cdata": "27 Dec 2023 (Wed) 7:30pm"
         },
         "progtimec": {
-          "_cdata": "3小時50分鐘"
+          "_cdata": "3小時00分鐘"
         },
         "progtimee": {
-          "_cdata": "3hr50mins"
+          "_cdata": "3hr00mins"
         },
         "venueid": {
-          "_cdata": "36310035"
+          "_cdata": "3110031"
         },
         "agelimitc": {
           "_cdata": "只限6歲或以上人士"
@@ -62,25 +62,25 @@
         "remarkc": {},
         "remarke": {},
         "enquiry": {
-          "_cdata": "9282 5028"
+          "_cdata": "8203 8948"
         },
         "fax": {},
         "email": {},
         "saledate": {},
         "interbook": {},
         "presenterorgc": {
-          "_cdata": "富榮牡丹粵樂研習社主辦"
+          "_cdata": "動力音符聯盟主辦"
         },
         "presenterorge": {
-          "_cdata": "Presented by Charming Peony Cantonese Music Association"
+          "_cdata": "Presented by Active Note Alliance"
         }
       },
-      "154954": {
+      "154943": {
         "titlec": {
-          "_cdata": "趣雅藝苑戲曲會知音"
+          "_cdata": "仙姿妙韻粵曲會知音"
         },
         "titlee": {
-          "_cdata": "Cantonese Opera Excerpts and Operatic Songs Concert"
+          "_cdata": "Cantonese Operatic Songs Concert"
         },
         "cat1": {
           "_cdata": "inc4"
@@ -89,19 +89,223 @@
           "_cdata": "inc4sc2"
         },
         "predateC": {
-          "_cdata": "2023年12月25日 (一) 晚上7:00"
+          "_cdata": "2023年12月29日 (五) 下午2:00"
         },
         "predateE": {
-          "_cdata": "25 Dec 2023 (Mon) 7:00pm"
+          "_cdata": "29 Dec 2023 (Fri) 2:00pm"
         },
         "progtimec": {
-          "_cdata": "4小時00分鐘"
+          "_cdata": "3小時50分鐘"
         },
         "progtimee": {
-          "_cdata": "4hr00mins"
+          "_cdata": "3hr50mins"
         },
         "venueid": {
-          "_cdata": "36310035"
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "只限6歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "Only for age 6 or above"
+        },
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "93262549"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "仙姿妙韻曲藝社主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Angel Song Association"
+        }
+      },
+      "154945": {
+        "titlec": {
+          "_cdata": "粵曲齊唱獻知音"
+        },
+        "titlee": {
+          "_cdata": "Cantonese Music Sings Awareness"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc2"
+        },
+        "predateC": {
+          "_cdata": "2023年12月31日 (日) 下午2:00"
+        },
+        "predateE": {
+          "_cdata": "31 Dec 2023 (Sun) 2:00pm"
+        },
+        "progtimec": {
+          "_cdata": "3小時30分鐘"
+        },
+        "progtimee": {
+          "_cdata": "3hr30mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "只限6歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "Only for age 6 or above"
+        },
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "90850617"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "齊歡唱曲藝社主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Happy Singing Together Chinese Opera Association"
+        }
+      },
+      "155629": {
+        "titlec": {
+          "_cdata": "香港戲劇工程《愛的教育首部曲：萬里心程找媽媽》— 北區大會堂場地伙伴計劃"
+        },
+        "titlee": {
+          "_cdata": "\"The Heart's Journey - from the Apennines to the Andes\" by Hong Kong Theatre Works - North District Town Hall Venue Partnership Scheme"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc6"
+        },
+        "predateC": {
+          "_cdata": "2023年\n12月15日 (五) 晚上7:30\n12月16日 (六) 上午11:30及下午4:00\n12月17日 (日) 上午11:30及下午4:00\n12月23日 (六) 上午11:30*及下午4:00\n12月24日 (日) 上午11:30"
+        },
+        "predateE": {
+          "_cdata": "2023\n15 Dec (FRI) 7:30PM\n16 Dec (SAT) 11:30AM, 4:00PM\n17 Dec (SUN) 11:30AM, 4:00PM\n23 Dec (SAT) 11:30AM*,4:00PM\n24 Dec (SUN) 11:30AM"
+        },
+        "progtimec": {
+          "_cdata": "1小時15分鐘"
+        },
+        "progtimee": {
+          "_cdata": "1hr15mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "適合3歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "For age 3 or above"
+        },
+        "pricec": {
+          "_cdata": "$220"
+        },
+        "pricee": {
+          "_cdata": "$220"
+        },
+        "descc": {
+          "_cdata": "2023年\n12月15日 (五) 晚上7:30\n12月16日 (六) 上午11:30及下午4:00\n12月17日 (日) 上午11:30及下午4:00\n12月23日 (六) 上午11:30*及下午4:00\n12月24日 (日) 上午11:30\n*12月23日(六)上午11:30為通達專場，門票不設公開發售。"
+        },
+        "desce": {
+          "_cdata": "15 Dec 2023 (FRI) 7:30PM\n16 Dec 2023 (SAT) 11:30AM, 4:00PM\n17 Dec 2023 (SUN) 11:30AM, 3:00PM\n23 Dec 2023 (SAT) 11:30AM*,4:00PM\n24 Dec 2023 (SUN) 11:30AM\n*Accessible performance on 23 Dec, 11:30 am. Tickets not for public sales."
+        },
+        "urlc": {
+          "_cdata": "https://www.hktws.com/about-3-1"
+        },
+        "urle": {
+          "_cdata": "https://www.hktws.com/about-3-1"
+        },
+        "tagenturlc": {
+          "_cdata": "http://www.lcsd.gov.hk/tc/ticket/index.html"
+        },
+        "tagenturle": {
+          "_cdata": "http://www.lcsd.gov.hk/en/ticket/index.html"
+        },
+        "remarkc": {
+          "_cdata": "香港戲劇工程為北區大會堂場地伙伴"
+        },
+        "remarke": {
+          "_cdata": "Hong Kong Theatre Works is the Venue Partner of the North District Town Hall"
+        },
+        "enquiry": {
+          "_cdata": "2606 2989"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {
+          "_cdata": "Y"
+        },
+        "presenterorgc": {
+          "_cdata": "香港戲劇工程主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Hong Kong Theatre Works"
+        }
+      },
+      "155777": {
+        "titlec": {
+          "_cdata": "霞彩笙輝粵藝會知音"
+        },
+        "titlee": {
+          "_cdata": "Cantonese Operatic Songs Concert"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc2"
+        },
+        "predateC": {
+          "_cdata": "2024年1月1日 (一) 下午2:00"
+        },
+        "predateE": {
+          "_cdata": "1 Jan 2024 (Mon) 2:00pm"
+        },
+        "progtimec": {
+          "_cdata": "3小時40分鐘"
+        },
+        "progtimee": {
+          "_cdata": "3hr40mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
         },
         "agelimitc": {},
         "agelimite": {},
@@ -120,93 +324,25 @@
         "remarkc": {},
         "remarke": {},
         "enquiry": {
-          "_cdata": "9628 7616"
+          "_cdata": "64081205"
         },
         "fax": {},
         "email": {},
         "saledate": {},
         "interbook": {},
         "presenterorgc": {
-          "_cdata": "趣雅藝苑主辦"
+          "_cdata": "霞笙輝曲苑主辦"
         },
         "presenterorge": {
-          "_cdata": "Presented by 趣雅藝苑"
+          "_cdata": "Presented by Ha Sang Fai Artist Guild"
         }
       },
-      "154955": {
+      "155778": {
         "titlec": {
-          "_cdata": "沙田文藝協會舞蹈周年匯演2023"
+          "_cdata": "金曲演唱會"
         },
         "titlee": {
-          "_cdata": "Annual Dancing Variety Show of STAA"
-        },
-        "cat1": {
-          "_cdata": "inc4"
-        },
-        "cat2": {
-          "_cdata": "inc4sc3"
-        },
-        "predateC": {
-          "_cdata": "2023年12月30日 (六) 下午3:30"
-        },
-        "predateE": {
-          "_cdata": "30 Dec 2023 (Sat) 3:30pm"
-        },
-        "progtimec": {
-          "_cdata": "1小時00分鐘"
-        },
-        "progtimee": {
-          "_cdata": "1hr00mins"
-        },
-        "venueid": {
-          "_cdata": "36310035"
-        },
-        "agelimitc": {
-          "_cdata": "只限3歲或以上人士"
-        },
-        "agelimite": {
-          "_cdata": "Only for age 3 or above"
-        },
-        "pricec": {
-          "_cdata": "$80"
-        },
-        "pricee": {
-          "_cdata": "$80"
-        },
-        "descc": {},
-        "desce": {},
-        "urlc": {},
-        "urle": {},
-        "tagenturlc": {
-          "_cdata": "http://www.lcsd.gov.hk/tc/ticket/index.html"
-        },
-        "tagenturle": {
-          "_cdata": "http://www.lcsd.gov.hk/en/ticket/index.html"
-        },
-        "remarkc": {},
-        "remarke": {},
-        "enquiry": {
-          "_cdata": "2606 6554"
-        },
-        "fax": {},
-        "email": {},
-        "saledate": {},
-        "interbook": {
-          "_cdata": "N"
-        },
-        "presenterorgc": {
-          "_cdata": "沙田文藝協會主辦"
-        },
-        "presenterorge": {
-          "_cdata": "Presented by Sha Tin Arts Association"
-        }
-      },
-      "154956": {
-        "titlec": {
-          "_cdata": "香港故事 ─ 沙田合唱團周年演奏會2023"
-        },
-        "titlee": {
-          "_cdata": "Sha Tin Choir Annual Concert 2023"
+          "_cdata": "Oldies Concert"
         },
         "cat1": {
           "_cdata": "inc4"
@@ -215,63 +351,53 @@
           "_cdata": "inc4sc9"
         },
         "predateC": {
-          "_cdata": "2023年12月30日 (六) 晚上7:45"
+          "_cdata": "2024年1月5日 (一) 晚上7:00"
         },
         "predateE": {
-          "_cdata": "30 Dec 2023 (Sat) 7:45pm"
+          "_cdata": "5 Jan 2024 (Fri) 7:00pm"
         },
         "progtimec": {
-          "_cdata": "2小時00分鐘"
+          "_cdata": "3小時30分鐘"
         },
         "progtimee": {
-          "_cdata": "2hr00mins"
+          "_cdata": "3hr30mins"
         },
         "venueid": {
-          "_cdata": "36310035"
+          "_cdata": "3110031"
         },
-        "agelimitc": {
-          "_cdata": "只限6歲或以上人士"
-        },
-        "agelimite": {
-          "_cdata": "Only for age 6 or above"
-        },
+        "agelimitc": {},
+        "agelimite": {},
         "pricec": {
-          "_cdata": "$80"
+          "_cdata": "憑票免費入場"
         },
         "pricee": {
-          "_cdata": "$80"
+          "_cdata": "Free admission by tickets"
         },
         "descc": {},
         "desce": {},
         "urlc": {},
         "urle": {},
-        "tagenturlc": {
-          "_cdata": "http://www.lcsd.gov.hk/tc/ticket/index.html"
-        },
-        "tagenturle": {
-          "_cdata": "http://www.lcsd.gov.hk/en/ticket/index.html"
-        },
+        "tagenturlc": {},
+        "tagenturle": {},
         "remarkc": {},
         "remarke": {},
         "enquiry": {
-          "_cdata": "2606 6544"
+          "_cdata": "9070 0740 / 9288 8271"
         },
         "fax": {},
         "email": {},
         "saledate": {},
-        "interbook": {
-          "_cdata": "N"
-        },
+        "interbook": {},
         "presenterorgc": {
-          "_cdata": "沙田文藝協會主辦"
+          "_cdata": "樂穎歌詠社主辦"
         },
         "presenterorge": {
-          "_cdata": "Presented by Sha Tin Arts Association"
+          "_cdata": "Presented by 樂穎歌詠社"
         }
       },
-      "154957": {
+      "155779": {
         "titlec": {
-          "_cdata": "笙歌粵韻迎新歲"
+          "_cdata": "粵韻獻知音"
         },
         "titlee": {
           "_cdata": "Cantonese Operatic Songs Concert"
@@ -283,19 +409,81 @@
           "_cdata": "inc4sc2"
         },
         "predateC": {
-          "_cdata": "2023年12月31日 (日) 下午2:00"
+          "_cdata": "2024年1月7日(日) 下午2:00"
         },
         "predateE": {
-          "_cdata": "31 Dec 2023 (Sun) 2:00pm"
+          "_cdata": "7 Jan 2024 (Sun) 2:00pm"
         },
         "progtimec": {
-          "_cdata": "3小時45分鐘"
+          "_cdata": "4小時00分鐘"
         },
         "progtimee": {
-          "_cdata": "3hr45mins"
+          "_cdata": "4hr00mins"
         },
         "venueid": {
-          "_cdata": "36310035"
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "只限18歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "Only for age 18 or above"
+        },
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "97411962"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "彩園樂社主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Choi Yuen Music Club"
+        }
+      },
+      "155780": {
+        "titlec": {
+          "_cdata": "懷舊金曲"
+        },
+        "titlee": {
+          "_cdata": "Oldies Concert"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc9"
+        },
+        "predateC": {
+          "_cdata": "2024年1月8日 (一) 下午2:00, 晚上7:00"
+        },
+        "predateE": {
+          "_cdata": "8 Jan 2024 (Mon) 2:00pm, 7:00pm"
+        },
+        "progtimec": {
+          "_cdata": "日場: 3小時30分鐘, 夜場: 3小時45分鐘"
+        },
+        "progtimee": {
+          "_cdata": "Matinee: 3hr30mins, Evening: 3hr45mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
         },
         "agelimitc": {
           "_cdata": "只限6歲或以上人士"
@@ -318,17 +506,893 @@
         "remarkc": {},
         "remarke": {},
         "enquiry": {
-          "_cdata": "6462 5298"
+          "_cdata": "92087896"
         },
         "fax": {},
         "email": {},
         "saledate": {},
         "interbook": {},
         "presenterorgc": {
-          "_cdata": "同樂曲藝社主辦"
+          "_cdata": "國華歌友會主辦"
         },
         "presenterorge": {
-          "_cdata": "Presented by Tung Lok Cantonese Singing Association"
+          "_cdata": "Presented by 國華歌友會"
+        }
+      },
+      "155781": {
+        "titlec": {
+          "_cdata": "粵曲演唱會"
+        },
+        "titlee": {
+          "_cdata": "Cantonese Operatic Songs Concert"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc2"
+        },
+        "predateC": {
+          "_cdata": "2024年1月9日 (二) 下午2:00"
+        },
+        "predateE": {
+          "_cdata": "9 Jan 2024 (Tue) 2:00pm"
+        },
+        "progtimec": {
+          "_cdata": "3小時30分鐘"
+        },
+        "progtimee": {
+          "_cdata": "3hr30mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "只限6歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "Only for age 6 or above"
+        },
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "59992270"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "智嫻曲藝社主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by The Best Team"
+        }
+      },
+      "155782": {
+        "titlec": {
+          "_cdata": "當年金曲夜夜情"
+        },
+        "titlee": {
+          "_cdata": "Oldies Concert"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc9"
+        },
+        "predateC": {
+          "_cdata": "2024年1月11日(四) 下午2:00, 晚上7:00"
+        },
+        "predateE": {
+          "_cdata": "11 Jan 2024 (Thu) 2:00pm, 7:00pm"
+        },
+        "progtimec": {
+          "_cdata": "3小時30分鐘"
+        },
+        "progtimee": {
+          "_cdata": "3hr30mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "只限6歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "Only for age 6 or above"
+        },
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "90962538"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "盡唱吧知音人主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Non Stop Singing"
+        }
+      },
+      "155783": {
+        "titlec": {
+          "_cdata": "金曲妙韻樂繽紛"
+        },
+        "titlee": {
+          "_cdata": "Variety Show"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc12"
+        },
+        "predateC": {
+          "_cdata": "2024年1月13日(六) 下午2:00, 晚上7:00"
+        },
+        "predateE": {
+          "_cdata": "13 Jan 2024 (Sat) 2:00pm, 7:00pm"
+        },
+        "progtimec": {
+          "_cdata": "日場: 2小時30分鐘, 夜場: 3小時30分鐘"
+        },
+        "progtimee": {
+          "_cdata": "Matinee: 2hr30mins, Evening: 3hr30mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "只限6歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "Only for age 6 or above"
+        },
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "69095119"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "逍遙金曲樂主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Merry Music Association"
+        }
+      },
+      "155784": {
+        "titlec": {
+          "_cdata": "詩情樂韻贈知音"
+        },
+        "titlee": {
+          "_cdata": "Cantonese Operatic Songs Concert"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc2"
+        },
+        "predateC": {
+          "_cdata": "2024年1月14日 (日) 下午2:00"
+        },
+        "predateE": {
+          "_cdata": "14 Jan 2024 (Sun) 2:00pm"
+        },
+        "progtimec": {
+          "_cdata": "3小時30分鐘"
+        },
+        "progtimee": {
+          "_cdata": "3hr30mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "只限6歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "Only for age 6 or above"
+        },
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "57938687"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "詩樂粵曲藝術研究社主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Happy Poem Arts Club"
+        }
+      },
+      "155785": {
+        "titlec": {
+          "_cdata": "緣聚友情在北區音樂演唱會"
+        },
+        "titlee": {
+          "_cdata": "Variety Show"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc12"
+        },
+        "predateC": {
+          "_cdata": "2024年1月15日 (一) 下午2:15, 晚上7:15"
+        },
+        "predateE": {
+          "_cdata": "15 Jan 2024 (Mon) 2:15pm, 7:15pm"
+        },
+        "progtimec": {
+          "_cdata": "3小時45分鐘"
+        },
+        "progtimee": {
+          "_cdata": "3hr45mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "只限6歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "Only for age 6 or above"
+        },
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "51869221"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "SING好歌會知音資源共享平台主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by SING好歌會知音資源共享平台"
+        }
+      },
+      "155786": {
+        "titlec": {
+          "_cdata": "曉韻柔情滙知音"
+        },
+        "titlee": {
+          "_cdata": "Cantonese Operatic Songs Concert"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc2"
+        },
+        "predateC": {
+          "_cdata": "2024年1月17日 (三) 下午2:00"
+        },
+        "predateE": {
+          "_cdata": "17 Jan 2024 (Wed) 2:00pm"
+        },
+        "progtimec": {
+          "_cdata": "3小時45分鐘"
+        },
+        "progtimee": {
+          "_cdata": "3hr45mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "只限6歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "Only for age 6 or above"
+        },
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "93262549"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "曉韻柔晴曲藝坊主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Classical Music Art"
+        }
+      },
+      "155787": {
+        "titlec": {
+          "_cdata": "金曲俱樂部"
+        },
+        "titlee": {
+          "_cdata": "Oldies Concert"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc9"
+        },
+        "predateC": {
+          "_cdata": "2024年1月19日(五) 晚上7:00"
+        },
+        "predateE": {
+          "_cdata": "19 Jan 2024 (Fri) 7:00pm"
+        },
+        "progtimec": {
+          "_cdata": "3小時45分鐘"
+        },
+        "progtimee": {
+          "_cdata": "3hr45mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "只限6歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "Only for age 6 or above"
+        },
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "93378017"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "秀麗音樂社主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Lisa Music Society"
+        }
+      },
+      "155788": {
+        "titlec": {
+          "_cdata": "懷舊金曲夜"
+        },
+        "titlee": {
+          "_cdata": "Classical Music"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc9"
+        },
+        "predateC": {
+          "_cdata": "2024年1月20日(六) 晚上7:00"
+        },
+        "predateE": {
+          "_cdata": "20 Jan 2024 (Sat) 7:00pm"
+        },
+        "progtimec": {
+          "_cdata": "4小時00分鐘"
+        },
+        "progtimee": {
+          "_cdata": "4hr00mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {},
+        "agelimite": {},
+        "pricec": {
+          "_cdata": "購票請聯絡主辦單位 ($30)"
+        },
+        "pricee": {
+          "_cdata": "Please contact the presenter for ticketing matters ($30)"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "90343332"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "梁雪儀主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by LEUNG Suet Yee"
+        }
+      },
+      "155789": {
+        "titlec": {
+          "_cdata": "妙韻名曲齊共賞"
+        },
+        "titlee": {
+          "_cdata": "Cantonese Operatic Songs Concert"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc2"
+        },
+        "predateC": {
+          "_cdata": "2024年1月21日(日) 下午2:00"
+        },
+        "predateE": {
+          "_cdata": "21 Jan 2024 (Sun) 2:00pm"
+        },
+        "progtimec": {
+          "_cdata": "3小時30分鐘"
+        },
+        "progtimee": {
+          "_cdata": "3hr30mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "只限6歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "Only for age 6 or above"
+        },
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "61171334"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "鳳怡藝坊主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Fung Yee Music Art"
+        }
+      },
+      "155790": {
+        "titlec": {
+          "_cdata": "粵樂名曲欣賞會"
+        },
+        "titlee": {
+          "_cdata": "Cantonese Operatic Songs Concert"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc2"
+        },
+        "predateC": {
+          "_cdata": "2024年1月22日(一) 下午2:00"
+        },
+        "predateE": {
+          "_cdata": "22 Jan 2024 (Mon) 2:00pm"
+        },
+        "progtimec": {
+          "_cdata": "3小時30分鐘"
+        },
+        "progtimee": {
+          "_cdata": "3hr30mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {},
+        "agelimite": {},
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "98227922"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "和聲粵劇曲藝社主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Wo Sing Cantonese Opera Association"
+        }
+      },
+      "155791": {
+        "titlec": {
+          "_cdata": "弦因有你音樂會"
+        },
+        "titlee": {
+          "_cdata": "Oldies Concert"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc9"
+        },
+        "predateC": {
+          "_cdata": "2024年1月23日 (二) 下午3:00, 晚上7:00"
+        },
+        "predateE": {
+          "_cdata": "23 Jan 2024 (Tue) 3:00pm, 7:00pm"
+        },
+        "progtimec": {
+          "_cdata": "2小時30分鐘"
+        },
+        "progtimee": {
+          "_cdata": "2hr30mins"
+        },
+        "venueid": {
+          "_cdata": "3110031"
+        },
+        "agelimitc": {
+          "_cdata": "只限6歲或以上人士"
+        },
+        "agelimite": {
+          "_cdata": "Only for age 6 or above"
+        },
+        "pricec": {
+          "_cdata": "憑票免費入場"
+        },
+        "pricee": {
+          "_cdata": "Free admission by tickets"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "95339141"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "Sing雅演唱會主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Singer Performance"
+        }
+      }
+    }
+  },
+  "36310037": {
+    "venuec": {
+      "_cdata": "沙田大會堂 (展覽廳)"
+    },
+    "venuee": {
+      "_cdata": "Sha Tin Town Hall (Exhibition Gallery)"
+    },
+    "latitude": {
+      "_cdata": "22.38136"
+    },
+    "longitude": {
+      "_cdata": "114.18990"
+    },
+    "events": {
+      "154969": {
+        "titlec": {
+          "_cdata": "慶祝香港回歸祖國26週年新昕畫展"
+        },
+        "titlee": {
+          "_cdata": "Ink Drawing Exhibition"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc4"
+        },
+        "predateC": {
+          "_cdata": "2023年12月21日 (四) 下午1:00-晚上7:00, 2023年12月22日 (五) 早上10:00至晚上7:00, 2023年12月23日 (六) 上午10:00-下午6:00"
+        },
+        "predateE": {
+          "_cdata": "21 Dec 2023 (Thu) 1pm-7pm, 22 Dec 2023 (Fri) 10am-7pm, 23 Dec 2023 (Sat) 10am-6pm"
+        },
+        "progtimec": {
+          "_cdata": "21/12: 6小時00分鐘, 22/12: 9小時00分鐘, 23/12: 8小時00分鐘"
+        },
+        "progtimee": {
+          "_cdata": "21/12: 6hr00mins, 22/12: 9hr00mins, 23/12: 8hr00mins"
+        },
+        "venueid": {
+          "_cdata": "36310037"
+        },
+        "agelimitc": {},
+        "agelimite": {},
+        "pricec": {
+          "_cdata": "免費入場 不設門票"
+        },
+        "pricee": {
+          "_cdata": "Free admission. Ticket is not required"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "6813 3413"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "中國文學藝術協會主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by The Art and Literature Association of China"
+        }
+      },
+      "154970": {
+        "titlec": {
+          "_cdata": "第七屆《誠‧無限畫年展》"
+        },
+        "titlee": {
+          "_cdata": "The Seventh of Endless Enthusiasm Painting Exhibition"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc4"
+        },
+        "predateC": {
+          "_cdata": "2023年12月24日 (日) 下午3:00-晚上8:00, 2023年12月25日 (一) 早上9:00至晚上8:00, 2023年12月26日 (二) 上午9:00-下午5:00"
+        },
+        "predateE": {
+          "_cdata": "24 Dec 2023 (Sun) 3pm-8pm, 25 Dec 2023 (Mon) 9am-8pm, 26 Dec 2023 (Tue) 9am-5pm"
+        },
+        "progtimec": {
+          "_cdata": "24/12: 5小時00分鐘, 25/12: 11小時00分鐘, 26/12: 8小時00分鐘"
+        },
+        "progtimee": {
+          "_cdata": "24/12: 5hr00mins, 25/12: 11hr00mins, 26/12: 8hr00mins"
+        },
+        "venueid": {
+          "_cdata": "36310037"
+        },
+        "agelimitc": {},
+        "agelimite": {},
+        "pricec": {
+          "_cdata": "免費入場 不設門票"
+        },
+        "pricee": {
+          "_cdata": "Free admission. Ticket is not required"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {},
+        "urle": {},
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {},
+        "remarke": {},
+        "enquiry": {
+          "_cdata": "6225 0970"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "藝術領域主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Art Field"
+        }
+      },
+      "156453": {
+        "titlec": {
+          "_cdata": "香港舞蹈團《123童您DANCE》 — 沙田大會堂場地伙伴計劃"
+        },
+        "titlee": {
+          "_cdata": "Children's Dance Workshop by Hong Kong Dance Company - Sha Tin Town Hall Venue Partnership Scheme"
+        },
+        "cat1": {
+          "_cdata": "inc4"
+        },
+        "cat2": {
+          "_cdata": "inc4sc3"
+        },
+        "predateC": {
+          "_cdata": "A班 (4 - 5歲)2024-1-21 [日] (3:30PM - 4:30PM)\nB班 (6 - 8歲班)2024-1-21 [日] (4:40PM - 5:40PM)"
+        },
+        "predateE": {
+          "_cdata": "Class A (Age 4 - 5)2024-1-21 [Sun] (3:30PM - 4:30PM)\nClass B (Age 6 - 8)2024-1-21 [Sun] (4:40PM - 5:40PM)"
+        },
+        "progtimec": {
+          "_cdata": "1小時"
+        },
+        "progtimee": {
+          "_cdata": "1 hr"
+        },
+        "venueid": {
+          "_cdata": "36310037"
+        },
+        "agelimitc": {
+          "_cdata": "工作坊適合4歲或以上人士參加"
+        },
+        "agelimite": {
+          "_cdata": "Suitable for aged 4 or above."
+        },
+        "pricec": {
+          "_cdata": "$100"
+        },
+        "pricee": {
+          "_cdata": "$100"
+        },
+        "descc": {},
+        "desce": {},
+        "urlc": {
+          "_cdata": "https://www.art-mate.net/doc/70700?name=123%E7%AB%A5%E6%82%A8DANCE"
+        },
+        "urle": {
+          "_cdata": "https://www.art-mate.net/doc/70700?name=123%E7%AB%A5%E6%82%A8DANCE"
+        },
+        "tagenturlc": {},
+        "tagenturle": {},
+        "remarkc": {
+          "_cdata": "香港舞蹈團有限公司為沙田大會堂場地伙伴。"
+        },
+        "remarke": {
+          "_cdata": "Hong Kong Dance Company is a venue partner of Sha Tin Town Hall."
+        },
+        "enquiry": {
+          "_cdata": "27621826"
+        },
+        "fax": {},
+        "email": {},
+        "saledate": {},
+        "interbook": {},
+        "presenterorgc": {
+          "_cdata": "香港舞蹈團主辦"
+        },
+        "presenterorge": {
+          "_cdata": "Presented by Hong Kong Dance Company"
         }
       }
     }
@@ -2179,214 +3243,6 @@
         },
         "presenterorge": {
           "_cdata": "Presented by Leisure and Cultural Services Department"
-        }
-      }
-    }
-  },
-  "87310051": {
-    "venuec": {
-      "_cdata": "元朗劇院 (演藝廳)"
-    },
-    "venuee": {
-      "_cdata": "Yuen Long Theatre (Auditorium)"
-    },
-    "latitude": {
-      "_cdata": "22.44152"
-    },
-    "longitude": {
-      "_cdata": "114.02289"
-    },
-    "events": {
-      "155707": {
-        "titlec": {
-          "_cdata": "香港少青步操管樂團周年匯演2023"
-        },
-        "titlee": {
-          "_cdata": "Hong Kong Vigor Marching Band Annual Concert 2023"
-        },
-        "cat1": {
-          "_cdata": "inc4"
-        },
-        "cat2": {
-          "_cdata": "inc4sc8"
-        },
-        "predateC": {
-          "_cdata": "16/12/2023 (星期六) 19:30"
-        },
-        "predateE": {
-          "_cdata": "16/12/2023 (Sat) 19:30"
-        },
-        "progtimec": {
-          "_cdata": "主辦者未能提供此項資料"
-        },
-        "progtimee": {
-          "_cdata": "Information not available from presenter"
-        },
-        "venueid": {
-          "_cdata": "87310051"
-        },
-        "agelimitc": {},
-        "agelimite": {},
-        "pricec": {
-          "_cdata": "HK$150"
-        },
-        "pricee": {
-          "_cdata": "HK$150"
-        },
-        "descc": {},
-        "desce": {},
-        "urlc": {
-          "_cdata": "https://www.lcsd.gov.hk/clpss/tc/search/culture/DetailForm.do?id=155707"
-        },
-        "urle": {
-          "_cdata": "https://www.lcsd.gov.hk/clpss/en/search/culture/DetailForm.do?id=155707"
-        },
-        "tagenturlc": {
-          "_cdata": "http://www.lcsd.gov.hk/tc/ticket/index.html"
-        },
-        "tagenturle": {
-          "_cdata": "http://www.lcsd.gov.hk/en/ticket/index.html"
-        },
-        "remarkc": {},
-        "remarke": {},
-        "enquiry": {
-          "_cdata": "3428 6001 / 5340 4288"
-        },
-        "fax": {},
-        "email": {},
-        "saledate": {},
-        "interbook": {
-          "_cdata": "Y"
-        },
-        "presenterorgc": {
-          "_cdata": "香港少青步操管樂團主辦"
-        },
-        "presenterorge": {
-          "_cdata": "Presented by Hong Kong Vigor Marching Band"
-        }
-      },
-      "155708": {
-        "titlec": {
-          "_cdata": "香港城市大學學生會戲劇社新人表演2023"
-        },
-        "titlee": {
-          "_cdata": "Drama Society, City University of Hong Kong Student's Union, Freshmen Performance 2023"
-        },
-        "cat1": {
-          "_cdata": "inc4"
-        },
-        "cat2": {
-          "_cdata": "inc4sc8"
-        },
-        "predateC": {
-          "_cdata": "19-20/12/2023 (星期二至三) 19:30"
-        },
-        "predateE": {
-          "_cdata": "19-20/12/2023 (Tue-Wed) 19:30"
-        },
-        "progtimec": {
-          "_cdata": "主辦者未能提供此項資料"
-        },
-        "progtimee": {
-          "_cdata": "Information not available from presenter"
-        },
-        "venueid": {
-          "_cdata": "87310051"
-        },
-        "agelimitc": {},
-        "agelimite": {},
-        "pricec": {
-          "_cdata": "HK$100"
-        },
-        "pricee": {
-          "_cdata": "HK$100"
-        },
-        "descc": {},
-        "desce": {},
-        "urlc": {
-          "_cdata": "https://www.lcsd.gov.hk/clpss/tc/search/culture/DetailForm.do?id=155708"
-        },
-        "urle": {
-          "_cdata": "https://www.lcsd.gov.hk/clpss/en/search/culture/DetailForm.do?id=155708"
-        },
-        "tagenturlc": {},
-        "tagenturle": {},
-        "remarkc": {},
-        "remarke": {},
-        "enquiry": {
-          "_cdata": "6078 0129"
-        },
-        "fax": {},
-        "email": {},
-        "saledate": {},
-        "interbook": {},
-        "presenterorgc": {
-          "_cdata": "香港城市大學學生會戲劇社主辦"
-        },
-        "presenterorge": {
-          "_cdata": "Presented by Drama Society, City University of Hong Kong Student's Union"
-        }
-      },
-      "155710": {
-        "titlec": {
-          "_cdata": "敬老粵劇折子戲欣賞"
-        },
-        "titlee": {
-          "_cdata": "Cantonese Opera Excerpts"
-        },
-        "cat1": {
-          "_cdata": "inc4"
-        },
-        "cat2": {
-          "_cdata": "inc4sc2"
-        },
-        "predateC": {
-          "_cdata": "31/12/2023 (星期日) 14:15 & 19:15"
-        },
-        "predateE": {
-          "_cdata": "31/12/2023 (Sun) 14:15 & 19:15"
-        },
-        "progtimec": {
-          "_cdata": "主辦者未能提供此項資料"
-        },
-        "progtimee": {
-          "_cdata": "Information not available from presenter"
-        },
-        "venueid": {
-          "_cdata": "87310051"
-        },
-        "agelimitc": {},
-        "agelimite": {},
-        "pricec": {
-          "_cdata": "憑票免費入場"
-        },
-        "pricee": {
-          "_cdata": "Free admission by tickets"
-        },
-        "descc": {},
-        "desce": {},
-        "urlc": {
-          "_cdata": "https://www.lcsd.gov.hk/clpss/tc/search/culture/DetailForm.do?id=155710"
-        },
-        "urle": {
-          "_cdata": "https://www.lcsd.gov.hk/clpss/en/search/culture/DetailForm.do?id=155710"
-        },
-        "tagenturlc": {},
-        "tagenturle": {},
-        "remarkc": {},
-        "remarke": {},
-        "enquiry": {
-          "_cdata": "9341 3093"
-        },
-        "fax": {},
-        "email": {},
-        "saledate": {},
-        "interbook": {},
-        "presenterorgc": {
-          "_cdata": "彩星粵劇團主辦"
-        },
-        "presenterorge": {
-          "_cdata": "Presented by Choy Sing Cantonese Opera"
         }
       }
     }

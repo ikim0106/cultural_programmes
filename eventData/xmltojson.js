@@ -50,7 +50,7 @@ const venueWithEvents = () => {
     tempVenue["events"] = {}
     for(var eventKey in eventsJSON) {
       if(venueKey === eventsJSON[eventKey]["venueid"]["_cdata"] && eventsJSON[eventKey]["pricee"]["_cdata"]) {
-        if((eventsJSON[eventKey]["pricee"]["_cdata"] || "").toLowerCase().startsWith("free") ||
+        if((eventsJSON[eventKey]["pricee"]["_cdata"] || "").toLowerCase().includes("free") ||
         (eventsJSON[eventKey]["pricee"]["_cdata"] || "").split('$').length==2 &&
         !(eventsJSON[eventKey]["pricee"]["_cdata"] || "").split('$')[1].includes(' ') &&
         !(eventsJSON[eventKey]["pricee"]["_cdata"] || "").split('$')[1].includes(';') &&
