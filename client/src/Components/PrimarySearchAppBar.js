@@ -170,15 +170,15 @@ export default function PrimarySearchAppBar({ userData, logOut, resetPassword })
             </span>
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
               <Button style={{
-                backgroundColor: "#8eaeed"
+                backgroundColor: "#1b5e20"
+              }} onClick={handleResetPassword}>
+                Reset password
+              </Button>
+              <Button style={{
+                backgroundColor: "#2e7d32"
               }} 
               onClick={handleLogout}>
                 Log out
-              </Button>
-              <Button style={{
-                backgroundColor: "#8eaeed"
-              }} onClick={handleResetPassword}>
-                Reset password
               </Button>
             </ButtonGroup>
           </Box>
