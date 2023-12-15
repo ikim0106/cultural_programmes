@@ -40,6 +40,17 @@ function Table(mode) {
     nagivate("/LocationDetailPage", { state: venue[0] });
   };
 
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: true,
+    timeZone: 'Asia/Hong_Kong'
+  };
+
   useEffect(() => {
     const getData = () => {
       if (mode.mode === "allevent") {
@@ -57,7 +68,7 @@ function Table(mode) {
             data.events.map((event) => {
               return {
                 ...event,
-                updatedAt: new Date(event.updatedAt).toLocaleString(),
+                updatedAt: new Date(event.updatedAt).toLocaleString('en-US', options),
               };
             })
           );
@@ -86,7 +97,7 @@ function Table(mode) {
               return {
                 venuee: venue.venuee,
                 events: venue.events.length,
-                updatedAt: new Date(venue.updatedAt).toLocaleString(),
+                updatedAt: new Date(venue.updatedAt).toLocaleString('en-US', options),
               };
             })
           );
