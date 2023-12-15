@@ -180,7 +180,7 @@ export default function PrimarySearchAppBar({ userData, logOut, resetPassword })
                 backgroundColor: "#2e7d32"
               }} 
               onClick={handleLogout}>
-                Log out
+                Logout
               </Button>
             </ButtonGroup>
           </Box>
