@@ -66,7 +66,8 @@ export default function PrimarySearchAppBar({ userData, logOut, resetPassword })
   }
 
   const handleResetPassword = () => {
-    resetPassword()
+    if(resetPassword)
+      resetPassword()
   }
 
   const handleProfileMenuOpen = (event) => {
@@ -169,11 +170,12 @@ export default function PrimarySearchAppBar({ userData, logOut, resetPassword })
               {`Logged in as: ${userData.userId}`}
             </span>
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-              <Button style={{
+              {resetPassword && <Button style={{
                 backgroundColor: "#1b5e20"
               }} onClick={handleResetPassword}>
                 Reset password
               </Button>
+              }
               <Button style={{
                 backgroundColor: "#2e7d32"
               }} 
