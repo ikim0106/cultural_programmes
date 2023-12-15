@@ -184,7 +184,7 @@ function UserPage() {
 									marginTop: '2vh',
 									width: '100%'
 								}}
-								label="New password *"
+								label="New password"
 								value={newPw}
 								onChange={handleNewPw}
 							></TextField>
