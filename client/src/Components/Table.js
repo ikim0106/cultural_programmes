@@ -78,6 +78,7 @@ function Table(mode) {
               return {
                 venuee: venue.venuee,
                 events: venue.events.length,
+                updatedAt: new Date(venue.updatedAt).toLocaleString(),
               };
             })
           );
@@ -197,6 +198,12 @@ function Table(mode) {
         header: "Number of Events",
         enableEditing: true,
         size: 10,
+      },
+      {
+        accessorKey: "updatedAt",
+        header: "Last Update",
+        enableEditing: true,
+        size: 20,
       },
     ];
   }
