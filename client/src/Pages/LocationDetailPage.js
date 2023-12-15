@@ -133,19 +133,18 @@ function LocationDetailPage() {
     alert(data.message);
   };
 
-  const getRandomDeepColor = () => {
-    const getRandomHex = () => {
-      const min = 128;
-      const max = 255;
-      return Math.floor(Math.random() * (max - min + 1) + min)
-        .toString(16)
-        .padStart(2, "0");
-    };
+  const getRandomDeepColor = (seed) => {
+    let hash = 0;
 
-    const red = getRandomHex();
-    const green = getRandomHex();
-    const blue = getRandomHex();
-    return `#${red}${green}${blue}`;
+    for (let i = 0; i < seed.length; i++) {
+      hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    const r = (hash & 0xff0000) >> 16;
+    const g = (hash & 0x00ff00) >> 8;
+    const b = hash & 0x0000ff;
+  
+    return `rgb(${r}, ${g}, ${b})`;
   };
   return (
     // Important! Always set the container height explicitly
@@ -283,7 +282,7 @@ function LocationDetailPage() {
                       <hr></hr>
                       {comments &&
                         comments.map((val, key) => {
-                          const randomColor = getRandomDeepColor();
+                          const randomColor = getRandomDeepColor(`${userData.userId}`);
                           return (
                             <div
                               key={key}
