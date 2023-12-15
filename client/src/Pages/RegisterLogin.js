@@ -28,6 +28,7 @@ const RegisterLogin = () => {
   const [wrongPasswordToast, setWrongPasswordToast] = useState(false)
   const [userNameExistToast, setUserNameExistToast] = useState(false)
   const [wrongCodeToast, setWrongCodeToast] = useState(false)
+  const [checkEmailToast, setCheckEmailToast] = useState(false)
   const [forgetPasswordEmail, setForgetPasswordEmail] = useState("")
   const nagivate = useNavigate()
 
@@ -60,6 +61,10 @@ const RegisterLogin = () => {
       body: JSON.stringify({ email: email })
     })
     const temp = await response.json()
+    if (temp.success && response.status === 200) {
+      setCheckEmailToast(true)
+      return
+    }
     setVerifCode(temp.code)
   }
 
@@ -84,6 +89,10 @@ const RegisterLogin = () => {
     setVerifCode(temp.code)
     if (!temp.success && response.status === 404) {
       setInvalidUserToast(true)
+      return
+    }
+    if (temp.success && response.status === 200) {
+      setCheckEmailToast(true)
       return
     }
   }
@@ -150,7 +159,7 @@ const RegisterLogin = () => {
       }
     }
 
-    if (isRegister && userId && password && password === confirmPassword && code === verifCode && email) {
+    if (isRegister && userId && password && password === confirmPassword && code && email) {
       // console.log(newRole)
       // return
       let response = await fetch('http://localhost:8080/register', {
@@ -225,6 +234,10 @@ const RegisterLogin = () => {
 
   const handleCloseWrongCodeToast = () => {
     setWrongCodeToast(false)
+  }
+
+  const handleCloseCheckEmailToast = () => {
+    setCheckEmailToast(false)
   }
 
 
@@ -322,6 +335,17 @@ const RegisterLogin = () => {
         <Alert severity="error" sx={{ width: '30vw' }}>
           <AlertTitle>This code is wrong</AlertTitle>
           <strong>Please check your email again</strong>
+        </Alert>
+      </Snackbar>
+
+      <Snackbar open={checkEmailToast} autoHideDuration={4000} onClose={handleCloseCheckEmailToast} sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100vw',
+      }}>
+        <Alert severity="success" sx={{ width: '30vw' }}>
+          <AlertTitle>The email is sent</AlertTitle>
+          <strong>Please check your email</strong>
         </Alert>
       </Snackbar>
 
