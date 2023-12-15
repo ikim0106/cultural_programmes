@@ -531,7 +531,7 @@ const RegisterLogin = () => {
                       endAdornment:
                         <InputAdornment position="end">
                           <Button onClick={() => { forgetPassword() }} variant="contained" endIcon={<SendIcon />}>
-                            Send Code
+                            Send New Password
                           </Button>
                         </InputAdornment>
                     }}
